@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://kmlhnjsx:ESC8nAu__LqKRBoKDb0tIBboj1xIvczx@hanno.db.elephantsql.com:5432/kmlhnjsx');
+const config = require('../../config.js');
+const sequelize = new Sequelize(config.TOKEN);
 
 
 sequelize
@@ -30,6 +31,4 @@ sequelize
   // db.sequelize = sequelize;
   // db.Sequelize = Sequelize;
 
-exports.config =  {
-  db: sequelize
-};
+module.exports = sequelize;
