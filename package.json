@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "server-dev": "nodemon ./server/index.js",
     "react-dev": "webpack -w"
+=======
+    "server-dev": "nodemon ./server/index.js"
+>>>>>>> Add Sequelize and postgres
   },
   "repository": {
     "type": "git",
@@ -22,12 +26,15 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "pg": "^7.4.1",
+    "pg-format": "^1.0.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "sequelize": "^4.33.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

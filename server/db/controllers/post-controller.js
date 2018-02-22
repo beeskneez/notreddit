@@ -14,7 +14,7 @@ exports.getOne = (req, res) => {
   let id = req.params.id;
   model.post.findOne({
     where: {
-      id: id
+      uid: id
     }
   }).then(function(post) {
     res.status(200).send(post);
