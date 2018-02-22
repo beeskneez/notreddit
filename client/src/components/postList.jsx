@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadPosts } from '../actions/index.jsx';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { updatePosts } from '../actions/index.jsx';
+import PostDetails from './postDetails.jsx';
 
 class PostList extends Component {
-  
-componentDidMount() {
-  // this.props.loadPosts('hh')
-  // axios.get
-}
+  componentDidMount() {
+    axios
+      .get('/posts')
+      .then(res => {
+        this.props.updatePosts(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 
   render() {
+    console.log(this.props);
     if (!this.props.posts.length) {
-      return (<h4>Loading posts...</h4>)
+      return <h4>Loading posts...</h4>;
     }
-    
-    return(
-      <li>{this.props.posts[0].username}</li>
-    )
+
+    return (
+      <ul>
+        {this.props.posts.map((post, index) => {
+          return <PostDetails post={post} key={index} />;
+        })}
+      </ul>
+    );
   }
 }
 
@@ -26,4 +39,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(PostList);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updatePosts: updatePosts }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);

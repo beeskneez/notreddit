@@ -2357,7 +2357,6 @@ function verifyPlainObject(value, displayName, methodName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.loadPosts = loadPosts;
 exports.updatePosts = updatePosts;
 
 var _axios = __webpack_require__(77);
@@ -2365,14 +2364,6 @@ var _axios = __webpack_require__(77);
 var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function loadPosts() {
-  _axios2.default.get("/posts").then(function (response) {
-    updatePosts(response.data);
-  }).catch(function (err) {
-    console.log(err);
-  });
-}
 
 function updatePosts(posts) {
   console.log('logging from updateposts call', posts);
@@ -2679,6 +2670,8 @@ var _index2 = _interopRequireDefault(_index);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store = (0, _redux.createStore)(_index2.default);
+
+window.store = store;
 
 (0, _reactDom.render)(_react2.default.createElement(
         _reactRedux.Provider,
@@ -21882,25 +21875,21 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _index = __webpack_require__(31);
-
-var _postList = __webpack_require__(99);
+var _postList = __webpack_require__(96);
 
 var _postList2 = _interopRequireDefault(_postList);
+
+var _nav = __webpack_require__(99);
+
+var _nav2 = _interopRequireDefault(_nav);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  (0, _index.loadPosts)();
-
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(
-      'h1',
-      null,
-      'List'
-    ),
+    _react2.default.createElement(_nav2.default, null),
     _react2.default.createElement(_postList2.default, null)
   );
 };
@@ -22796,7 +22785,102 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 96 */,
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(20);
+
+var _axios = __webpack_require__(77);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _redux = __webpack_require__(11);
+
+var _index = __webpack_require__(31);
+
+var _postDetails = __webpack_require__(100);
+
+var _postDetails2 = _interopRequireDefault(_postDetails);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PostList = function (_Component) {
+  _inherits(PostList, _Component);
+
+  function PostList() {
+    _classCallCheck(this, PostList);
+
+    return _possibleConstructorReturn(this, (PostList.__proto__ || Object.getPrototypeOf(PostList)).apply(this, arguments));
+  }
+
+  _createClass(PostList, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _axios2.default.get('/posts').then(function (res) {
+        _this2.props.updatePosts(res.data);
+      }).catch(function (err) {
+        console.error(err);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      console.log(this.props);
+      if (!this.props.posts.length) {
+        return _react2.default.createElement(
+          'h4',
+          null,
+          'Loading posts...'
+        );
+      }
+
+      return _react2.default.createElement(
+        'ul',
+        null,
+        this.props.posts.map(function (post, index) {
+          return _react2.default.createElement(_postDetails2.default, { post: post, key: index });
+        })
+      );
+    }
+  }]);
+
+  return PostList;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    posts: state.posts
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ updatePosts: _index.updatePosts }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PostList);
+
+/***/ }),
 /* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22832,31 +22916,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ReducerPosts;
-var defaultState = [{
-  id: 1,
-  username: "lilray",
-  title: "TIFU by inviting my grandma to prom",
-  body: "Every woman deserves to go to a prom, no matter how old you are.",
-  thumbnail: "https://cdn.cnn.com/cnnnext/dam/assets/170330122746-nanny-senior-prom-trnd-exlarge-169.jpg",
-  likeCache: 71,
-  commentCache: 8
-}, {
-  id: 2,
-  username: "ryansan",
-  title: "Best homemade cookies",
-  body: "Aint no cookie like a homemade cookie",
-  thumbnail: "https://en.wikipedia.org/wiki/Cookie#/media/File:2ChocolateChipCookies.jpg",
-  likeCache: 52,
-  commentCache: 150
-}, {
-  id: 3,
-  username: "tbray",
-  title: "Instant coffee cures cancer",
-  body: "This coffee is amazeballs",
-  thumbnail: "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG",
-  likeCache: 78,
-  commentCache: 1
-}];
+var defaultState = [
+  // {
+  //   id: 1,
+  //   username: "lilray",
+  //   title: "TIFU by inviting my grandma to prom",
+  //   body: "Every woman deserves to go to a prom, no matter how old you are.",
+  //   thumbnail: "https://cdn.cnn.com/cnnnext/dam/assets/170330122746-nanny-senior-prom-trnd-exlarge-169.jpg",
+  //   likeCache: 71,
+  //   commentCache: 8,
+  // },
+  // {
+  //   id: 2,
+  //   username: "ryansan",
+  //   title: "Best homemade cookies",
+  //   body: "Aint no cookie like a homemade cookie",
+  //   thumbnail: "https://en.wikipedia.org/wiki/Cookie#/media/File:2ChocolateChipCookies.jpg",
+  //   likeCache: 52,
+  //   commentCache: 150,
+  // },
+  // {
+  //   id: 3,
+  //   username: "tbray",
+  //   title: "Instant coffee cures cancer",
+  //   body: "This coffee is amazeballs",
+  //   thumbnail: "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG",
+  //   likeCache: 78,
+  //   commentCache: 1,
+  // }
+];
 
 function ReducerPosts() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
@@ -22891,9 +22979,77 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(20);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _index = __webpack_require__(31);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Nav = function (_Component) {
+  _inherits(Nav, _Component);
+
+  function Nav() {
+    _classCallCheck(this, Nav);
+
+    return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
+  }
+
+  _createClass(Nav, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "ui menu" },
+        _react2.default.createElement(
+          "div",
+          { className: "ui container" },
+          _react2.default.createElement(
+            "a",
+            { href: "#", className: "header item" },
+            _react2.default.createElement("img", {
+              className: "logo",
+              src: "https://vignette.wikia.nocookie.net/atlas-reactor/images/1/10/Reddit.png/revision/latest?cb=20170201145049"
+            }),
+            ' ',
+            "NotReddit"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "header item borderless" },
+            _react2.default.createElement(
+              "h1",
+              { className: "ui header" },
+              "NotReddit"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Nav;
+}(_react.Component);
+
+exports.default = Nav;
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22903,50 +23059,75 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PostList = function (_Component) {
-  _inherits(PostList, _Component);
+var PostDetails = function (_Component) {
+  _inherits(PostDetails, _Component);
 
-  function PostList() {
-    _classCallCheck(this, PostList);
+  function PostDetails() {
+    _classCallCheck(this, PostDetails);
 
-    return _possibleConstructorReturn(this, (PostList.__proto__ || Object.getPrototypeOf(PostList)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (PostDetails.__proto__ || Object.getPrototypeOf(PostDetails)).apply(this, arguments));
   }
 
-  _createClass(PostList, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // this.props.loadPosts('hh')
-      // axios.get
-    }
-  }, {
-    key: 'render',
+  _createClass(PostDetails, [{
+    key: "render",
     value: function render() {
-      if (!this.props.posts.length) {
-        return _react2.default.createElement(
-          'h4',
-          null,
-          'Loading posts...'
-        );
-      }
-
       return _react2.default.createElement(
-        'li',
-        null,
-        this.props.posts[0].username
+        "div",
+        { className: "twelve wide column" },
+        _react2.default.createElement("img", { className: "thumbnail", src: this.props.post.thumbnail, alt: "" }),
+        _react2.default.createElement(
+          "a",
+          { className: "ui large header", href: "" },
+          this.props.post.title
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "meta" },
+          "submitted 3 hours ago by ",
+          _react2.default.createElement(
+            "a",
+            null,
+            this.props.post.username
+          ),
+          " to ",
+          _react2.default.createElement(
+            "a",
+            null,
+            "/midlyinteresting"
+          )
+        ),
+        _react2.default.createElement(
+          "ul",
+          { className: "ui big horizontal list voters" },
+          _react2.default.createElement(
+            "li",
+            { className: "item" },
+            _react2.default.createElement(
+              "a",
+              { href: "" },
+              _react2.default.createElement("i", { className: "arrow up icon" }),
+              "upvote"
+            )
+          ),
+          _react2.default.createElement(
+            "li",
+            { className: "item" },
+            _react2.default.createElement(
+              "a",
+              { href: "" },
+              _react2.default.createElement("i", { className: "arrow down icon" }),
+              "downvote"
+            )
+          )
+        )
       );
     }
   }]);
 
-  return PostList;
+  return PostDetails;
 }(_react.Component);
 
-function mapStateToProps(state) {
-  return {
-    posts: state.posts
-  };
-}
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(PostList);
+exports.default = PostDetails;
 
 /***/ })
 /******/ ]);
