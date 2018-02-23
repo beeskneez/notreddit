@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "server-dev": "nodemon ./server/index.js",
     "react-dev": "webpack -w"  },
   "repository": {
@@ -36,9 +36,10 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "jest": "^22.4.0",
+    "jest": "^22.4.2",
     "morgan": "^1.9.0",
     "nodemon": "^1.15.1",
+    "supertest": "^3.0.0",
     "webpack": "^3.11.0"
   }
 }
