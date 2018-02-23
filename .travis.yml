@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - "8"
 services:
-  - postgresql
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 script:
   - npm test
-
-
