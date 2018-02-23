@@ -5,7 +5,7 @@ const Post = require('./post.js');
 
 let Vote;
 
-const createVote = () => {
+const defineVote = () => {
   return new Promise((resolve, reject) => {
     Vote = db.define('vote', {
       id: { 
@@ -18,7 +18,7 @@ const createVote = () => {
   });
 }
 
-createVote()
+defineVote()
   .then(() => {
     Vote.belongsTo(Post);
     Vote.belongsTo(User);

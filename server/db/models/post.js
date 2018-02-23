@@ -5,7 +5,7 @@ const Subreddit = require('./subreddit.js');
 
 let Post;
 
-const createPost = () => {
+const definePost = () => {
   return new Promise((resolve, reject) => {
     Post = db.define('post', {
       id: { 
@@ -20,12 +20,13 @@ const createPost = () => {
       image: Sequelize.STRING,
       postType: Sequelize.INTEGER,
       // 0 is post, 1 is comment
-      id_parent: Sequelize.INTEGER
+      id_parent: Sequelize.INTEGER,
+      id_user: Sequelize.UUID
     });
   });
 }
 
-createPost()
+definePost()
   .then(() => {
     Post.belongsTo(Post, {foreignKey: 'id_parent'});
     Post.belongsTo(User);
