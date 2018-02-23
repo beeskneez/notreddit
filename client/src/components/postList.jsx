@@ -18,7 +18,6 @@ class PostList extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (!this.props.posts.length) {
       return <h4>Loading posts...</h4>;
     }
