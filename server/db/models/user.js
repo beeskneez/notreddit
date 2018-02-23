@@ -8,7 +8,10 @@ const User = db.define('user', {
     primaryKey: true, 
     autoIncrement: true 
   },
-  username: Sequelize.STRING,
+  username: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   likeCache: Sequelize.INTEGER,
   commentCache: Sequelize.INTEGER
 });
