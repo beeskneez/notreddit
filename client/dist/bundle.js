@@ -22936,7 +22936,7 @@ var PostDetails = function (_Component) {
       return _react2.default.createElement(
         "div",
         { className: "twelve wide column" },
-        _react2.default.createElement("img", { className: "thumbnail", src: this.props.post.thumbnail, alt: "" }),
+        _react2.default.createElement("img", { className: "thumbnail", src: this.props.post.image, alt: "" }),
         _react2.default.createElement(
           "a",
           { className: "ui large header", href: "" },
