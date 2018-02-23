@@ -1,13 +1,16 @@
 const Sequelize = require('sequelize');
-const config = require('../../config.js');
-const sequelize = new Sequelize(config.TOKEN);
-
+// const config = require('../../config.js');
+const sequelize = new Sequelize('notreddit', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
+});
 
 sequelize
   .authenticate()
-  .then(function(err) {
+  .then(() => {
     console.log('Connection has been established successfully.');
-  }, function (err) { 
+  })
+  .catch(err => { 
     console.log('Unable to connect to the database:', err);
   });
 
