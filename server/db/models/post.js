@@ -5,7 +5,7 @@ const Subreddit = require('./subreddit.js');
 
 let Post;
 
-const createPosts = () => {
+const createPost = () => {
   return new Promise((resolve, reject) => {
     Post = db.define('post', {
       id: { 
@@ -25,7 +25,7 @@ const createPosts = () => {
   });
 }
 
-createPosts()
+createPost()
   .then(() => {
     Post.belongsTo(Post, {foreignKey: 'id_parent'});
     Post.belongsTo(User);
