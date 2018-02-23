@@ -36,7 +36,8 @@ exports.createPost = (req, res) => {
         likeCache: 0,
         commentCache: 0,
         image: image,
-        postType: 0
+        postType: 0,
+        user_id: req.body.user_id
       })
     })
     .then(function(post) {
