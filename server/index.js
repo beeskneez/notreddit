@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
 const router = require('./routes');
-const port = 3000;
+
 const app = express(); 
+const db = require('./db/db.js')
+const port = 3000;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -31,3 +33,4 @@ app.listen(port, () => {
 // * Put /comment (nested comment)
 // * Delete /post
 // * Delete /comment
+
