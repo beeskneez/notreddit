@@ -16,7 +16,7 @@ router.route('/subreddit');
 // router.route('/:subreddit/post').post(controller.createOne);
 
 router.route('/user-history');
-router.route('/comment');
+router.route('/comment').post();
 router.route('/logout');
 router.route('/upvote');
 router.route('/downvote');
