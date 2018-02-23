@@ -1,7 +1,7 @@
 const db = require('../db.js');
 const model = require('../models/post.js');
 
-// TODO: create model for these to do something with
+// Post Controllers
 exports.getAllPosts = (req, res) => {
   model.Post.findAll({}).then(function(posts) {
     res.status(200).send(posts);
@@ -53,13 +53,32 @@ exports.deletePost = (req, res) => {
     where: {
       id: req.body.id
     }
-  }).then(() => res.status(200).send('deleted'));
-  // res.status(200).send('delete one');
+  }).then(() => res.status(200).send('deleted'));;
 };
 
 exports.deleteAllPosts = (req, res) => {
   model.Post.destroy({
     where: {},
     truncate: true
-  }).then(() => res.send('deleted all'));
+  }).then(() => res.send('deleted all posts'));
 }
+
+// Comment Controllers
+
+exports.createComment = (req, res) => {
+  let body = req.body.body;
+  model.Post.sync()
+    .then(function() {
+      return model.Post.create({
+        id: null,
+        body: body,
+        likeCache: 0,
+        commentCache: 0,
+        postType: 1,
+        // id_parent: need to implement on event register
+      })
+    })
+    .then(function(comment) {
+      res.status(200).send(comment);
+    });
+};
