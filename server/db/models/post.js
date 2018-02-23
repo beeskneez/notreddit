@@ -20,7 +20,8 @@ const definePost = () => {
       image: Sequelize.STRING,
       postType: Sequelize.INTEGER,
       // 0 is post, 1 is comment
-      id_parent: Sequelize.INTEGER
+      id_parent: Sequelize.INTEGER,
+      id_user: Sequelize.UUID
     });
   });
 }
