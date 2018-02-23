@@ -1,10 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../db.js');
 const User = require('./user.js');
+const Subreddit = require('./subreddit.js');
+
+let Post;
 
 const createPosts = () => {
   return new Promise((resolve, reject) => {
-    const Post = db.define('post', {
+    Post = db.define('post', {
       id: { 
         type: Sequelize.INTEGER, 
         primaryKey: true, 
@@ -26,13 +29,12 @@ createPosts()
   .then(() => {
     Post.belongsTo(Post, {foreignKey: 'id_parent'});
     Post.belongsTo(User);
-    module.exports = {
-      Post: Post
-    }
+    Post.belongsTo(Subreddit);
   })
   .catch(() => {
     console.log('error creating posts');
   })
-
-
-// Post.belongsTo(Subreddit)
+  
+  module.exports = {
+    Post: Post
+  }
