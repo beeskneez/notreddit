@@ -5,13 +5,18 @@ const path = require('path');
 
 const postController = require('./db/controllers/post-controller.js');
 
-router.route('/all').get(postController.getAll);
+//Post Routers
+router.route('/all').get(postController.getAllPosts);
+router.route('/all').delete(postController.deleteAllPosts);
+router.route('/post').get(postController.getPost);
+router.route('/post').post(postController.createPost);
+router.route('/post').delete(postController.deletePost);
+
 router.route('/login');
 router.route('/signup');
 router.route('/subreddit');
-router.route('/post').post(postController.createOne);
 //New route created below
-router.route('/post').get(postController.getOne);
+
 // router.route('/:subreddit/post').post(controller.createOne);
 
 router.route('/user-history');
