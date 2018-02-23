@@ -1,20 +1,25 @@
 const express = require('express');
 const router = require('express').Router();
-const controller = require('./controller');
+const postController = require('./db/controllers/post-controller.js');
+
+//Post Routers
+router.route('/all').get(postController.getAllPosts);
+router.route('/all').delete(postController.deleteAllPosts);
+router.route('/post').get(postController.getPost);
+router.route('/post').post(postController.createPost);
+router.route('/post').delete(postController.deletePost);
 const path = require('path');
 
 
-router.route('/all').get(controller.getAll);
 router.route('/login');
 router.route('/signup');
 router.route('/subreddit');
-router.route('/post').post(controller.createOne);
 //New route created below
-router.route('/post').get(controller.getOne);
+
 // router.route('/:subreddit/post').post(controller.createOne);
 
 router.route('/user-history');
-router.route('/comment');
+router.route('/comment').post();
 router.route('/logout');
 router.route('/upvote');
 router.route('/downvote');
