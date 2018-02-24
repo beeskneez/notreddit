@@ -2,7 +2,7 @@ const express = require('express');
 const router = require('express').Router();
 const postController = require('./db/controllers/post-controller.js');
 
-//Post Routers
+// Post Routers
 router.route('/all').get(postController.getAllPosts);
 router.route('/all').delete(postController.deleteAllPosts);
 router.route('/post').get(postController.getPost);
@@ -10,10 +10,9 @@ router.route('/post').post(postController.createPost);
 router.route('/post').delete(postController.deletePost);
 const path = require('path');
 
-const postController = require('./db/controllers/post-controller.js');
 const userController = require('./db/controllers/user-controller.js');
 
-//Post Routers
+// Post Routers
 // router.route('/all').get(postController.getAllPosts);
 // router.route('/all').delete(postController.deleteAllPosts);
 // router.route('/post').get(postController.getPost);
@@ -24,7 +23,7 @@ router.route('/post').post(postController.createPost);
 // router.route('/signup');
 // router.route('/subreddit');
 
-//New route created below
+// New route created below
 
 // router.route('/:subreddit/post').post(controller.createOne);
 
@@ -40,8 +39,7 @@ router.route('*').get((err, res) => {
   res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));
 });
 
-//User Routers
+// User Routers
 router.route('/user').post(userController.createUser);
 
 module.exports = router;
-
