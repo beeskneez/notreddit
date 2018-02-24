@@ -15,6 +15,7 @@ router.route('/post').post(postController.createPost);
 // router.route('/login');
 // router.route('/signup');
 // router.route('/subreddit');
+
 //New route created below
 
 // router.route('/:subreddit/post').post(controller.createOne);
@@ -26,6 +27,7 @@ router.route('/posts').get(postController.getAllPosts);
 // router.route('/logout');
 // router.route('/upvote');
 // router.route('/downvote');
+
 router.route('*').get((err, res) => {
   res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));
 });

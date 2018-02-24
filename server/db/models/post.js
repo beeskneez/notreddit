@@ -23,6 +23,7 @@ const definePost = () => {
       id_parent: Sequelize.UUID,
       id_user: Sequelize.UUID,
       // id_sudreddit: Sequelize.UUID
+
     });
   });
 }

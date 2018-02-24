@@ -3,6 +3,7 @@ const db = require('../db.js');
 const Post = require('./post.js');
 
 
+
 let User;
 
 const defineUser = () => {
