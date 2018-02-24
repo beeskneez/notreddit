@@ -6,3 +6,10 @@ export function updatePosts(posts) {
     payload: posts
   }
 }
+
+export function createPost(post) {
+  return {
+    type: "ADD_POST",
+    payload: post
+  }
+}
