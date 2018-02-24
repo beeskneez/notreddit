@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, './../client/dist')));
 app.use(router);
 
+
 module.exports = app;
 
 // * Get /subreddit
@@ -29,4 +30,4 @@ module.exports = app;
 // * Put /downvote
 // * Put /comment (nested comment)
 // * Delete /post
-// * Delete /comment
+

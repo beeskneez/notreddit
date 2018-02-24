@@ -23198,6 +23198,10 @@ var _signup = __webpack_require__(143);
 
 var _signup2 = _interopRequireDefault(_signup);
 
+var _postForm = __webpack_require__(146);
+
+var _postForm2 = _interopRequireDefault(_postForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -23213,7 +23217,8 @@ var App = function App() {
         null,
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _postList2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _login2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _signup2.default })
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _signup2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/postForm', component: _postForm2.default })
       )
     )
   );
@@ -27168,6 +27173,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.updatePosts = updatePosts;
+exports.createPost = createPost;
 
 var _axios = __webpack_require__(51);
 
@@ -27179,6 +27185,13 @@ function updatePosts(posts) {
   return {
     type: "REFRESH_FEED",
     payload: posts
+  };
+}
+
+function createPost(post) {
+  return {
+    type: "ADD_POST",
+    payload: post
   };
 }
 
@@ -27222,7 +27235,7 @@ var PostDetails = function (_Component) {
       return _react2.default.createElement(
         "div",
         { className: "twelve wide column" },
-        _react2.default.createElement("img", { className: "thumbnail", src: this.props.post.thumbnail, alt: "" }),
+        _react2.default.createElement("img", { className: "thumbnail", src: this.props.post.image, alt: "" }),
         _react2.default.createElement(
           "a",
           { className: "ui large header", href: "" },
@@ -27333,6 +27346,11 @@ var Nav = function (_Component) {
             _reactRouterDom.Link,
             { className: 'item', to: '/' },
             'Main'
+          ),
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { className: 'item', to: '/postForm' },
+            'Create New Post'
           ),
           _react2.default.createElement(
             _reactRouterDom.Link,
@@ -27564,12 +27582,9 @@ var _redux = __webpack_require__(13);
 
 var _postReducer = __webpack_require__(145);
 
-var _postReducer2 = _interopRequireDefault(_postReducer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var allReducers = (0, _redux.combineReducers)({
-  posts: _postReducer2.default
+  posts: _postReducer.ReducerPosts,
+  post: _postReducer.ReducerCreatePost
 });
 
 exports.default = allReducers;
@@ -27584,7 +27599,8 @@ exports.default = allReducers;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ReducerPosts;
+exports.ReducerPosts = ReducerPosts;
+exports.ReducerCreatePost = ReducerCreatePost;
 var defaultState = [
   // {
   //   id: 1,
@@ -27616,7 +27632,7 @@ var defaultState = [
 ];
 
 function ReducerPosts() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var action = arguments[1];
 
   switch (action.type) {
@@ -27627,9 +27643,27 @@ function ReducerPosts() {
   return state;
 }
 
+function ReducerCreatePost() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case "ADD_POST":
+      return action.payload;
+      break;
+  }
+  return state;
+}
+
 // object.assign({}, state, {
 //   posts: action.payload
 // })
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: Only one default export allowed per module. (93:0)\n\n\u001b[0m \u001b[90m 91 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m connect(mapStateToProps\u001b[33m,\u001b[39m mapDispatchToProps)(\u001b[33mPostForm\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 92 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 93 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[33mPostForm\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 94 | \u001b[39m\u001b[0m\n");
 
 /***/ })
 /******/ ]);

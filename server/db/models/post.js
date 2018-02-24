@@ -15,13 +15,15 @@ const definePost = () => {
       },
       title: Sequelize.STRING,
       body: Sequelize.TEXT,
-      likeCache: Sequelize.INTEGER,
+      // voteCache: Sequelize.INTEGER,
       commentCache: Sequelize.INTEGER,
       image: Sequelize.STRING,
       postType: Sequelize.INTEGER,
       // 0 is post, 1 is comment
-      id_parent: Sequelize.INTEGER,
-      id_user: Sequelize.UUID
+      id_parent: Sequelize.UUID,
+      id_user: Sequelize.UUID,
+      // id_sudreddit: Sequelize.UUID
+
     });
   });
 }
