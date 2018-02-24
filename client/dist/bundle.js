@@ -4105,7 +4105,7 @@ var _app = __webpack_require__(94);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _index = __webpack_require__(144);
+var _index = __webpack_require__(145);
 
 var _index2 = _interopRequireDefault(_index);
 
@@ -23198,7 +23198,7 @@ var _signup = __webpack_require__(143);
 
 var _signup2 = _interopRequireDefault(_signup);
 
-var _postForm = __webpack_require__(146);
+var _postForm = __webpack_require__(144);
 
 var _postForm2 = _interopRequireDefault(_postForm);
 
@@ -27578,9 +27578,184 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(32);
+
+var _axios = __webpack_require__(51);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _redux = __webpack_require__(13);
 
-var _postReducer = __webpack_require__(145);
+var _index = __webpack_require__(139);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PostForm = function (_Component) {
+  _inherits(PostForm, _Component);
+
+  function PostForm(props) {
+    _classCallCheck(this, PostForm);
+
+    var _this = _possibleConstructorReturn(this, (PostForm.__proto__ || Object.getPrototypeOf(PostForm)).call(this, props));
+
+    _this.state = {
+      titleInputVal: '',
+      bodyInputVal: '',
+      imageInputVal: ''
+    };
+    _this.onChange = _this.onChange.bind(_this);
+    _this.addNewPost = _this.addNewPost.bind(_this);
+    return _this;
+  }
+
+  _createClass(PostForm, [{
+    key: 'addNewPost',
+    value: function addNewPost() {
+      var _this2 = this;
+
+      _axios2.default.post('/post', { post: this.state }).then(function (res) {
+        _this2.props.createPost(res.data);
+      }).catch(function (err) {
+        console.error(err);
+      });
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(e) {
+      var name = e.target.name;
+      var value = e.target.value;
+      this.setState(_defineProperty({}, name, value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'outer' },
+        _react2.default.createElement(
+          'div',
+          { className: 'middle' },
+          _react2.default.createElement(
+            'div',
+            { className: 'inner' },
+            _react2.default.createElement(
+              'div',
+              { className: 'ui huge form' },
+              _react2.default.createElement(
+                'h2',
+                null,
+                'Create New Post'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'title'
+                ),
+                _react2.default.createElement('input', {
+                  name: 'title',
+                  placeholder: 'enter post title',
+                  type: 'text',
+                  onChange: function onChange(e) {
+                    return _this3.onChange(e);
+                  }
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'body'
+                ),
+                _react2.default.createElement('textarea', {
+                  name: 'body',
+                  placeholder: 'enter post body',
+                  type: 'text',
+                  onChange: function onChange(e) {
+                    return _this3.onChange(e);
+                  }
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'image URL'
+                ),
+                _react2.default.createElement('input', {
+                  name: 'image',
+                  placeholder: 'enter image URL',
+                  type: 'text',
+                  onChange: function onChange(e) {
+                    return _this3.onChange(e);
+                  }
+                })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'ui submit button', onClick: this.addNewPost },
+              'Submit'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return PostForm;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    post: state.post
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ createPost: _index.createPost }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PostForm);
+
+// export default PostForm;
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(13);
+
+var _postReducer = __webpack_require__(146);
 
 var allReducers = (0, _redux.combineReducers)({
   posts: _postReducer.ReducerPosts,
@@ -27590,7 +27765,7 @@ var allReducers = (0, _redux.combineReducers)({
 exports.default = allReducers;
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27632,11 +27807,11 @@ var defaultState = [
 ];
 
 function ReducerPosts() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case "REFRESH_FEED":
+    case 'REFRESH_FEED':
       return action.payload;
       break;
   }
@@ -27648,7 +27823,7 @@ function ReducerCreatePost() {
   var action = arguments[1];
 
   switch (action.type) {
-    case "ADD_POST":
+    case 'ADD_POST':
       return action.payload;
       break;
   }
@@ -27658,13 +27833,6 @@ function ReducerCreatePost() {
 // object.assign({}, state, {
 //   posts: action.payload
 // })
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports) {
-
-"use strict";
-throw new Error("Module build failed: SyntaxError: Only one default export allowed per module. (93:0)\n\n\u001b[0m \u001b[90m 91 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m connect(mapStateToProps\u001b[33m,\u001b[39m mapDispatchToProps)(\u001b[33mPostForm\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 92 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 93 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[33mPostForm\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 94 | \u001b[39m\u001b[0m\n");
 
 /***/ })
 /******/ ]);

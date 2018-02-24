@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
 import { createPost } from '../actions/index.jsx';
 
 class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      titleInputVal: "",
-      bodyInputVal: "",
-      imageInputVal: ""
+      titleInputVal: '',
+      bodyInputVal: '',
+      imageInputVal: '',
     };
     this.onChange = this.onChange.bind(this);
     this.addNewPost = this.addNewPost.bind(this);
@@ -18,11 +18,11 @@ class PostForm extends Component {
 
   addNewPost() {
     axios
-      .post("/post", {post: this.state})
-      .then(res => {
+      .post('/post', { post: this.state })
+      .then((res) => {
         this.props.createPost(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -31,7 +31,7 @@ class PostForm extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -70,7 +70,9 @@ class PostForm extends Component {
                 />
               </div>
             </div>
-            <div className="ui submit button" onClick={this.addNewPost}>Submit</div>
+            <div className="ui submit button" onClick={this.addNewPost}>
+              Submit
+            </div>
           </div>
         </div>
       </div>
@@ -80,14 +82,14 @@ class PostForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    post: state.post
+    post: state.post,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createPost: createPost }, dispatch);
+  return bindActionCreators({ createPost }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
-export default PostForm;
+// export default PostForm;

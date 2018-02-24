@@ -1,4 +1,4 @@
-let defaultState = [
+const defaultState = [
   // {
   //   id: 1,
   //   username: "lilray",
@@ -28,18 +28,18 @@ let defaultState = [
   // }
 ];
 
-export function ReducerPosts(state=null, action) {
+export function ReducerPosts(state = [], action) {
   switch (action.type) {
-    case "REFRESH_FEED":
+    case 'REFRESH_FEED':
       return action.payload;
       break;
   }
   return state;
 }
 
-export function ReducerCreatePost(state=null, action) {
+export function ReducerCreatePost(state = null, action) {
   switch (action.type) {
-    case "ADD_POST":
+    case 'ADD_POST':
       return action.payload;
       break;
   }
