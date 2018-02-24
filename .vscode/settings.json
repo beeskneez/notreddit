@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "editor.tabSize": 2
-=======
   "editor.formatOnSave": true,
   "javascript.format.enable": false,
   "prettier.eslintIntegration": true
->>>>>>> 0ce5d9e1820573c1ecf05122f8fbbf606663072c
 }
