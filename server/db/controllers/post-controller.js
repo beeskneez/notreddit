@@ -30,7 +30,7 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  let title = req.body.post.bodytitle;
+  let title = req.body.post.title;
   let body = req.body.post.body;
   let image = req.body.post.image;
   model.Post.sync()
