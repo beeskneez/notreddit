@@ -1,6 +1,5 @@
 const express = require('express');
 const router = require('express').Router();
-const controller = require('./controller');
 const path = require('path');
 
 const postController = require('./db/controllers/post-controller.js');
