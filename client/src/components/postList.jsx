@@ -9,10 +9,10 @@ class PostList extends Component {
   componentDidMount() {
     axios
       .get('/posts')
-      .then(res => {
+      .then((res) => {
         this.props.updatePosts(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -23,23 +23,19 @@ class PostList extends Component {
     }
 
     return (
-      <ul>
-        {this.props.posts.map((post, index) => {
-          return <PostDetails post={post} key={index} />;
-        })}
-      </ul>
+      <ul>{this.props.posts.map((post, index) => <PostDetails post={post} key={index} />)}</ul>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts
+    posts: state.posts,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updatePosts: updatePosts }, dispatch);
+  return bindActionCreators({ updatePosts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);
