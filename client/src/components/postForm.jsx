@@ -1,19 +1,25 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { createPost } from '../actions/index.jsx';
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { createPost, updatePosts } from "../actions/index.jsx";
+import { Link, Redirect } from "react-router-dom";
+
 
 class PostForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      titleInputVal: '',
-      bodyInputVal: '',
-      imageInputVal: '',
-    };
     this.onChange = this.onChange.bind(this);
     this.addNewPost = this.addNewPost.bind(this);
+  }
+
+  onChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value
+    });
   }
 
   addNewPost() {
@@ -21,11 +27,20 @@ class PostForm extends Component {
       .post('/post', { post: this.state })
       .then((res) => {
         this.props.createPost(res.data);
+        axios
+          .get("/posts")
+          .then(res => {
+            this.props.updatePosts(res.data);
+          })
+          .catch(err => {
+            console.error(err);
+          });
       })
       .catch((err) => {
         console.error(err);
       });
   }
+
 
   onChange(e) {
     const name = e.target.name;
@@ -70,15 +85,16 @@ class PostForm extends Component {
                 />
               </div>
             </div>
-            <div className="ui submit button" onClick={this.addNewPost}>
+            <Link className="ui submit button" onClick={this.addNewPost} to="/">
               Submit
-            </div>
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 }
+// }
 
 function mapStateToProps(state) {
   return {
@@ -87,9 +103,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createPost }, dispatch);
+  return bindActionCreators(
+    { createPost: createPost, updatePosts: updatePosts },
+    dispatch
+  );
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
-// export default PostForm;
