@@ -12,3 +12,5 @@ script:
   - sleep 10
   - npm run react-dev &
   - sleep 10
+  - npm test &
+  - sleep 10
