@@ -1,9 +1,11 @@
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { bindActionCreators } from "redux";
 import { createPost, updatePosts } from "../actions/index.jsx";
 import { Link, Redirect } from "react-router-dom";
+
 
 class PostForm extends Component {
   constructor(props) {
@@ -22,9 +24,8 @@ class PostForm extends Component {
 
   addNewPost() {
     axios
-      .post("/post", { post: this.state })
-      .then(res => {
-        console.log(this.props);
+      .post('/post', { post: this.state })
+      .then((res) => {
         this.props.createPost(res.data);
         axios
           .get("/posts")
@@ -35,9 +36,18 @@ class PostForm extends Component {
             console.error(err);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
+  }
+
+
+  onChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
   }
 
   render() {
@@ -88,7 +98,7 @@ class PostForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    post: state.post
+    post: state.post,
   };
 }
 
@@ -99,4 +109,6 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
+
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
+

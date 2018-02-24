@@ -12,7 +12,7 @@ class PostList extends Component {
       .then(res => {
         this.props.updatePosts(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -36,12 +36,12 @@ class PostList extends Component {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts
+    posts: state.posts,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updatePosts: updatePosts }, dispatch);
+  return bindActionCreators({ updatePosts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

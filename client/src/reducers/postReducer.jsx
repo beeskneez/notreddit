@@ -1,10 +1,7 @@
-const initialState = {
-  isAuthenticated: false
-};
 
 export function ReducerPosts(state = [], action) {
   switch (action.type) {
-    case "REFRESH_FEED":
+    case 'REFRESH_FEED':
       return action.payload;
       break;
   }
@@ -13,7 +10,7 @@ export function ReducerPosts(state = [], action) {
 
 export function ReducerCreatePost(state = null, action) {
   switch (action.type) {
-    case "ADD_POST":
+    case 'ADD_POST':
       return action.payload;
       break;
   }
