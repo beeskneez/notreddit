@@ -6,6 +6,11 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 before_script:
-  - sleep 15
+  - sleep 10
 script:
-  - npm test
+  - npm run server-dev &
+  - sleep 10
+  - npm run react-dev &
+  - sleep 10
+  - npm test &
+  - sleep 10
