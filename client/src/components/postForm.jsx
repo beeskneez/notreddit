@@ -2,29 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { bindActionCreators } from "redux";
-import { createPost } from '../actions/index.jsx';
+import { createPost } from "../actions/index.jsx";
 
 class PostForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      titleInputVal: "",
-      bodyInputVal: "",
-      imageInputVal: ""
-    };
     this.onChange = this.onChange.bind(this);
     this.addNewPost = this.addNewPost.bind(this);
-  }
-
-  addNewPost() {
-    axios
-      .post("/post", {post: this.state})
-      .then(res => {
-        this.props.createPost(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
   }
 
   onChange(e) {
@@ -33,6 +17,17 @@ class PostForm extends Component {
     this.setState({
       [name]: value
     });
+  }
+
+  addNewPost() {
+    axios
+      .post("/post", { post: this.state })
+      .then(res => {
+        this.props.createPost(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -70,7 +65,9 @@ class PostForm extends Component {
                 />
               </div>
             </div>
-            <div className="ui submit button" onClick={this.addNewPost}>Submit</div>
+            <div className="ui submit button" onClick={this.addNewPost}>
+              Submit
+            </div>
           </div>
         </div>
       </div>
@@ -89,5 +86,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
-
-export default PostForm;

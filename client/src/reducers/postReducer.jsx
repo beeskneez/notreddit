@@ -28,7 +28,7 @@ let defaultState = [
   // }
 ];
 
-export function ReducerPosts(state=null, action) {
+export function ReducerPosts(state = [], action) {
   switch (action.type) {
     case "REFRESH_FEED":
       return action.payload;
@@ -37,7 +37,7 @@ export function ReducerPosts(state=null, action) {
   return state;
 }
 
-export function ReducerCreatePost(state=null, action) {
+export function ReducerCreatePost(state = null, action) {
   switch (action.type) {
     case "ADD_POST":
       return action.payload;
