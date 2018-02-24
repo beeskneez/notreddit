@@ -4,7 +4,7 @@ class PostDetails extends Component {
   render() {
     return (
       <div className="twelve wide column">
-        <img className="thumbnail" src={this.props.post.thumbnail} alt="" />
+        <img className="thumbnail" src={this.props.post.image} alt="" />
         <a className="ui large header" href="">
           {this.props.post.title}
         </a>
