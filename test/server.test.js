@@ -48,14 +48,14 @@ describe('Test the POST postController', () => {
   });
 });
 describe('Test the DELETE postController', () => {
-  test('It should response the POST method', (done) => {
+  test('It should response the DELETE method', (done) => {
     request(app)
       // supertest uses just .del
       // should delete post be refactored for /post/:id
       .del('/post')
       .then((response) => {
         // change this test
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(404);
         done();
       });
   });
