@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db.js');const Post = require('./post.js');
+const db = require('../db.js');
+const Post = require('./post.js');
+
 
 
 let User;

@@ -1,16 +1,9 @@
 const express = require('express');
 const router = require('express').Router();
 const postController = require('./db/controllers/post-controller.js');
-
-// Post Routers
-router.route('/all').get(postController.getAllPosts);
-router.route('/all').delete(postController.deleteAllPosts);
-router.route('/post').get(postController.getPost);
-router.route('/post').post(postController.createPost);
-router.route('/post').delete(postController.deletePost);
-const path = require('path');
-
 const userController = require('./db/controllers/user-controller.js');
+
+const path = require('path');
 
 // Post Routers
 // router.route('/all').get(postController.getAllPosts);
