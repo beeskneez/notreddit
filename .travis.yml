@@ -8,4 +8,5 @@ before_install:
 before_script:
   - sleep 15
 script:
-  - npm test
+  - npm run react-dev
+  - npm run server-dev
