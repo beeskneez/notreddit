@@ -1,17 +1,17 @@
 const db = require('../db.js');
-const model = require('../models/post.js');
+const model = require('../models/subreddit.js');
 
 // Subreddit Controllers
 
 exports.getSubreddit = (req, res) => {
   const id = req.params.id;
-  model.Post.findOne({
+  model.Subreddit.findOne({
     where: {
       id,
     },
   }).then(
-    (post) => {
-      res.status(200).send(post);
+    (subreddit) => {
+      res.status(200).send(subreddit);
     },
     (err) => {
       console.log(err);
@@ -20,23 +20,18 @@ exports.getSubreddit = (req, res) => {
 };
 
 exports.createSubreddit = (req, res) => {
-  const title = req.body.post.title;
-  const body = req.body.post.body;
-  const image = req.body.post.image;
-  model.Post.sync()
-    .then(() => model.Post.create({
-      id: null,
-      title,
-      body,
-      likeCache: 0,
-      commentCache: 0,
-      image,
-      postType: 0,
-      user_id: req.body.user_id,
-    }))
-    .then((post) => {
-      console.log(post);
-      res.status(200).send(post);
+  const name = req.body.post.name;
+  const description = req.body.post.description;
+  model.Subreddit.sync()
+    .then(() =>
+      model.Subreddit.create({
+        id: null,
+        name,
+        description,
+      }))
+    .then((subreddit) => {
+      console.log(subreddit);
+      res.status(200).send(subreddit);
     });
 };
 
