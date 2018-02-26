@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { updatePosts } from "../actions/index.jsx";
-import PostDetails from "./postDetails.jsx";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { updatePosts } from './../../actions/index.jsx';
+import PostListEntry from './postListEntry.jsx';
 
 class PostList extends Component {
   componentDidMount() {
     axios
-      .get("/posts")
-      .then(res => {
+      .get('/posts')
+      .then((res) => {
+        console.log(res.data);
         this.props.updatePosts(res.data);
       })
       .catch((err) => {
@@ -24,11 +25,7 @@ class PostList extends Component {
 
     return (
       <ul>
-        {this.props.posts
-          .map((post, index) => {
-            return <PostDetails post={post} key={index} />;
-          })
-          .reverse()}
+        {this.props.posts.map((post, index) => <PostListEntry post={post} key={index} />).reverse()}
       </ul>
     );
   }

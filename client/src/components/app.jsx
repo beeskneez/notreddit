@@ -1,26 +1,39 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getPost } from './../actions/index.jsx';
 
-import PostList from './postList.jsx';
-import Nav from './nav.jsx';
-import Login from './login.jsx';
-import Signup from './signup.jsx';
-import PostForm from './postForm.jsx';
+import Nav from './ui/nav.jsx';
+import Login from './user/login.jsx';
+import Signup from './user/signup.jsx';
+import PostList from './posts/postList.jsx';
+import PostForm from './posts/postForm.jsx';
+import PostDetails from './posts/postDetails.jsx';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={PostList} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/postForm" component={PostForm} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
-};
+const App = () => (
+  <BrowserRouter>
+    <div>
+      <Nav />
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/postForm" component={PostForm} />
+        <Route path={'/postDetails'} component={PostDetails} />
+        <Route exact path="/" component={PostList} />
+      </Switch>
+    </div>
+  </BrowserRouter>
+);
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    gPost: state.gPost,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getPost }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
