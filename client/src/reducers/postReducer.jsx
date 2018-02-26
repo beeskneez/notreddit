@@ -1,4 +1,3 @@
-
 export function ReducerPosts(state = [], action) {
   switch (action.type) {
     case 'REFRESH_FEED':
@@ -17,6 +16,11 @@ export function ReducerCreatePost(state = null, action) {
   return state;
 }
 
-// object.assign({}, state, {
-//   posts: action.payload
-// })
+export function ReducerGetPost(state = null, action) {
+  switch (action.type) {
+    case 'GET_POST':
+      return action.payload;
+      break;
+  }
+  return state;
+}

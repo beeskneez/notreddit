@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getPost } from './../../actions/index.jsx';
 
 class PostDetails extends Component {
+  componentDidMount() {
+    console.log('from post details->', this.props.gPost);
+  }
+
   render() {
     return (
-      <div className="twelve wide column">
-        <img className="thumbnail" src={this.props.post.image} alt="" />
+      <div className="twelve wide column inner">
         <a className="ui large header" href="">
-          {this.props.post.title}
+          {this.props.gPost.title}
         </a>
+        <br />
+        <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to <a>/midlyinteresting</a>
+          submitted 3 hours ago by <a>{this.props.gPost.username}</a> to <a>/mildyinteresting</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
@@ -30,4 +38,14 @@ class PostDetails extends Component {
   }
 }
 
-export default PostDetails;
+function mapStateToProps(state) {
+  return {
+    gPost: state.gPost,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getPost }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);

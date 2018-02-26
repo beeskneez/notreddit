@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { ReducerPosts, ReducerCreatePost } from './postReducer.jsx';
-
+import { ReducerPosts, ReducerCreatePost, ReducerGetPost } from './postReducer.jsx';
 
 const allReducers = combineReducers({
   posts: ReducerPosts,
-  post: ReducerCreatePost
+  post: ReducerCreatePost,
+  gPost: ReducerGetPost,
 });
 
 export default allReducers;
