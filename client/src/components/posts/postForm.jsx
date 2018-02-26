@@ -1,11 +1,9 @@
-
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { createPost, updatePosts } from "../actions/index.jsx";
-import { Link, Redirect } from "react-router-dom";
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { createPost, updatePosts } from './../../actions/index.jsx';
+import { Link, Redirect } from 'react-router-dom';
 
 class PostForm extends Component {
   constructor(props) {
@@ -18,7 +16,7 @@ class PostForm extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -28,11 +26,11 @@ class PostForm extends Component {
       .then((res) => {
         this.props.createPost(res.data);
         axios
-          .get("/posts")
-          .then(res => {
+          .get('/posts')
+          .then((res) => {
             this.props.updatePosts(res.data);
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(err);
           });
       })
@@ -40,7 +38,6 @@ class PostForm extends Component {
         console.error(err);
       });
   }
-
 
   onChange(e) {
     const name = e.target.name;
@@ -103,12 +100,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { createPost: createPost, updatePosts: updatePosts },
-    dispatch
-  );
+  return bindActionCreators({ createPost, updatePosts }, dispatch);
 }
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
-

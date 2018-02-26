@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import PostList from './postList.jsx';
-import Nav from './nav.jsx';
-import Login from './login.jsx';
-import Signup from './signup.jsx';
-import PostForm from './postForm.jsx';
+import PostList from './posts/postList.jsx';
+import Nav from './ui/nav.jsx';
+import Login from './user/login.jsx';
+import Signup from './user/signup.jsx';
+import PostForm from './posts/postForm.jsx';
 
 const App = () => {
   return (
