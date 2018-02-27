@@ -55,6 +55,29 @@ exports.createPost = (req, res) => {
     });
 };
 
+exports.updatePostWithUpvote = (req, res) => {
+  console.log(req);
+  model.Post.findById(req.params.id)
+    .then(post => {
+      return post.increment('upvoteCache', { by: 1 });
+    })
+    .then(post => {
+      res.status(200).send(post);
+    });
+};
+
+exports.updatePostWithDownvote = (req, res) => {
+  model.Post.findById(req.params.id)
+    .then(post => {
+      return post.increment('downvoteCache', { by: 1 });
+    })
+    .then(post => {
+      res.status(200).send(post);
+    });
+
+  res.status(200).send('update one');
+};
+
 exports.updateOne = (req, res) => {
   res.status(200).send('update one');
 };

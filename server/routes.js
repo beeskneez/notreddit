@@ -11,6 +11,9 @@ const subredditController = require('./db/controllers/subreddit-controller.js');
 // router.route('/all').delete(postController.deleteAllPosts);
 // router.route('/post').get(postController.getPost);
 router.route('/post').post(postController.createPost);
+router.route('/upvote/:id').put(postController.updatePostWithUpvote);
+router.route('/downvote/:id').put(postController.updatePostWithDownvote);
+
 // router.route('/post').delete(postController.deletePost);
 
 // router.route('/login');

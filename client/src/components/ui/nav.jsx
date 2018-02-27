@@ -15,8 +15,9 @@ class Nav extends Component {
     this.props.updateAuthUser(null);
     auth().signOut();
   }
+
   componentWillMount() {
-    auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged(user => {
       if (user) {
         this.props.updateAuthUser(user.email);
         document.getElementById('logout').classList.remove('hide');
@@ -54,7 +55,12 @@ class Nav extends Component {
           <Link className="item" to="/signup">
             Signup
           </Link>
-          <Link id="logout" className="item hide" to="/login" onClick={this.signOut}>
+          <Link
+            id="logout"
+            className="item hide"
+            to="/login"
+            onClick={this.signOut}
+          >
             Logout
           </Link>
         </div>
@@ -65,7 +71,7 @@ class Nav extends Component {
 
 function mapStateToProps(state) {
   return {
-    authUser: state.authUser,
+    authUser: state.authUser
   };
 }
 
