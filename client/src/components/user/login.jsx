@@ -20,7 +20,7 @@ class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.props.updateAuthUser(user.email);
-        window.location = '/';
+        this.props.history.push('/');
       })
       .catch(e => console.error(e.message));
   }
