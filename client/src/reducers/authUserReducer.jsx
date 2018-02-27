@@ -1,4 +1,4 @@
-export default function ReducerUpdateAuthUser(state = null, action) {
+export function ReducerUpdateAuthUser(state = null, action) {
   switch (action.type) {
     case 'AUTH_USER':
       return action.payload;
