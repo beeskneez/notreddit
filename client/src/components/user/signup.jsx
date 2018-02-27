@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { signedIn } from '../../actions/index.jsx';
 
 class Signup extends Component {
@@ -47,9 +48,9 @@ class Signup extends Component {
                   <input id="password" placeholder="enter new password" type="text" />
                 </div>
               </div>
-              <div onClick={this.signup} className="ui submit button">
+              <Link onClick={this.signup} className="ui submit button" to="/">
                 Submit
-              </div>
+              </Link>
             </div>
           </div>
         </div>
