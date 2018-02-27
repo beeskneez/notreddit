@@ -2,10 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
+import { auth } from 'firebase';
 import { updatePosts } from './../../actions/index.jsx';
 import PostListEntry from './postListEntry.jsx';
 
 class PostList extends Component {
+  componentWillMount() {
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('User logged in, ', user.email);
+      } else {
+        console.log('User not logged in');
+      }
+    });
+  }
+
   componentDidMount() {
     axios
       .get('/posts')
