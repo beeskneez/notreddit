@@ -7,6 +7,9 @@ export default class Nav extends Component {
     super();
   }
 
+  signOut() {
+    auth().signOut();
+  }
   componentDidMount() {}
 
   render() {
@@ -33,9 +36,9 @@ export default class Nav extends Component {
           <Link className="item" to="/signup">
             Signup
           </Link>
-          <Link className="item" to="/login">
+          <a className="item" onClick={this.signOut}>
             Logout
-          </Link>
+          </a>
         </div>
       </div>
     );
