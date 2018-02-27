@@ -20,12 +20,11 @@ exports.getSubreddit = (req, res) => {
 };
 
 exports.createSubreddit = (req, res) => {
-  const name = req.body.post.name;
-  const description = req.body.post.description;
+  const name = req.body.subreddit.name;
+  const description = req.body.subreddit.description;
   model.Subreddit.sync()
     .then(() =>
       model.Subreddit.create({
-        id: null,
         name,
         description,
       }))

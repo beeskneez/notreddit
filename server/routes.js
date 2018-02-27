@@ -3,14 +3,7 @@ const router = require('express').Router();
 const path = require('path');
 const postController = require('./db/controllers/post-controller.js');
 const userController = require('./db/controllers/user-controller.js');
-
-// Post Routers
-// router.route('/all').get(postController.getAllPosts);
-// router.route('/all').delete(postController.deleteAllPosts);
-// router.route('/post').get(postController.getPost);
-// router.route('/post').post(postController.createPost);
-// router.route('/post').delete(postController.deletePost);
-router.route('/posts').get(postController.getAllPosts);
+const subredditController = require('./db/controllers/subreddit-controller.js');
 
 // Post Routers
 
@@ -42,5 +35,9 @@ router.route('*').get((err, res) => {
 
 // User Routers
 router.route('/user').post(userController.createUser);
+
+// Subreddit Routers
+router.route('/subreddit').get(subredditController.getSubreddit);
+router.route('/subreddit').post(subredditController.createSubreddit);
 
 module.exports = router;

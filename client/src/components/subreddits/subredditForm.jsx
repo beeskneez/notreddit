@@ -8,36 +8,36 @@ import { Link, Redirect } from 'react-router-dom';
 class SubredditForm extends Component {
   constructor(props) {
     super(props);
-    // this.onChange = this.onChange.bind(this);
-    // this.addNewPost = this.addNewPost.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.addNewSubreddit = this.addNewSubreddit.bind(this);
   }
 
-  // onChange(e) {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
+  onChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
 
-  // addNewPost() {
-  //   axios
-  //     .post('/post', { post: this.state })
-  //     .then((res) => {
-  //       this.props.createPost(res.data);
-  //       axios
-  //         .get('/posts')
-  //         .then((res) => {
-  //           this.props.updatePosts(res.data);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
+  addNewSubreddit() {
+    axios
+      .post('/subreddit', { subreddit: this.state })
+      .then((res) => {
+        this.props.createSubreddit(res.data);
+        // axios
+        //   .get('/posts')
+        //   .then((res) => {
+        //     this.props.updatePosts(res.data);
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //   });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   // onChange(e) {
   //   const name = e.target.name;
@@ -60,7 +60,7 @@ class SubredditForm extends Component {
                   name="name"
                   placeholder="enter subreddit name"
                   type="text"
-                  // onChange={e => this.onChange(e)}
+                  onChange={e => this.onChange(e)}
                 />
               </div>
               <div className="field">
@@ -69,11 +69,11 @@ class SubredditForm extends Component {
                   name="description"
                   placeholder="enter subreddit description"
                   type="text"
-                  // onChange={e => this.onChange(e)}
+                  onChange={e => this.onChange(e)}
                 />
               </div>
             </div>
-            <Link className="ui submit button" onClick={this.addNewPost} to="/">
+            <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
               Submit
             </Link>
           </div>
