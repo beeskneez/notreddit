@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+// import { auth } from 'firebase';
+import { getSubreddits } from './../../actions/index.jsx';
 
 class SubredditList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      list: [],
-    };
-  }
-
-  createSelectItems() {
-    let items = [];
-    axios.get('/subreddits').then((res) => {
-      items = res.data.map(subreddit => subreddit);
-      this.setState({
-        list: items,
-      });
-    });
   }
 
   componentDidMount() {
-    this.createSelectItems();
+    // this.createSelectItems();
+    axios
+      .get('/subreddits')
+      .then((res) => {
+        this.props.getSubreddits(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
     return (
       <select>
-        {this.state.list.map((subreddit, index) => (
+        {this.props.subreddits.map((subreddit, index) => (
           <option key={index} value={subreddit.name}>
             {subreddit.name}
           </option>
@@ -37,4 +35,14 @@ class SubredditList extends Component {
   }
 }
 
-export default SubredditList;
+function mapStateToProps(state) {
+  return {
+    subreddits: state.subreddits,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getSubreddits }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubredditList);

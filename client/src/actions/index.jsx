@@ -11,6 +11,7 @@ export function createPost(post) {
     payload: post,
   };
 }
+
 export function getPost(post) {
   return {
     type: 'GET_POST',
@@ -29,5 +30,12 @@ export function signedIn(boolean) {
   return {
     type: 'UPDATE_SIGNEDIN',
     payload: boolean,
+  };
+}
+
+export function getSubreddits(subreddits) {
+  return {
+    type: 'GET_SUBREDDITS',
+    payload: subreddits,
   };
 }
