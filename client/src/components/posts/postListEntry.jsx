@@ -3,17 +3,65 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
+import axios from 'axios';
 
-import { getPost } from './../../actions/index.jsx';
+import { getPost, updateAuthUser } from './../../actions/index.jsx';
 
 class PostListEntry extends Component {
   constructor() {
     super();
+    this.state = {
+      upvotes: 0,
+      downvotes: 0,
+    };
     this.goToDetails = this.goToDetails.bind(this);
+    this.upvote = this.upvote.bind(this);
+    this.downvote = this.downvote.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      upvotes: this.props.post.upvoteCache,
+      downvotes: this.props.post.downvoteCache,
+    });
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.updateAuthUser(user.email);
+        document.getElementById('logout').classList.remove('hide');
+      } else {
+        document.getElementById('logout').classList.add('hide');
+      }
+    });
   }
 
   goToDetails() {
     this.props.getPost(this.props.post);
+  }
+
+  upvote() {
+    axios
+      .put(`/upvote/${this.props.post.id}`)
+      .then((res) => {
+        this.setState({
+          upvotes: res.data.upvoteCache,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  downvote() {
+    axios
+      .put(`/downvote/${this.props.post.id}`)
+      .then((res) => {
+        this.setState({
+          downvotes: res.data.downvoteCache,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -28,21 +76,18 @@ class PostListEntry extends Component {
           {this.props.post.title}
         </Link>
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to{' '}
-          <a>/midlyinteresting</a>
+          submitted 3 hours ago by <a>{this.props.post.username}</a> to <a>/midlyinteresting</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a href="">
+            <a onClick={() => (this.props.authUser ? this.upvote() : null)}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
+          <li className="item">{this.state.upvotes - this.state.downvotes}</li>
           <li className="item">
-            {this.props.post.upvoteCache - this.props.post.downvoteCache}
-          </li>
-          <li className="item">
-            <a href="">
+            <a onClick={() => (this.props.authUser ? this.downvote() : null)}>
               <i className="arrow down icon" />
               downvote
             </a>
@@ -58,7 +103,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost }, dispatch);
+  return bindActionCreators({ getPost, updateAuthUser }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostListEntry);
