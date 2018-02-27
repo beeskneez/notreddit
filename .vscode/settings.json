@@ -2,8 +2,4 @@
   "editor.formatOnSave": true,
   "javascript.format.enable": false,
   "prettier.eslintIntegration": true
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c6a0c0e07c2b790c3df3f6158465691a73ba191b

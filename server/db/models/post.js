@@ -17,6 +17,8 @@ const definePost = () => new Promise((resolve, reject) => {
     // voteCache: Sequelize.INTEGER,
     commentCache: Sequelize.INTEGER,
     image: Sequelize.STRING,
+    upvoteCache: Sequelize.INTEGER,
+    downvoteCache: Sequelize.INTEGER,
     postType: Sequelize.INTEGER,
     // 0 is post, 1 is comment
     id_parent: Sequelize.UUID,

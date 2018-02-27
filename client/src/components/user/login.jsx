@@ -11,25 +11,15 @@ class Login extends Component {
     this.login = this.login.bind(this);
   }
 
-  componentDidMount() {
-    auth().onAuthStateChanged((firebaseuser) => {
-      if (firebaseuser) {
-        console.log('firebaseUser->', firebaseuser);
-      } else {
-        console.log('not logged in');
-      }
-    });
-  }
+  // componentDidMount() {}
 
   login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        console.log('user email->', user.email);
+      .then(user => {
         this.props.updateAuthUser(user.email);
-        console.log(this.props);
       })
       .catch(e => console.error(e.message));
   }
@@ -44,11 +34,19 @@ class Login extends Component {
               <div className="two fields">
                 <div className="field">
                   <label>email</label>
-                  <input id="email" placeholder="enter login email" type="text" />
+                  <input
+                    id="email"
+                    placeholder="enter login email"
+                    type="text"
+                  />
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter login password" type="text" />
+                  <input
+                    id="password"
+                    placeholder="enter login password"
+                    type="text"
+                  />
                 </div>
               </div>
               <div onClick={() => this.login()} className="ui submit button">
@@ -69,7 +67,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    authUser: state.authUser,
+    authUser: state.authUser
   };
 }
 

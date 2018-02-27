@@ -86,3 +86,7 @@ ul.ui.list li:before {
 .center-content {
   text-align: center;
 }
+
+.hide {
+  visibility: hidden;
+}

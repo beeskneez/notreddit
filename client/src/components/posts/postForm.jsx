@@ -13,39 +13,29 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
-  // onChange(e) {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
-
   addNewPost() {
     axios
       .post('/post', { post: this.state })
-      .then((res) => {
+      .then(res => {
         this.props.createPost(res.data);
         axios
           .get('/posts')
-          .then((res) => {
+          .then(res => {
             this.props.updatePosts(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.error(err);
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
 
   onChange(e) {
-    console.log(e);
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -100,7 +90,7 @@ class PostForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    post: state.post,
+    post: state.post
   };
 }
 

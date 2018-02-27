@@ -5,19 +5,7 @@ import { auth } from 'firebase';
 import { getPost } from './../../actions/index.jsx';
 
 class PostDetails extends Component {
-  componentWillMount() {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log('User logged in, ', user.email);
-      } else {
-        console.log('User not logged in');
-      }
-    });
-  }
-
-  componentDidMount() {
-    console.log('from post details->', this.props.gPost);
-  }
+  // componentDidMount() {}
 
   render() {
     return (
@@ -28,7 +16,8 @@ class PostDetails extends Component {
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.gPost.username}</a> to <a>/mildyinteresting</a>
+          submitted 3 hours ago by <a>{this.props.gPost.username}</a> to{' '}
+          <a>/mildyinteresting</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
@@ -51,7 +40,7 @@ class PostDetails extends Component {
 
 function mapStateToProps(state) {
   return {
-    gPost: state.gPost,
+    gPost: state.gPost
   };
 }
 
