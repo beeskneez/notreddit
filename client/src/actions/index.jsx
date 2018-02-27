@@ -11,7 +11,6 @@ export function createPost(post) {
     payload: post,
   };
 }
-
 export function getPost(post) {
   return {
     type: 'GET_POST',
