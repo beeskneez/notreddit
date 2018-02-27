@@ -12,7 +12,6 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     auth().onAuthStateChanged((firebaseuser) => {
       if (firebaseuser) {
         console.log('firebaseUser->', firebaseuser);

@@ -12,7 +12,6 @@ export default class Signup extends Component {
   signup() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    console.log(email, password);
     auth()
       .createUserWithEmailAndPassword(email, password)
       .catch(e => console.error(e.message));
