@@ -6,12 +6,7 @@ import { bindActionCreators } from 'redux';
 import { getSubreddits } from './../../actions/index.jsx';
 
 class SubredditList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    // this.createSelectItems();
     axios
       .get('/subreddits')
       .then((res) => {
@@ -24,7 +19,10 @@ class SubredditList extends Component {
 
   render() {
     return (
-      <select>
+      <select className="ui dropdown">
+        <option value="" disabled selected hidden>
+          Select Subreddit
+        </option>
         {this.props.subreddits.map((subreddit, index) => (
           <option key={index} value={subreddit.name}>
             {subreddit.name}

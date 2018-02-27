@@ -34,6 +34,7 @@ exports.createPost = (req, res) => {
   const title = req.body.post.title;
   const body = req.body.post.body;
   const image = req.body.post.image;
+  const subreddit = req.body.post.subreddit;
   model.Post.sync()
     .then(() =>
       model.Post.create({
@@ -46,10 +47,17 @@ exports.createPost = (req, res) => {
         downvoteCache: 0,
         image: image,
         postType: 0,
+<<<<<<< HEAD
         user_id: req.body.user_id
       })
     )
     .then(post => {
+=======
+        user_id: req.body.user_id,
+        subreddit,
+      }))
+    .then((post) => {
+>>>>>>> [feat] Subreddit dropdown stylized and homepage rendering subreddits dynamically
       console.log(post);
       res.status(200).send(post);
     });
