@@ -9,6 +9,7 @@ import {
   ReducerCreatePost,
   ReducerGetPost,
   ReducerCreateSubreddit,
+  ReducerGetSubreddits,
 } from './postReducer.jsx';
 >>>>>>> (feat) Create subreddit component. Starting to work on models
 
@@ -21,7 +22,11 @@ const allReducers = combineReducers({
   active: ReducerSignIn,
 =======
   subreddit: ReducerCreateSubreddit,
+<<<<<<< HEAD
 >>>>>>> (feat) Create subreddit component. Starting to work on models
+=======
+  subreddits: ReducerGetSubreddits,
+>>>>>>> (feat) Creat SubredditList dropdown component for users to pick Subreddit when creating a post
 });
 
 export default allReducers;

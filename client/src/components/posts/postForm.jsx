@@ -4,6 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { createPost, updatePosts } from './../../actions/index.jsx';
 import { Link, Redirect } from 'react-router-dom';
+import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
   constructor(props) {
@@ -81,6 +82,9 @@ class PostForm extends Component {
                   onChange={e => this.onChange(e)}
                 />
               </div>
+            </div>
+            <div>
+              <SubredditList />
             </div>
             <Link className="ui submit button" onClick={this.addNewPost} to="/">
               Submit

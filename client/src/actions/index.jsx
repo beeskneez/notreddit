@@ -39,3 +39,10 @@ export function createSubreddit(subreddit) {
 >>>>>>> (feat) Create subreddit component. Starting to work on models
   };
 }
+
+export function getSubreddits(subreddits) {
+  return {
+    type: 'GET_SUBREDDITS',
+    payload: subreddits,
+  };
+}
