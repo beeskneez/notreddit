@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateAuthUser } from './../../actions/index.jsx';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.login = this.login.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.props);
+    auth().onAuthStateChanged((firebaseuser) => {
+      if (firebaseuser) {
+        console.log('firebaseUser->', firebaseuser);
+      } else {
+        console.log('not logged in');
+      }
+    });
   }
 
   login() {
@@ -13,8 +27,12 @@ export default class Login extends Component {
     const password = document.getElementById('password').value;
     auth()
       .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log('user email->', user.email);
+        this.props.updateAuthUser(user.email);
+        console.log(this.props);
+      })
       .catch(e => console.error(e.message));
-    // auth.EmailAuthProvider();
   }
 
   render() {
@@ -49,3 +67,15 @@ export default class Login extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authUser: state.authUser,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateAuthUser }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

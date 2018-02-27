@@ -20,3 +20,10 @@ export function getPost(post) {
     payload: post,
   };
 }
+
+export function updateAuthUser(user) {
+  return {
+    type: 'AUTH_USER',
+    payload: user,
+  };
+}

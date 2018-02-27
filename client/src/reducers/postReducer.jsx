@@ -24,3 +24,12 @@ export function ReducerGetPost(state = null, action) {
   }
   return state;
 }
+
+export function ReducerUpdateAuthUser(state = null, action) {
+  switch (action.type) {
+    case 'AUTH_USER':
+      return action.payload;
+      break;
+  }
+  return state;
+}

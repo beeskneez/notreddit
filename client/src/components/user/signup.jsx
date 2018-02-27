@@ -7,6 +7,8 @@ export default class Signup extends Component {
     this.signup = this.signup.bind(this);
   }
 
+  componentDidMount() {}
+
   signup() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
