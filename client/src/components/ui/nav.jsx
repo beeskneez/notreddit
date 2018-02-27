@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 
 export default class Nav extends Component {
-  constructor() {}
+  constructor() {
+    super();
+  }
 
+  signOut() {
+    auth().signOut();
+  }
   componentDidMount() {}
 
   render() {
@@ -31,9 +36,9 @@ export default class Nav extends Component {
           <Link className="item" to="/signup">
             Signup
           </Link>
-          <Link className="item" to="/login">
+          <a className="item" onClick={this.signOut}>
             Logout
-          </Link>
+          </a>
         </div>
       </div>
     );

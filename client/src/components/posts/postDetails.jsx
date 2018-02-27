@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { auth } from 'firebase';
 import { getPost } from './../../actions/index.jsx';
 
 class PostDetails extends Component {
+  componentWillMount() {
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('User logged in, ', user.email);
+      } else {
+        console.log('User not logged in');
+      }
+    });
+  }
+
   componentDidMount() {
     console.log('from post details->', this.props.gPost);
   }

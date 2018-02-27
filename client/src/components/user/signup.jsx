@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { auth } from 'firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { signedIn } from '../../actions/index.jsx';
 
-export default class Signup extends Component {
+class Signup extends Component {
   constructor() {
     super();
     this.signup = this.signup.bind(this);
   }
 
-  componentDidMount() {}
+  componentWillMount() {
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.signedIn(true);
+        console.log('User logged in, ', user.email);
+      } else {
+        this.props.signedIn(false);
+        console.log('User not logged in');
+      }
+    });
+  }
 
   signup() {
     const email = document.getElementById('email').value;
@@ -34,7 +47,7 @@ export default class Signup extends Component {
                   <input id="password" placeholder="enter new password" type="text" />
                 </div>
               </div>
-              <div onClick={() => this.signup()} className="ui submit button">
+              <div onClick={this.signup} className="ui submit button">
                 Submit
               </div>
             </div>
@@ -44,3 +57,16 @@ export default class Signup extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    active: state.active,
+    authUser: state.authUser,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ signedIn }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

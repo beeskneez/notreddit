@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export function updatePosts(posts) {
   return {
     type: 'REFRESH_FEED',
@@ -25,5 +23,12 @@ export function updateAuthUser(user) {
   return {
     type: 'AUTH_USER',
     payload: user,
+  };
+}
+
+export function signedIn(boolean) {
+  return {
+    type: 'UPDATE_SIGNEDIN',
+    payload: boolean,
   };
 }
