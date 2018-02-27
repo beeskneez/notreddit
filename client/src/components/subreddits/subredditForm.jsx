@@ -25,14 +25,6 @@ class SubredditForm extends Component {
       .post('/subreddit', { subreddit: this.state })
       .then((res) => {
         this.props.createSubreddit(res.data);
-        // axios
-        //   .get('/posts')
-        //   .then((res) => {
-        //     this.props.updatePosts(res.data);
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //   });
       })
       .catch((err) => {
         console.error(err);

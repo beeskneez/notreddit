@@ -19,6 +19,22 @@ exports.getSubreddit = (req, res) => {
   );
 };
 
+exports.allSubredditNames = (req, res) => {
+  model.Subreddit.findAll({
+    attributes: ['name'],
+  }).then(
+    (subreddits) => {
+      // // console.log(subreddits);
+      // console.log('gtotten');
+      // res.send();
+      res.status(200).send(subreddits);
+    },
+    (err) => {
+      console.log(err);
+    },
+  );
+};
+
 exports.createSubreddit = (req, res) => {
   const name = req.body.subreddit.name;
   const description = req.body.subreddit.description;

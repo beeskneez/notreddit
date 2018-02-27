@@ -29,15 +29,16 @@ router.route('/posts').get(postController.getAllPosts);
 // router.route('/upvote');
 // router.route('/downvote');
 
-router.route('*').get((err, res) => {
-  res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));
-});
+// Subreddit Routers
+router.route('/subreddits').get(subredditController.allSubredditNames);
+router.route('/subreddit').get(subredditController.getSubreddit);
+router.route('/subreddit').post(subredditController.createSubreddit);
 
 // User Routers
 router.route('/user').post(userController.createUser);
 
-// Subreddit Routers
-router.route('/subreddit').get(subredditController.getSubreddit);
-router.route('/subreddit').post(subredditController.createSubreddit);
+router.route('*').get((err, res) => {
+  res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));
+});
 
 module.exports = router;
