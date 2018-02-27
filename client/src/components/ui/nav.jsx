@@ -53,7 +53,7 @@ class Nav extends Component {
           <Link className="item" to="/signup">
             Signup
           </Link>
-          <Link className="item" to="/login" onClick={this.signOut}>
+          <Link id="logout" className="item hide" to="/login" onClick={this.signOut}>
             Logout
           </Link>
         </div>
