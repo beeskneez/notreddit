@@ -41,6 +41,7 @@ class PostForm extends Component {
   }
 
   onChange(e) {
+    console.log(e);
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
@@ -84,7 +85,7 @@ class PostForm extends Component {
               </div>
             </div>
             <div>
-              <SubredditList />
+              <SubredditList onChange={e => this.onChange(e)} />
             </div>
             <Link className="ui submit button" onClick={this.addNewPost} to="/">
               Submit

@@ -30,6 +30,7 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
+  console.log(req.body);
   const title = req.body.post.title;
   const body = req.body.post.body;
   const image = req.body.post.image;
