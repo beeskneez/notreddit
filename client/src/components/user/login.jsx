@@ -1,6 +1,39 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { auth } from 'firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateAuthUser } from './../../actions/index.jsx';
 
-export default class Login extends Component {
+class Login extends Component {
+  constructor() {
+    super();
+    this.login = this.login.bind(this);
+  }
+
+  componentDidMount() {
+    auth().onAuthStateChanged((firebaseuser) => {
+      if (firebaseuser) {
+        console.log('firebaseUser->', firebaseuser);
+      } else {
+        console.log('not logged in');
+      }
+    });
+  }
+
+  login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log('user email->', user.email);
+        this.props.updateAuthUser(user.email);
+        console.log(this.props);
+      })
+      .catch(e => console.error(e.message));
+  }
+
   render() {
     return (
       <div className="outer">
@@ -10,15 +43,22 @@ export default class Login extends Component {
               <h2>Login</h2>
               <div className="two fields">
                 <div className="field">
-                  <label>username</label>
-                  <input placeholder="enter login username" type="text" />
+                  <label>email</label>
+                  <input id="email" placeholder="enter login email" type="text" />
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input placeholder="enter login password" type="text" />
+                  <input id="password" placeholder="enter login password" type="text" />
                 </div>
               </div>
-              <div className="ui submit button">Submit</div>
+              <div onClick={() => this.login()} className="ui submit button">
+                Submit
+              </div>
+              <div>
+                <small>
+                  don't have an account? <Link to="/signup">Sign up</Link>
+                </small>
+              </div>
             </div>
           </div>
         </div>
@@ -26,3 +66,15 @@ export default class Login extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authUser: state.authUser,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateAuthUser }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

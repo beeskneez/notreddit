@@ -12,13 +12,13 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
-  onChange(e) {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState({
-      [name]: value,
-    });
-  }
+  // onChange(e) {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // }
 
   addNewPost() {
     axios
