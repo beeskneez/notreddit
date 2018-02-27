@@ -15,9 +15,10 @@ class Nav extends Component {
     this.props.updateAuthUser(null);
     auth().signOut();
   }
-  componentDidMount() {
+  componentWillMount() {
     auth().onAuthStateChanged((user) => {
       if (user) {
+        this.props.updateAuthUser(user.email);
         document.getElementById('logout').classList.remove('hide');
       } else {
         document.getElementById('logout').classList.add('hide');
