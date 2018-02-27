@@ -74,8 +74,6 @@ exports.updatePostWithDownvote = (req, res) => {
     .then(post => {
       res.status(200).send(post);
     });
-
-  res.status(200).send('update one');
 };
 
 exports.updateOne = (req, res) => {
