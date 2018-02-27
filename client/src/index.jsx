@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 // firebase
 import * as firebase from 'firebase';
-import { config } from '../../environment/ex.config.js';
+import { config } from '../../environment/config.js';
 // components
 import App from './components/app.jsx';
 import allReducers from './reducers/index.jsx';
