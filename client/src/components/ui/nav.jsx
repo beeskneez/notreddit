@@ -27,6 +27,9 @@ export default class Nav extends Component {
           <Link className="item" to="/">
             Main
           </Link>
+          <Link className="item" to="/subredditForm">
+            Create New Subreddit
+          </Link>
           <Link className="item" to="/postForm">
             Create New Post
           </Link>

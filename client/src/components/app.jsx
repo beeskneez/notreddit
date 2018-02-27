@@ -8,6 +8,7 @@ import Nav from './ui/nav.jsx';
 import Login from './user/login.jsx';
 import Signup from './user/signup.jsx';
 import PostList from './posts/postList.jsx';
+import SubredditForm from './subreddits/subredditForm.jsx';
 import PostForm from './posts/postForm.jsx';
 import PostDetails from './posts/postDetails.jsx';
 
@@ -18,6 +19,7 @@ const App = () => (
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/subredditForm" component={SubredditForm} />
         <Route path="/postForm" component={PostForm} />
         <Route path={'/postDetails'} component={PostDetails} />
         <Route exact path="/" component={PostList} />

@@ -24,3 +24,12 @@ export function ReducerGetPost(state = null, action) {
       return state;
   }
 }
+
+export function ReducerCreateSubreddit(state = null, action) {
+  switch (action.type) {
+    case 'ADD_SUBREDDIT':
+      return action.payload;
+      break;
+  }
+  return state;
+}

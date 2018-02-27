@@ -19,6 +19,7 @@ export function getPost(post) {
   };
 }
 
+<<<<<<< HEAD
 export function updateAuthUser(user) {
   return {
     type: 'AUTH_USER',
@@ -30,5 +31,11 @@ export function signedIn(boolean) {
   return {
     type: 'UPDATE_SIGNEDIN',
     payload: boolean,
+=======
+export function createSubreddit(subreddit) {
+  return {
+    type: 'ADD_SUBREDDIT',
+    payload: subreddit,
+>>>>>>> (feat) Create subreddit component. Starting to work on models
   };
 }
