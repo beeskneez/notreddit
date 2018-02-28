@@ -7,8 +7,31 @@ import { Link } from 'react-router-dom';
 import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
-  addNewPost() {
 <<<<<<< HEAD
+=======
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.addNewPost = this.addNewPost.bind(this);
+  }
+
+<<<<<<< HEAD
+  componentDidMount() {
+    console.log(this.props.user);
+  }
+
+>>>>>>> Saving stuff
+  addNewPost() {
+=======
+>>>>>>> Saving stuff
+<<<<<<< HEAD
+=======
+  componentDidMount() {
+    console.log(this.props.authUser);
+  }
+
+>>>>>>> Saving stuff
+  addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.subreddit = this.props.selectedSubreddit;
@@ -33,24 +56,6 @@ class PostForm extends Component {
     } else {
       console.log('not logged in');
     }
-=======
-    axios
-      .post('/post', { post: this.state })
-      .then((res) => {
-        this.props.createPost(res.data);
-        axios
-          .get('/posts')
-          .then((res) => {
-            this.props.updatePosts(res.data);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
->>>>>>> [feat] Adding comments to post details page
   }
 
   onChange(e) {
@@ -119,8 +124,8 @@ class PostForm extends Component {
 function mapStateToProps(state) {
   return {
     post: state.post,
-<<<<<<< HEAD
     authUser: state.authUser,
+<<<<<<< HEAD
 <<<<<<< HEAD
     selectedSubreddit: state.selectedSubreddit,
 <<<<<<< HEAD
@@ -131,7 +136,12 @@ function mapStateToProps(state) {
 =======
 >>>>>>> [feat] Adding comments to post details page
 >>>>>>> Accepting changes from master
+<<<<<<< HEAD
 >>>>>>> Accepting changes from master
+=======
+=======
+>>>>>>> Saving stuff
+>>>>>>> Saving stuff
   };
 }
 
