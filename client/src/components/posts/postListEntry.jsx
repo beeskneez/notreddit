@@ -12,7 +12,7 @@ class PostListEntry extends Component {
     super();
     this.state = {
       upvotes: 0,
-      downvotes: 0,
+      downvotes: 0
     };
     this.goToDetails = this.goToDetails.bind(this);
     this.upvote = this.upvote.bind(this);
@@ -20,11 +20,12 @@ class PostListEntry extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     this.setState({
       upvotes: this.props.post.upvoteCache,
-      downvotes: this.props.post.downvoteCache,
+      downvotes: this.props.post.downvoteCache
     });
-    auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged(user => {
       if (user) {
         this.props.updateAuthUser(user.email);
         document.getElementById('logout').classList.remove('hide');
@@ -41,12 +42,12 @@ class PostListEntry extends Component {
   upvote() {
     axios
       .put(`/upvote/${this.props.post.id}`)
-      .then((res) => {
+      .then(res => {
         this.setState({
-          upvotes: res.data.upvoteCache,
+          upvotes: res.data.upvoteCache
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -54,12 +55,12 @@ class PostListEntry extends Component {
   downvote() {
     axios
       .put(`/downvote/${this.props.post.id}`)
-      .then((res) => {
+      .then(res => {
         this.setState({
-          downvotes: res.data.downvoteCache,
+          downvotes: res.data.downvoteCache
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -76,7 +77,8 @@ class PostListEntry extends Component {
           {this.props.post.title}
         </Link>
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to <a>{'/' + this.props.post.subreddit}</a>
+          submitted 3 hours ago by <a>{'TODO: username here'}</a> to{' '}
+          <a>{'/' + this.props.post.subreddit}</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">

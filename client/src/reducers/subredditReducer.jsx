@@ -15,3 +15,13 @@ export function ReducerGetSubreddits(state = [], action) {
   }
   return state;
 }
+
+// selected subreddit in postForm
+export function ReducerSelectedSubreddit(state = null, action) {
+  switch (action.type) {
+    case 'SELECTED_SUBREDDIT':
+      return action.payload;
+      break;
+  }
+  return state;
+}

@@ -2,24 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-// import { auth } from 'firebase';
-import { getSubreddits } from './../../actions/index.jsx';
+import { getSubreddits, selectSubreddit } from './../../actions/index.jsx';
 
 class SubredditList extends Component {
   componentDidMount() {
     axios
       .get('/subreddits')
-      .then((res) => {
+      .then(res => {
+        console.log(this.props);
         this.props.getSubreddits(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
 
+  handleChange(e) {
+    this.props.selectSubreddit(e.target.value);
+    // console.log(this.props);
+  }
+
   render() {
     return (
-      <select className="ui dropdown">
+      <select onChange={(e) => this.handleChange(e)} className="ui dropdown">
         <option value="" disabled selected hidden>
           Select Subreddit
         </option>
@@ -40,7 +45,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getSubreddits }, dispatch);
+  return bindActionCreators({ getSubreddits, selectSubreddit }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubredditList);

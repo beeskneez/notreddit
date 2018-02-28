@@ -46,3 +46,17 @@ export function getSubreddits(subreddits) {
     payload: subreddits,
   };
 }
+
+export function updateUser(user) {
+  return {
+    type: 'SET_USER',
+    payload: user,
+  };
+}
+
+export function selectSubreddit(subreddit) {
+  return {
+    type: 'SELECTED_SUBREDDIT',
+    payload: subreddit,
+  };
+}

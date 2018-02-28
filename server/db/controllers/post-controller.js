@@ -3,14 +3,31 @@ const model = require('../models/post.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
-  model.Post.findAll({}).then(
-    (posts) => {
-      res.status(200).send(posts);
-    },
-    (err) => {
-      console.log(err);
-    },
-  );
+  // find all posts by one user
+  console.log(req.query.user)
+  if (req.query.user) {
+    model.Post.findAll({
+      where: {
+        user_email: req.query.user
+      }
+    })
+      .then(posts => {
+        res.status(200).send(posts);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  } else {
+    // find all posts
+    model.Post.findAll({}).then(
+      posts => {
+        res.status(200).send(posts);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 };
 
 exports.getPost = (req, res) => {
@@ -30,11 +47,12 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  console.log(req.body);
+  console.log(req.body.user_email);
   const title = req.body.post.title;
   const body = req.body.post.body;
   const image = req.body.post.image;
   const subreddit = req.body.post.subreddit;
+  const user_email = req.body.post.user_email;
   model.Post.sync()
     .then(() =>
       model.Post.create({
@@ -48,6 +66,7 @@ exports.createPost = (req, res) => {
         image,
         postType: 0,
         user_id: req.body.user_id,
+        user_email,
         subreddit,
       }))
     .then((post) => {

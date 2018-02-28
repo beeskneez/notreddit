@@ -59,6 +59,7 @@ const Post = db.define('post', {
   // 0 is post, 1 is comment
   id_parent: Sequelize.UUID,
   id_user: Sequelize.UUID,
+  user_email: Sequelize.STRING,
   subreddit: Sequelize.STRING,
   // id_sudreddit: Sequelize.UUID
 });

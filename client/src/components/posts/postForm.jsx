@@ -13,29 +13,38 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
+componentDidMount() {
+  console.log(this.props.authUser);
+}
+
   addNewPost() {
-    axios
-      .post('/post', { post: this.state })
-      .then(res => {
-        this.props.createPost(res.data);
-        axios
-          .get('/posts')
-          .then(res => {
-            this.props.updatePosts(res.data);
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (this.props.authUser) {
+      this.state.user_email = this.props.authUser;
+      axios
+        .post('/post', { post: this.state })
+        .then((res) => {
+          this.props.createPost(res.data);
+          axios
+            .get('/posts')
+            .then((res) => {
+              this.props.updatePosts(res.data);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      console.log('not logged in');
+    }
   }
 
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -77,9 +86,14 @@ class PostForm extends Component {
             <div>
               <SubredditList onChange={e => this.onChange(e)} />
             </div>
-            <Link className="ui submit button" onClick={this.addNewPost} to="/">
-              Submit
-            </Link>
+            {this.props.authUser ? (
+              <Link className="ui submit button" onClick={this.addNewPost} to="/">
+                {' '}
+                Submit{' '}
+              </Link>
+            ) : (
+              'Must be logged in to submit!'
+            )}
           </div>
         </div>
       </div>
@@ -90,7 +104,8 @@ class PostForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    post: state.post
+    post: state.post,
+    authUser: state.authUser,
   };
 }
 
