@@ -7,11 +7,6 @@ import { Link } from 'react-router-dom';
 import { signedIn, updateUser } from '../../actions/index.jsx';
 
 class Signup extends Component {
-  constructor() {
-    super();
-    this.signup = this.signup.bind(this);
-  }
-
   componentWillMount() {
     auth().onAuthStateChanged((user) => {
       if (user) {
@@ -35,6 +30,7 @@ class Signup extends Component {
           .then((res) => {
             this.props.updateUser(res.data.username);
             console.log('success sign up', res);
+            this.props.history.push('/');
           })
           .catch(err => console.log(err));
       })
@@ -62,9 +58,9 @@ class Signup extends Component {
                   <input id="password" placeholder="enter new password" type="text" />
                 </div>
               </div>
-              <Link onClick={this.signup} className="ui submit button" to="/">
+              <a onClick={() => this.signup()} className="ui submit button">
                 Submit
-              </Link>
+              </a>
             </div>
           </div>
         </div>
