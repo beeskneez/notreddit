@@ -7,11 +7,6 @@ import { Link } from 'react-router-dom';
 import { signedIn, updateUser } from '../../actions/index.jsx';
 
 class Signup extends Component {
-  constructor() {
-    super();
-    this.signup = this.signup.bind(this);
-  }
-
   componentWillMount() {
     auth().onAuthStateChanged((user) => {
       if (user) {

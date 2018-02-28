@@ -10,7 +10,7 @@ class PostList extends Component {
   componentWillMount() {
     auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('User logged in, ', user.email);
+        console.log('User logged in: ', user.email);
       } else {
         console.log('User not logged in');
       }
@@ -44,6 +44,7 @@ class PostList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    user: state.user,
   };
 }
 
