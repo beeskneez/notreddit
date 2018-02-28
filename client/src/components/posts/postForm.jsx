@@ -14,6 +14,7 @@ class PostForm extends Component {
   }
 
   addNewPost() {
+<<<<<<< HEAD
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       axios
@@ -35,17 +36,41 @@ class PostForm extends Component {
     } else {
       console.log('not logged in');
     }
+=======
+    axios
+      .post('/post', { post: this.state })
+      .then((res) => {
+        this.props.createPost(res.data);
+        axios
+          .get('/posts')
+          .then((res) => {
+            this.props.updatePosts(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+>>>>>>> (feat) working on store passing props
   }
 
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
   render() {
+<<<<<<< HEAD
     return <div className="outer">
+=======
+    console.log('our props', this.props.authUser);
+    return (
+      <div className="outer">
+>>>>>>> (feat) working on store passing props
         <div className="middle">
           <div className="inner">
             <div className="ui huge form">
@@ -78,7 +103,11 @@ class PostForm extends Component {
 function mapStateToProps(state) {
   return {
     post: state.post,
+<<<<<<< HEAD
     authUser: state.authUser
+=======
+    authUser: state.authUser,
+>>>>>>> (feat) working on store passing props
   };
 }
 
