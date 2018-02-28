@@ -7,11 +7,6 @@ import { bindActionCreators } from 'redux';
 import { updateAuthUser, updateUser } from './../../actions/index.jsx';
 
 class Login extends Component {
-  constructor() {
-    super();
-    this.login = this.login.bind(this);
-  }
-
   login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -22,7 +17,6 @@ class Login extends Component {
         axios
           .post('/login', { email: user.email })
           .then((res) => {
-            console.log('Our DB response: ', res.data);
             this.props.updateUser(res.data.username);
             this.props.history.push('/');
           })
