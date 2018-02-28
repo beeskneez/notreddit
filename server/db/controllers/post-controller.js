@@ -3,14 +3,31 @@ const model = require('../models/post.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
-  model.Post.findAll({}).then(
-    (posts) => {
-      res.status(200).send(posts);
-    },
-    (err) => {
-      console.log(err);
-    },
-  );
+  // find all posts by one user
+  console.log(req.query.user)
+  if (req.query.user) {
+    model.Post.findAll({
+      where: {
+        user_email: req.query.user
+      }
+    })
+      .then(posts => {
+        res.status(200).send(posts);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  } else {
+    // find all posts
+    model.Post.findAll({}).then(
+      posts => {
+        res.status(200).send(posts);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 };
 
 exports.getPost = (req, res) => {
