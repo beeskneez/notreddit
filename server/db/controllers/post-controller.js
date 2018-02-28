@@ -4,28 +4,28 @@ const model = require('../models/post.js');
 // Post Controllers
 exports.getAllPosts = (req, res) => {
   // find all posts by one user
-  console.log(req.query.user)
+  console.log(req.query.user);
   if (req.query.user) {
     model.Post.findAll({
       where: {
-        user_email: req.query.user
-      }
+        user_email: req.query.user,
+      },
     })
-      .then(posts => {
+      .then((posts) => {
         res.status(200).send(posts);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   } else {
     // find all posts
     model.Post.findAll({}).then(
-      posts => {
+      (posts) => {
         res.status(200).send(posts);
       },
-      err => {
+      (err) => {
         console.log(err);
-      }
+      },
     );
   }
 };
@@ -53,6 +53,8 @@ exports.createPost = (req, res) => {
   const image = req.body.post.image;
   const subreddit = req.body.post.subreddit;
   const user_email = req.body.post.user_email;
+  const username = req.body.post.username;
+
   model.Post.sync()
     .then(() =>
       model.Post.create({
@@ -67,6 +69,7 @@ exports.createPost = (req, res) => {
         postType: 0,
         user_id: req.body.user_id,
         user_email,
+        username,
         subreddit,
       }))
     .then((post) => {

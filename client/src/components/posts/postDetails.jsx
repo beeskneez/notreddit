@@ -5,7 +5,6 @@ import { auth } from 'firebase';
 import { getPost } from './../../actions/index.jsx';
 
 class PostDetails extends Component {
-  // componentDidMount() {}
 
   render() {
     return (
