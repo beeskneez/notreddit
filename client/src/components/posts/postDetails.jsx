@@ -5,7 +5,6 @@ import { auth } from 'firebase';
 import { getPost } from './../../actions/index.jsx';
 
 class PostDetails extends Component {
-
   render() {
     return (
       <div className="twelve wide column inner">
@@ -15,8 +14,7 @@ class PostDetails extends Component {
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.gPost.username}</a> to{' '}
-          <a>/mildyinteresting</a>
+          submitted 3 hours ago by <a>{this.props.gPost.username}</a> to <a>/mildyinteresting</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
@@ -39,7 +37,7 @@ class PostDetails extends Component {
 
 function mapStateToProps(state) {
   return {
-    gPost: state.gPost
+    gPost: state.gPost,
   };
 }
 
