@@ -22,8 +22,8 @@ const Post = db.define('post', {
   downvoteCache: Sequelize.INTEGER,
   postType: Sequelize.INTEGER,
   // 0 is post, 1 is comment
-  id_parent: Sequelize.UUID,
-  id_user: Sequelize.UUID,
+  id_parent: Sequelize.INTEGER,
+  id_user: Sequelize.INTEGER,
   user_email: Sequelize.STRING,
   username: Sequelize.STRING,
   subreddit: Sequelize.STRING,

@@ -21,6 +21,7 @@ class CommentForm extends Component {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.postId = this.props.gPost.id;
+      this.state.username = this.props.user;
       // this.state.post = this.props.selectedPost;
       axios
         .post('/comment', { post: this.state })
@@ -71,6 +72,7 @@ function mapStateToProps(state) {
     comment: state.comment,
     authUser: state.authUser,
     gPost: state.gPost,
+    user: state.user,
     // selectedSubreddit: state.selectedSubreddit,
     // user: state.user,
   };
