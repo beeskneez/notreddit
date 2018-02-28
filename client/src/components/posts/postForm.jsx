@@ -16,18 +16,18 @@ class PostForm extends Component {
   addNewPost() {
     axios
       .post('/post', { post: this.state })
-      .then(res => {
+      .then((res) => {
         this.props.createPost(res.data);
         axios
           .get('/posts')
-          .then(res => {
+          .then((res) => {
             this.props.updatePosts(res.data);
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(err);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -35,11 +35,12 @@ class PostForm extends Component {
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
   render() {
+    console.log('our props', this.props.authUser);
     return (
       <div className="outer">
         <div className="middle">
@@ -90,7 +91,8 @@ class PostForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    post: state.post
+    post: state.post,
+    authUser: state.authUser,
   };
 }
 
