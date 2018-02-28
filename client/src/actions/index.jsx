@@ -32,3 +32,17 @@ export function signedIn(boolean) {
     payload: boolean,
   };
 }
+
+export function createSubreddit(subreddits) {
+  return {
+    type: 'ADD_SUBREDDITS',
+    payload: subreddits,
+  };
+}
+
+export function getSubreddits(subreddits) {
+  return {
+    type: 'GET_SUBREDDITS',
+    payload: subreddits,
+  };
+}
