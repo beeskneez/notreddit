@@ -63,11 +63,7 @@ class Nav extends Component {
               Account
             </Link>
           ) : null}
-<<<<<<< HEAD
           <Link id="logout" className="item hide" to="/login" onClick={() => this.signOut()}>
-=======
-          <Link id="logout" className="item hide" to="/login" onClick={this.signOut}>
->>>>>>> Saving stuff
             Logout
           </Link>
         </div>
