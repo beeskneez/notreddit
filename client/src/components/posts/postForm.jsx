@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { createPost, updatePosts } from './../../actions/index.jsx';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
@@ -13,13 +13,10 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
-componentDidMount() {
-  console.log(this.props.authUser);
-}
-
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
+      this.state.subreddit = this.props.selectedSubreddit;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
@@ -27,6 +24,7 @@ componentDidMount() {
           axios
             .get('/posts')
             .then((res) => {
+              console.log(res.data);
               this.props.updatePosts(res.data);
             })
             .catch((err) => {
@@ -53,7 +51,7 @@ componentDidMount() {
       <div className="outer">
         <div className="middle">
           <div className="inner">
-            <div className="ui huge form">
+            <div className="ui big form">
               <h2>Create New Post</h2>
               <div className="field">
                 <label>title</label>
@@ -82,18 +80,21 @@ componentDidMount() {
                   onChange={e => this.onChange(e)}
                 />
               </div>
+              <div className="field">
+                <label>subreddit</label>
+                <SubredditList />
+              </div>
+              <div className="field">
+                {this.props.authUser ? (
+                  <Link className="ui submit button" onClick={this.addNewPost} to="/">
+                    {' '}
+                    Submit{' '}
+                  </Link>
+                ) : (
+                  'Must be logged in to submit!'
+                )}
+              </div>
             </div>
-            <div>
-              <SubredditList onChange={e => this.onChange(e)} />
-            </div>
-            {this.props.authUser ? (
-              <Link className="ui submit button" onClick={this.addNewPost} to="/">
-                {' '}
-                Submit{' '}
-              </Link>
-            ) : (
-              'Must be logged in to submit!'
-            )}
           </div>
         </div>
       </div>
@@ -106,6 +107,8 @@ function mapStateToProps(state) {
   return {
     post: state.post,
     authUser: state.authUser,
+    selectedSubreddit: state.selectedSubreddit,
+    // user: state.user,
   };
 }
 

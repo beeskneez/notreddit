@@ -15,12 +15,13 @@ class PostListEntry extends Component {
       downvotes: 0
     };
     this.goToDetails = this.goToDetails.bind(this);
+    this.goToSubreddit = this.goToSubreddit.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     this.setState({
       upvotes: this.props.post.upvoteCache,
       downvotes: this.props.post.downvoteCache
@@ -37,6 +38,10 @@ class PostListEntry extends Component {
 
   goToDetails() {
     this.props.getPost(this.props.post);
+  }
+
+  goToSubreddit(e){
+    console.log('yasss', e.target.value);
   }
 
   upvote() {
@@ -78,7 +83,7 @@ class PostListEntry extends Component {
         </Link>
         <div className="meta">
           submitted 3 hours ago by <a>{'TODO: username here'}</a> to{' '}
-          <a>{'/' + this.props.post.subreddit}</a>
+          <a onClick={(e) => this.goToSubreddit()}>{'/' + this.props.post.subreddit}</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
@@ -109,4 +114,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostListEntry);
-// export default PostListEntry;
