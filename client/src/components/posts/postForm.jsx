@@ -13,10 +13,15 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props.user);
+  }
+
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.subreddit = this.props.selectedSubreddit;
+      this.state.username = this.props.user;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
@@ -108,7 +113,7 @@ function mapStateToProps(state) {
     post: state.post,
     authUser: state.authUser,
     selectedSubreddit: state.selectedSubreddit,
-    // user: state.user,
+    user: state.user,
   };
 }
 
