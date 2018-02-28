@@ -1,8 +1,8 @@
 module.exports.config = {
-  apiKey: 'AIzaSyB57SlUCeULlGzpE45ElzQLe98jbcxalwQ',
-  authDomain: 'my-super-just-ok-project.firebaseapp.com',
-  databaseURL: 'https://my-super-just-ok-project.firebaseio.com',
-  projectId: 'my-super-just-ok-project',
-  storageBucket: 'my-super-just-ok-project.appspot.com',
-  messagingSenderId: '664145760699'
+  apiKey: APIKEY_HERE,
+  authDomain: 'notreddit-7c5ac.firebaseapp.com',
+  databaseURL: 'https://notreddit-7c5ac.firebaseio.com',
+  projectId: 'notreddit-7c5ac',
+  storageBucket: 'notreddit-7c5ac.appspot.com',
+  messagingSenderId: '825745517613',
 };
