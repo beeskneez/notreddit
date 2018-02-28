@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ signedIn, updateUser }, dispatch);
+  return bindActionCreators({ updateUser, signedIn }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

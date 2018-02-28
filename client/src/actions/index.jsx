@@ -53,3 +53,10 @@ export function updateUser(user) {
     payload: user,
   };
 }
+
+export function selectSubreddit(subreddit) {
+  return {
+    type: 'SELECTED_SUBREDDIT',
+    payload: subreddit,
+  };
+}
