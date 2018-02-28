@@ -13,6 +13,10 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
+componentDidMount() {
+  console.log(this.props.authUser);
+}
+
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
