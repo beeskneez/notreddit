@@ -76,16 +76,7 @@ class PostListEntry extends Component {
           {this.props.post.title}
         </Link>
         <div className="meta">
-<<<<<<< HEAD
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to <a>/midlyinteresting</a>
-=======
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to{' '}
-<<<<<<< HEAD
-          <a>/midlyinteresting</a>
-=======
-          <a>{ '/' + this.props.post.subreddit}</a>
->>>>>>> [feat] Subreddit dropdown stylized and homepage rendering subreddits dynamically
->>>>>>> Staging changes
+          submitted 3 hours ago by <a>{this.props.post.username}</a> to <a>{'/' + this.props.post.subreddit}</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">

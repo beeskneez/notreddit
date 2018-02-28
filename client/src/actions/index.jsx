@@ -33,6 +33,13 @@ export function signedIn(boolean) {
   };
 }
 
+export function createSubreddit(subreddits) {
+  return {
+    type: 'ADD_SUBREDDITS',
+    payload: subreddits,
+  };
+}
+
 export function getSubreddits(subreddits) {
   return {
     type: 'GET_SUBREDDITS',
