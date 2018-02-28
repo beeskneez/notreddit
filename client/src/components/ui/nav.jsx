@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
@@ -21,6 +22,12 @@ class Nav extends Component {
     auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.updateAuthUser(user.email);
+        axios
+          .post('/login', { email: user.email })
+          .then((res) => {
+            this.props.updateUser(res.data.username);
+          })
+          .catch(err => console.log('err in login axios', err));
         document.getElementById('logout').classList.remove('hide');
       } else {
         document.getElementById('logout').classList.add('hide');
