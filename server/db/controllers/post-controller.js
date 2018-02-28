@@ -30,11 +30,12 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  console.log(req.body);
+  console.log(req.body.user_email);
   const title = req.body.post.title;
   const body = req.body.post.body;
   const image = req.body.post.image;
   const subreddit = req.body.post.subreddit;
+  const user_email = req.body.post.user_email;
   model.Post.sync()
     .then(() =>
       model.Post.create({
@@ -48,6 +49,7 @@ exports.createPost = (req, res) => {
         image,
         postType: 0,
         user_id: req.body.user_id,
+        user_email,
         subreddit,
       }))
     .then((post) => {

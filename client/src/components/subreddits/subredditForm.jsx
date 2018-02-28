@@ -12,6 +12,10 @@ class SubredditForm extends Component {
     this.addNewSubreddit = this.addNewSubreddit.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   onChange(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -30,14 +34,6 @@ class SubredditForm extends Component {
         console.error(err);
       });
   }
-
-  // onChange(e) {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
 
   render() {
     return (
@@ -65,9 +61,11 @@ class SubredditForm extends Component {
                 />
               </div>
             </div>
-            <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
-              Submit
-            </Link>
+            { this.props.authUser 
+                ? <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
+                  Submit </Link> 
+                : 'Must be logged in to submit!' }
+
           </div>
         </div>
       </div>
@@ -78,6 +76,7 @@ class SubredditForm extends Component {
 function mapStateToProps(state) {
   return {
     subreddit: state.subreddit,
+    authUser: state.authUser
   };
 }
 
