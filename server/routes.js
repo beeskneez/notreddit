@@ -11,7 +11,11 @@ const subredditController = require('./db/controllers/subreddit-controller.js');
 // router.route('/all').delete(postController.deleteAllPosts);
 // router.route('/post').get(postController.getPost);
 router.route('/post').post(postController.createPost);
+<<<<<<< HEAD
 router.route('/post/:id').get(postController.getPost);
+=======
+router.route('/comment').post(postController.createComment);
+>>>>>>> [feat] Comment input being passed to server
 router.route('/upvote/:id').put(postController.updatePostWithUpvote);
 router.route('/downvote/:id').put(postController.updatePostWithDownvote);
 

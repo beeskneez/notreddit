@@ -1,8 +1,8 @@
 module.exports.config = {
-  apiKey: 'AIzaSyD3DAV6T_kpBgdxaAeMJJtBdMvbOrfSvJs',
-  authDomain: 'notreddit-7c5ac.firebaseapp.com',
-  databaseURL: 'https://notreddit-7c5ac.firebaseio.com',
-  projectId: 'notreddit-7c5ac',
-  storageBucket: 'notreddit-7c5ac.appspot.com',
-  messagingSenderId: '825745517613',
+  apiKey: 'AIzaSyBkGC597pGUGjd49JU3U8gXlZvdkIuKCV8',
+  authDomain: 'not-reddit-74bce.firebaseapp.com',
+  databaseURL: 'https://not-reddit-74bce.firebaseio.com',
+  projectId: 'not-reddit-74bce',
+  storageBucket: 'not-reddit-74bce.appspot.com',
+  messagingSenderId: '294815729430',
 };

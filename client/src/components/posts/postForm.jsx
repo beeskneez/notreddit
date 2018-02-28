@@ -15,19 +15,8 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
-<<<<<<< HEAD
   componentDidMount() {
     console.log(this.props.user);
-  }
-
->>>>>>> Saving stuff
-  addNewPost() {
-=======
->>>>>>> Saving stuff
-<<<<<<< HEAD
-=======
-  componentDidMount() {
-    console.log(this.props.authUser);
   }
 
 >>>>>>> Saving stuff
@@ -125,23 +114,8 @@ function mapStateToProps(state) {
   return {
     post: state.post,
     authUser: state.authUser,
-<<<<<<< HEAD
-<<<<<<< HEAD
     selectedSubreddit: state.selectedSubreddit,
-<<<<<<< HEAD
     user: state.user,
-=======
-    // user: state.user,
-=======
-=======
->>>>>>> [feat] Adding comments to post details page
->>>>>>> Accepting changes from master
-<<<<<<< HEAD
->>>>>>> Accepting changes from master
-=======
-=======
->>>>>>> Saving stuff
->>>>>>> Saving stuff
   };
 }
 

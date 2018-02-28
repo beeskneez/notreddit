@@ -118,18 +118,24 @@ exports.deleteAllPosts = (req, res) => {
 // Comment Controllers
 
 exports.createComment = (req, res) => {
-  const body = req.body.body;
-  model.Post.sync()
-    .then(() =>
-      model.Post.create({
-        id: null,
-        body,
-        likeCache: 0,
-        commentCache: 0,
-        postType: 1,
-        // id_parent: need to implement on event register
-      }))
-    .then((comment) => {
-      res.status(200).send(comment);
-    });
+  console.log(req.body);
+  // const body = req.body.body;
+  // model.Post.sync()
+  //   .then(() =>
+  //     model.Post.create({
+  //       id: null,
+  //       body,
+  //       likeCache: 0,
+  //       commentCache: 0,
+  //       upvoteCache: 0,
+  //       downvoteCache: 0,
+  //       postType: 1,
+  //       user_email,
+  //       username,
+  //       subreddit,
+  //       // id_parent: need to implement on event register
+  //     }))
+  //   .then((comment) => {
+  //     res.status(200).send(comment);
+  //   });
 };
