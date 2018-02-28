@@ -13,7 +13,7 @@ const subredditController = require('./db/controllers/subreddit-controller.js');
 router.route('/post').post(postController.createPost);
 // router.route('/post').delete(postController.deletePost);
 
-// router.route('/login');
+router.route('/login').post(userController.findUserAlt);
 router.route('/signup').post(userController.createUser);
 // router.route('/subreddit');
 
