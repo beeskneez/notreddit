@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateAuthUser } from './../../actions/index.jsx';
+import { updateAuthUser, updateUser } from './../../actions/index.jsx';
 
 class Nav extends Component {
   constructor() {
@@ -13,13 +14,20 @@ class Nav extends Component {
 
   signOut() {
     this.props.updateAuthUser(null);
+    this.props.updateUser(null);
     auth().signOut();
   }
 
   componentWillMount() {
-    auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.updateAuthUser(user.email);
+        axios
+          .post('/login', { email: user.email })
+          .then((res) => {
+            this.props.updateUser(res.data.username);
+          })
+          .catch(err => console.log('err in login axios', err));
         document.getElementById('logout').classList.remove('hide');
       } else {
         document.getElementById('logout').classList.add('hide');
@@ -38,7 +46,7 @@ class Nav extends Component {
             />{' '}
             NotReddit
           </a>
-          <a className="item">{this.props.authUser || 'not logged in'}</a>
+          <a className="item">{this.props.user || 'not logged in'}</a>
           <span className="empty-space" />
           <Link className="item" to="/">
             Main
@@ -55,12 +63,7 @@ class Nav extends Component {
           <Link className="item" to="/signup">
             Signup
           </Link>
-          <Link
-            id="logout"
-            className="item hide"
-            to="/login"
-            onClick={this.signOut}
-          >
+          <Link id="logout" className="item hide" to="/login" onClick={this.signOut}>
             Logout
           </Link>
         </div>
@@ -71,12 +74,13 @@ class Nav extends Component {
 
 function mapStateToProps(state) {
   return {
-    authUser: state.authUser
+    authUser: state.authUser,
+    user: state.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateAuthUser }, dispatch);
+  return bindActionCreators({ updateAuthUser, updateUser }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

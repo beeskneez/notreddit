@@ -18,18 +18,18 @@ class PostForm extends Component {
       this.state.user_email = this.props.authUser;
       axios
         .post('/post', { post: this.state })
-        .then(res => {
+        .then((res) => {
           this.props.createPost(res.data);
           axios
             .get('/posts')
-            .then(res => {
+            .then((res) => {
               this.props.updatePosts(res.data);
             })
-            .catch(err => {
+            .catch((err) => {
               console.error(err);
             });
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     } else {
@@ -40,37 +40,60 @@ class PostForm extends Component {
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
   render() {
-    return <div className="outer">
+    return (
+      <div className="outer">
         <div className="middle">
           <div className="inner">
             <div className="ui huge form">
               <h2>Create New Post</h2>
               <div className="field">
                 <label>title</label>
-                <input name="title" placeholder="enter post title" type="text" onChange={e => this.onChange(e)} />
+                <input
+                  name="title"
+                  placeholder="enter post title"
+                  type="text"
+                  onChange={e => this.onChange(e)}
+                />
               </div>
               <div className="field">
                 <label>body</label>
-                <textarea name="body" placeholder="enter post body" type="text" onChange={e => this.onChange(e)} />
+                <textarea
+                  name="body"
+                  placeholder="enter post body"
+                  type="text"
+                  onChange={e => this.onChange(e)}
+                />
               </div>
               <div className="field">
                 <label>image URL</label>
-                <input name="image" placeholder="enter image URL" type="text" onChange={e => this.onChange(e)} />
+                <input
+                  name="image"
+                  placeholder="enter image URL"
+                  type="text"
+                  onChange={e => this.onChange(e)}
+                />
               </div>
             </div>
             <div>
               <SubredditList onChange={e => this.onChange(e)} />
             </div>
-            {this.props.authUser 
-              ? <Link className="ui submit button" onClick={this.addNewPost} to="/"> Submit </Link> : 'Must be logged in to submit!'}
+            {this.props.authUser ? (
+              <Link className="ui submit button" onClick={this.addNewPost} to="/">
+                {' '}
+                Submit{' '}
+              </Link>
+            ) : (
+              'Must be logged in to submit!'
+            )}
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
 }
 // }
@@ -78,7 +101,7 @@ class PostForm extends Component {
 function mapStateToProps(state) {
   return {
     post: state.post,
-    authUser: state.authUser
+    authUser: state.authUser,
   };
 }
 

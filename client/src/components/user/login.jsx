@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateAuthUser } from './../../actions/index.jsx';
+import { updateAuthUser, updateUser } from './../../actions/index.jsx';
 
 class Login extends Component {
   constructor() {
     super();
     this.login = this.login.bind(this);
   }
-
-  // componentDidMount() {}
 
   login() {
     const email = document.getElementById('email').value;
@@ -20,7 +19,14 @@ class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.props.updateAuthUser(user.email);
-        this.props.history.push('/');
+        axios
+          .post('/login', { email: user.email })
+          .then((res) => {
+            console.log('Our DB response: ', res.data);
+            this.props.updateUser(res.data.username);
+            this.props.history.push('/');
+          })
+          .catch(err => console.log('err in login axios', err));
       })
       .catch(e => console.error(e.message));
   }
@@ -61,11 +67,12 @@ class Login extends Component {
 function mapStateToProps(state) {
   return {
     authUser: state.authUser,
+    user: state.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateAuthUser }, dispatch);
+  return bindActionCreators({ updateAuthUser, updateUser }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
