@@ -3,6 +3,7 @@ import { ReducerPosts, ReducerCreatePost, ReducerGetPost } from './postReducer.j
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
 import { ReducerCreateSubreddit } from './subredditReducer.jsx';
+import { ReducerUser } from './userReducer.jsx';
 
 const allReducers = combineReducers({
   posts: ReducerPosts,
@@ -11,6 +12,7 @@ const allReducers = combineReducers({
   authUser: ReducerUpdateAuthUser,
   active: ReducerSignIn,
   subreddit: ReducerCreateSubreddit,
+  user: ReducerUser,
 });
 
 export default allReducers;

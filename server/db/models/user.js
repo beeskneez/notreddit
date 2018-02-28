@@ -2,27 +2,28 @@ const Sequelize = require('sequelize');
 const db = require('../db.js');
 const Post = require('./post.js');
 
-
-
 let User;
 
-const defineUser = () => {
-  return new Promise((resolve, reject) => {
+const defineUser = () =>
+  new Promise((resolve, reject) => {
     User = db.define('user', {
-      id: { 
-        type: Sequelize.INTEGER, 
-        primaryKey: true, 
-        autoIncrement: true 
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
       username: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+      },
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
       },
       postVoteCache: Sequelize.INTEGER,
-      commentVoteCache: Sequelize.INTEGER
+      commentVoteCache: Sequelize.INTEGER,
     });
   });
-}
 
 defineUser()
   .then(() => {
@@ -30,10 +31,10 @@ defineUser()
   })
   .catch(() => {
     console.log('error creating user');
-  })
+  });
 
 module.exports = {
-  User: User
+  User,
 };
 
 // User.hasMany(Post);

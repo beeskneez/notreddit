@@ -14,7 +14,7 @@ router.route('/post').post(postController.createPost);
 // router.route('/post').delete(postController.deletePost);
 
 // router.route('/login');
-// router.route('/signup');
+router.route('/signup').post(userController.createUser);
 // router.route('/subreddit');
 
 // New route created below
