@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateAuthUser } from './../../actions/index.jsx';
+import { updateAuthUser, updateUser } from './../../actions/index.jsx';
 
 class Login extends Component {
   constructor() {
@@ -61,11 +61,12 @@ class Login extends Component {
 function mapStateToProps(state) {
   return {
     authUser: state.authUser,
+    user: state.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateAuthUser }, dispatch);
+  return bindActionCreators({ updateAuthUser, updateUser }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
