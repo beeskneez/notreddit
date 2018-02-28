@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
@@ -11,8 +12,6 @@ class Login extends Component {
     this.login = this.login.bind(this);
   }
 
-  // componentDidMount() {}
-
   login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -20,7 +19,14 @@ class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.props.updateAuthUser(user.email);
-        this.props.history.push('/');
+        axios
+          .post('/login', { email: user.email })
+          .then((res) => {
+            console.log('Our DB response: ', res.data);
+            this.props.updateUser(res.data.username);
+            this.props.history.push('/');
+          })
+          .catch(err => console.log('err in login axios', err));
       })
       .catch(e => console.error(e.message));
   }
