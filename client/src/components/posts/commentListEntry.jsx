@@ -79,6 +79,7 @@ class CommentListEntry extends Component {
             <div className="actions">
               <a className="reply">Reply</a>
               <a className="hideit">Hide</a>
+              <a className="delete comment">Delete</a>
             </div>
             <ul className="ui big horizontal list voters">
               <li className="item">
