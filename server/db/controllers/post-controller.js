@@ -3,72 +3,87 @@ const model = require('../models/post.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
-  // find all posts by one user
-  // console.log(req.query.user);
-  if (req.query.user) {
+  if (req.params.id) {
     model.Post.findAll({
       where: {
-        user_email: req.query.user,
-        postType: 0
-      }
+        id_parent: req.params.id,
+        postType: 1,
+      },
     })
-      .then(posts => {
+      .then((posts) => {
         res.status(200).send(posts);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
 
-    // find all posts from subreddit
+    //   // find all posts from subreddit
   } else if (req.query.subredditName) {
     model.Post.findAll({
       where: {
-        subreddit: req.query.subredditName
-      }
+        subreddit: req.query.subredditName,
+      },
     })
-      .then(posts => {
+      .then((posts) => {
         res.status(200).send(posts);
       })
-      .catch(err => {
+      .catch((err) => {
+        console.error(err);
+      });
+  } else if (req.query.user) {
+    // find all posts by one user
+    // console.log(req.query.user);
+    model.Post.findAll({
+      where: {
+        user_email: req.query.user,
+        postType: 0,
+      },
+    })
+      .then((posts) => {
+        res.status(200).send(posts);
+      })
+      .catch((err) => {
         console.error(err);
       });
   } else {
+    console.log(req.body);
     // find all posts
     model.Post.findAll({
       where: {
-        postType: 0
-      }
+        postType: 0,
+      },
     }).then(
-      posts => {
+      (posts) => {
         res.status(200).send(posts);
       },
-      err => {
+      (err) => {
         console.log(err);
-      }
+      },
     );
   }
 };
 
 exports.getPost = (req, res) => {
   const id = req.params.id;
-  console.log('!!!!!', id);
   model.Post.findOne({
     where: {
-      id
-    }
+      id,
+    },
   }).then(
-    post => {
+    (post) => {
       res.status(200).send(post);
     },
-    err => {
+    (err) => {
       console.log(err);
-    }
+    },
   );
 };
 
 exports.createPost = (req, res) => {
-  const {title, body, image, subreddit, user_email, username, parentId} = req.body.post;
-
+  // console.log(req.body.post);
+  const {
+    title, body, image, subreddit, user_email, username, parentId,
+  } = req.body.post;
   if (parentId) {
     model.Post.sync()
       .then(() =>
@@ -82,11 +97,10 @@ exports.createPost = (req, res) => {
           // user_id: req.body.user_id,
           id_parent: parentId,
           user_email,
-          username
+          username,
           // subreddit,
-        })
-      )
-      .then(post => {
+        }))
+      .then((post) => {
         console.log(post);
         res.status(200).send(post);
       });
@@ -106,10 +120,9 @@ exports.createPost = (req, res) => {
           user_id: req.body.user_id,
           user_email,
           username,
-          subreddit
-        })
-      )
-      .then(post => {
+          subreddit,
+        }))
+      .then((post) => {
         console.log(post);
         res.status(200).send(post);
       });
@@ -120,7 +133,7 @@ exports.updatePostWithUpvote = (req, res) => {
   console.log(req);
   model.Post.findById(req.params.id)
     .then(post => post.increment('upvoteCache', { by: 1 }))
-    .then(post => {
+    .then((post) => {
       res.status(200).send(post);
     });
 };
@@ -128,7 +141,7 @@ exports.updatePostWithUpvote = (req, res) => {
 exports.updatePostWithDownvote = (req, res) => {
   model.Post.findById(req.params.id)
     .then(post => post.increment('downvoteCache', { by: 1 }))
-    .then(post => {
+    .then((post) => {
       res.status(200).send(post);
     });
 };
@@ -140,14 +153,14 @@ exports.updateOne = (req, res) => {
 exports.deletePost = (req, res) => {
   model.Post.destroy({
     where: {
-      id: req.body.id
-    }
+      id: req.body.id,
+    },
   }).then(() => res.status(200).send('deleted'));
 };
 
 exports.deleteAllPosts = (req, res) => {
   model.Post.destroy({
     where: {},
-    truncate: true
+    truncate: true,
   }).then(() => res.send('deleted all posts'));
 };

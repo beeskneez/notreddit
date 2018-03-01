@@ -8,7 +8,7 @@ import PostListEntry from './postListEntry.jsx';
 
 class PostList extends Component {
   componentWillMount() {
-    auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
         console.log('User logged in: ', user.email);
       } else {
@@ -20,11 +20,10 @@ class PostList extends Component {
   componentDidMount() {
     axios
       .get('/posts')
-      .then(res => {
-        console.log(res.data);
+      .then((res) => {
         this.props.updatePosts(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -53,7 +52,7 @@ class PostList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
-    user: state.user
+    user: state.user,
   };
 }
 

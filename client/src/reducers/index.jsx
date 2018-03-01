@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
   ReducerPosts,
   ReducerCreatePost,
-  ReducerGetPost
+  ReducerGetPost,
+  ReducerComments,
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -10,7 +11,7 @@ import {
   ReducerCreateSubreddit,
   ReducerGetSubreddits,
   ReducerSelectedSubreddit,
-  ReducerGetPostsFromSubreddit
+  ReducerGetPostsFromSubreddit,
 } from './subredditReducer.jsx';
 import { ReducerUser } from './userReducer.jsx';
 
@@ -24,7 +25,8 @@ const allReducers = combineReducers({
   subreddits: ReducerGetSubreddits,
   selectedSubreddit: ReducerSelectedSubreddit,
   postsFromSubreddit: ReducerGetPostsFromSubreddit,
-  user: ReducerUser
+  user: ReducerUser,
+  comments: ReducerComments,
 });
 
 export default allReducers;
