@@ -14,7 +14,7 @@ class Search extends Component {
               <div className="two fields">
                 <div className="field">
                   <label>Search post titles:</label>
-                  <input id="email" placeholder="enter login email" type="text" />
+                  <input id="email" placeholder="Your search here" type="text" />
                 </div>
               </div>
               <div onClick={() => console.log('clicked')} className="ui submit button">
