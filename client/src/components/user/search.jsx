@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 class Search extends Component {
   search(e) {
     const query = document.getElementById('query').value;
-    console.log('querys', query);
     axios
       .post('/search', { search: query })
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
       })
       .catch((err) => {
         console.error(err);
