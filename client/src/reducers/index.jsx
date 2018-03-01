@@ -2,7 +2,12 @@ import { combineReducers } from 'redux';
 import {
   ReducerPosts,
   ReducerCreatePost,
+<<<<<<< HEAD
   ReducerGetPost
+=======
+  ReducerGetPost,
+  ReducerComments,
+>>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -10,7 +15,10 @@ import {
   ReducerCreateSubreddit,
   ReducerGetSubreddits,
   ReducerSelectedSubreddit,
+<<<<<<< HEAD
   ReducerGetPostsFromSubreddit
+=======
+>>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
 } from './subredditReducer.jsx';
 import { ReducerUser } from './userReducer.jsx';
 
@@ -23,8 +31,13 @@ const allReducers = combineReducers({
   subreddit: ReducerCreateSubreddit,
   subreddits: ReducerGetSubreddits,
   selectedSubreddit: ReducerSelectedSubreddit,
+<<<<<<< HEAD
   postsFromSubreddit: ReducerGetPostsFromSubreddit,
   user: ReducerUser
+=======
+  user: ReducerUser,
+  comments: ReducerComments,
+>>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
 });
 
 export default allReducers;

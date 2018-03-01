@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
-import { getPost, updatePosts } from './../../actions/index.jsx';
+import { getPost, updateComments } from './../../actions/index.jsx';
 // import PostListEntry from './postListEntry.jsx';
 
 class CommentList extends Component {
@@ -18,23 +18,22 @@ class CommentList extends Component {
   // }
 
   componentDidMount() {
-    // console.log('whaddup');
     const parentId = this.props.gPost.id;
-    console.log('pid', parentId);
-    axios.get(`/comments/${parentId}`).then((res) => {
-      console.log(res.data);
-    });
-    // .catch((err) => {
-    //   console.error(err);
-    // });
-    console.log('HEY', this.props.gPost.id);
+    axios
+      .get(`/comments/${parentId}`)
+      .then((res) => {
+        this.props.updateComments(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   render() {
     return (
       <div>
-        Sup
-        {/* {this.props.posts.map((post, index) => <PostListEntry post={post} key={index} />).reverse()} */}
+        {this.props.comments.map((comment, index) => <div key={index}>{comment.body}</div>)}
+        {/* {this.props.comments.map((comment, index) => <PostListEntry post={post} key={index} />).reverse()} */}
       </div>
     );
   }
@@ -42,14 +41,14 @@ class CommentList extends Component {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts,
+    comments: state.comments,
     gPost: state.gPost,
     user: state.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updatePosts }, dispatch);
+  return bindActionCreators({ getPost, updateComments }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentList);

@@ -25,9 +25,11 @@ export function ReducerGetPost(state = null, action) {
   }
 }
 
-export function ReducerCreateComment(state = null, action) {
+// Comment Reducers
+
+export function ReducerComments(state = [], action) {
   switch (action.type) {
-    case 'ADD_COMMENT':
+    case 'GET_COMMENTS':
       return action.payload;
     default:
       return state;

@@ -3,6 +3,7 @@ const model = require('../models/post.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
+  // find all comments for a post
   if (req.params.id) {
     model.Post.findAll({
       where: {
@@ -53,7 +54,6 @@ exports.getAllPosts = (req, res) => {
     );
 =======
     // find all posts by one user
-    // console.log(req.query.user);
     if (req.query.user) {
       model.Post.findAll({
         where: {

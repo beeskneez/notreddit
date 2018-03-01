@@ -20,6 +20,7 @@ class PostList extends Component {
   componentDidMount() {
     axios
 <<<<<<< HEAD
+<<<<<<< HEAD
       .get('/posts')
       .then(res => {
 =======
@@ -27,6 +28,10 @@ class PostList extends Component {
       .then((res) => {
 >>>>>>> [feat] Add function & route to get comments for a post
         console.log(res.data);
+=======
+      .get('/posts')
+      .then((res) => {
+>>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
         this.props.updatePosts(res.data);
       })
       .catch(err => {

@@ -61,8 +61,9 @@ export function selectSubreddit(subreddit) {
   };
 }
 
-export function createComment(comment) {
+export function updateComments(comments) {
   return {
+<<<<<<< HEAD
     type: 'ADD_COMMENT',
     payload: comment
   };
@@ -72,5 +73,9 @@ export function getPostsFromSubreddit(posts) {
   return {
     type: 'GET_POSTS_FROM_SUBREDDIT',
     payload: posts
+=======
+    type: 'GET_COMMENTS',
+    payload: comments,
+>>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
   };
 }
