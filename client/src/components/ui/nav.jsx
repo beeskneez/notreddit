@@ -62,6 +62,9 @@ class Nav extends Component {
           <Link className="item" to="/postForm">
             Create New Post
           </Link>
+          <Link className="item" to="/search">
+            Search Posts
+          </Link>
           {this.props.authUser ? (
             <Link className="item" to="/account">
               Account
