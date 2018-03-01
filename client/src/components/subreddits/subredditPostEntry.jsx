@@ -4,42 +4,31 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-import { getPost, updateAuthUser } from './../../actions/index.jsx';
+import { getPost } from './../../actions/index.jsx';
 
-class PostListEntry extends Component {
+class SubredditPostEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalVotes: this.props.post.upvoteCache - this.props.post.downvoteCache,
+      totalVotes: this.props.subredditPost.upvoteCache - this.props.subredditPost.downvoteCache
     };
   }
 
-  componentDidMount() {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.props.updateAuthUser(user.email);
-        document.getElementById('logout').classList.remove('hide');
-      } else {
-        document.getElementById('logout').classList.add('hide');
-      }
-    });
-  }
-
   setDetails() {
-    this.props.getPost(this.props.post);
+    this.props.getPost(this.props.subredditPost);
   }
 
   upvote() {
     if (this.props.authUser) {
       axios
-        .put(`/upvote/${this.props.post.id}`)
-        .then((res) => {
+        .put(`/upvote/${this.props.subredditPost.id}`)
+        .then(res => {
           axios
-            .get(`/post/${this.props.post.id}`)
+            .get(`/post/${this.props.subredditPost.id}`)
             .then(res2 => this.setTotalVotes(res2))
             .catch(err => console.error(err));
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
@@ -48,14 +37,14 @@ class PostListEntry extends Component {
   downvote() {
     if (this.props.authUser) {
       axios
-        .put(`/downvote/${this.props.post.id}`)
-        .then((res) => {
+        .put(`/downvote/${this.props.subredditPost.id}`)
+        .then(res => {
           axios
-            .get(`/post/${this.props.post.id}`)
+            .get(`/post/${this.props.subredditPost.id}`)
             .then(res2 => this.setTotalVotes(res2))
             .catch(err => console.error(err));
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
@@ -63,24 +52,27 @@ class PostListEntry extends Component {
 
   setTotalVotes(response) {
     this.setState({
-      totalVotes: response.data.upvoteCache - response.data.downvoteCache,
+      totalVotes: response.data.upvoteCache - response.data.downvoteCache
     });
   }
 
   render() {
     return (
       <div className="twelve wide column">
-        <img className="thumbnail" src={this.props.post.image} alt="" />
+        <img
+          className="thumbnail"
+          src={this.props.subredditPost.image}
+          alt=""
+        />
         <Link
-          className="ui large header"
-          to={`/postDetails/${this.props.post.id}`}
           onClick={() => this.setDetails()}
+          to={`/postDetails/${this.props.subredditPost.id}`}
+          className="ui large header"
         >
-          {this.props.post.title}
+          {this.props.subredditPost.title}
         </Link>
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.post.username}</a> to{' '}
-          <Link to={`/subreddit/${this.props.post.subreddit}`}>{`/${this.props.post.subreddit}`}</Link>
+          submitted 3 hours ago by <a>{this.props.subredditPost.username}</a> to
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
@@ -107,7 +99,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateAuthUser }, dispatch);
+  return bindActionCreators({ getPost }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostListEntry);
+export default connect(mapStateToProps, mapDispatchToProps)(SubredditPostEntry);

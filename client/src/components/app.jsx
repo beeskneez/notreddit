@@ -9,6 +9,7 @@ import Login from './user/login.jsx';
 import Signup from './user/signup.jsx';
 import PostList from './posts/postList.jsx';
 import SubredditForm from './subreddits/subredditForm.jsx';
+import SubredditPage from './subreddits/subredditPage.jsx'
 import PostForm from './posts/postForm.jsx';
 import PostDetails from './posts/postDetails.jsx';
 import Account from './user/account.jsx';
@@ -21,6 +22,7 @@ const App = () => (
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/subredditForm" component={SubredditForm} />
+        <Route path="/subreddit" component={SubredditPage} />
         <Route path="/postForm" component={PostForm} />
         <Route path="/postDetails" component={PostDetails} />
         <Route path="/account" component={Account} />

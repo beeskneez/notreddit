@@ -9,28 +9,42 @@ exports.getAllPosts = (req, res) => {
     model.Post.findAll({
       where: {
         user_email: req.query.user,
-        postType: 0,
-      },
+        postType: 0
+      }
     })
-      .then((posts) => {
+      .then(posts => {
         res.status(200).send(posts);
       })
-      .catch((err) => {
+      .catch(err => {
+        console.error(err);
+      });
+
+    // find all posts from subreddit
+  } else if (req.query.subredditName) {
+    model.Post.findAll({
+      where: {
+        subreddit: req.query.subredditName
+      }
+    })
+      .then(posts => {
+        res.status(200).send(posts);
+      })
+      .catch(err => {
         console.error(err);
       });
   } else {
     // find all posts
     model.Post.findAll({
       where: {
-        postType: 0,
-      },
+        postType: 0
+      }
     }).then(
-      (posts) => {
+      posts => {
         res.status(200).send(posts);
       },
-      (err) => {
+      err => {
         console.log(err);
-      },
+      }
     );
   }
 };
@@ -40,27 +54,20 @@ exports.getPost = (req, res) => {
   console.log('!!!!!', id);
   model.Post.findOne({
     where: {
-      id,
-    },
+      id
+    }
   }).then(
-    (post) => {
+    post => {
       res.status(200).send(post);
     },
-    (err) => {
+    err => {
       console.log(err);
-    },
+    }
   );
 };
 
 exports.createPost = (req, res) => {
-  console.log(req.body.user_email);
-  const title = req.body.post.title;
-  const body = req.body.post.body;
-  const image = req.body.post.image;
-  const subreddit = req.body.post.subreddit;
-  const user_email = req.body.post.user_email;
-  const username = req.body.post.username;
-  const parentId = req.body.post.postId;
+  const {title, body, image, subreddit, user_email, username, parentId} = req.body.post;
 
   if (parentId) {
     model.Post.sync()
@@ -75,10 +82,11 @@ exports.createPost = (req, res) => {
           // user_id: req.body.user_id,
           id_parent: parentId,
           user_email,
-          username,
+          username
           // subreddit,
-        }))
-      .then((post) => {
+        })
+      )
+      .then(post => {
         console.log(post);
         res.status(200).send(post);
       });
@@ -98,9 +106,10 @@ exports.createPost = (req, res) => {
           user_id: req.body.user_id,
           user_email,
           username,
-          subreddit,
-        }))
-      .then((post) => {
+          subreddit
+        })
+      )
+      .then(post => {
         console.log(post);
         res.status(200).send(post);
       });
@@ -111,7 +120,7 @@ exports.updatePostWithUpvote = (req, res) => {
   console.log(req);
   model.Post.findById(req.params.id)
     .then(post => post.increment('upvoteCache', { by: 1 }))
-    .then((post) => {
+    .then(post => {
       res.status(200).send(post);
     });
 };
@@ -119,7 +128,7 @@ exports.updatePostWithUpvote = (req, res) => {
 exports.updatePostWithDownvote = (req, res) => {
   model.Post.findById(req.params.id)
     .then(post => post.increment('downvoteCache', { by: 1 }))
-    .then((post) => {
+    .then(post => {
       res.status(200).send(post);
     });
 };
@@ -131,14 +140,14 @@ exports.updateOne = (req, res) => {
 exports.deletePost = (req, res) => {
   model.Post.destroy({
     where: {
-      id: req.body.id,
-    },
+      id: req.body.id
+    }
   }).then(() => res.status(200).send('deleted'));
 };
 
 exports.deleteAllPosts = (req, res) => {
   model.Post.destroy({
     where: {},
-    truncate: true,
+    truncate: true
   }).then(() => res.send('deleted all posts'));
 };
