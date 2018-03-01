@@ -35,7 +35,7 @@ class PostList extends Component {
 
     return (
       <div className="ui grid">
-        <div class="wide column" />
+        <div className="wide column" />
         <div className="twelve wide column">
           <ul>
             {this.props.posts
@@ -43,7 +43,7 @@ class PostList extends Component {
               .reverse()}
           </ul>
         </div>
-        <div class="wide column" />
+        <div className="wide column" />
       </div>
     );
   }

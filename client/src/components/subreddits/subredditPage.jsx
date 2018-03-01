@@ -8,33 +8,32 @@ class SubredditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      subreddit: '',
+      subreddit: this.props.location.pathname.replace(/^\/\w+\//, ''),
       subredditPosts: [],
       subredditSubscriptions: '',
     };
   }
 
   componentDidMount() {
-    const subredditName = this.props.location.pathname.replace(/^\/\w+\//, '');
-    this.setState({ subreddit: subredditName });
+    const subredditName = this.state.subreddit;
+
     axios
       .get('/posts', { params: { subredditName } })
       .then((res) => {
         this.setState({
           subredditPosts: res.data,
         });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    axios
-      .get(`/user/${this.props.authUser}`)
-      .then((res) => {
-        this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions,
-          userId: res.data.id,
-        });
+        axios
+          .get(`/user/${this.props.authUser}`)
+          .then((res2) => {
+            this.setState({
+              subredditSubscriptions: res2.data.subredditSubscriptions,
+              userId: res2.data.id,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       })
       .catch((err) => {
         console.error(err);
@@ -85,7 +84,10 @@ class SubredditPage extends Component {
         </div>
         <div className="six wide column">
           <h2 className="ui large header">
-            {this.state.subredditSubscriptions.split(', ').length} subscriptions
+            {this.state.subredditSubscriptions
+              ? this.state.subredditSubscriptions.split(', ').length
+              : 0}{' '}
+            subscriptions
           </h2>
           {this.state.subredditSubscriptions.split(', ').includes(subredditName) ? (
             <button onClick={() => this.unsubscribe()} className="ui red button">
