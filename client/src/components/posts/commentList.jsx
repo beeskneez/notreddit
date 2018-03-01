@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
-import { getPost, updateComments } from './../../actions/index.jsx';
+import { getComment, getPost, updateComments } from './../../actions/index.jsx';
 import CommentListEntry from './commentListEntry.jsx';
 
 class CommentList extends Component {
@@ -30,14 +30,19 @@ class CommentList extends Component {
   }
 
   render() {
+    // const comment = this.props.comment;
+    console.log('props man', this.props);
     return (
       <div>
         <br />
         {/* <CommentListEntry /> */}
         {/* {this.props.comments.map((comment, index) => <div key={index}>{comment.body}</div>)} */}
-        {this.props.comments
-          .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
-          .reverse()}
+        <div className="ui threaded comments">
+          <div className="comments" />
+          {this.props.comments
+            .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
+            .reverse()}
+        </div>
       </div>
     );
   }
@@ -48,11 +53,12 @@ function mapStateToProps(state) {
     comments: state.comments,
     gPost: state.gPost,
     user: state.user,
+    gComment: state.gComment,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateComments }, dispatch);
+  return bindActionCreators({ getComment, getPost, updateComments }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentList);

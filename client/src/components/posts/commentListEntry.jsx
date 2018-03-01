@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-import { getPost, updateAuthUser } from './../../actions/index.jsx';
+import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 
 class CommentListEntry extends Component {
@@ -21,6 +21,8 @@ class CommentListEntry extends Component {
     this.setState({
       showReply: !this.state.showReply,
     });
+    // console.log(this.props);
+    this.props.getComment(this.props.comment);
   }
 
   componentDidMount() {
@@ -32,7 +34,6 @@ class CommentListEntry extends Component {
         document.getElementById('logout').classList.add('hide');
       }
     });
-    // this.props.getPost(this.props.gPost);
   }
 
   upvote() {
@@ -76,50 +77,50 @@ class CommentListEntry extends Component {
 
   render() {
     return (
-      <div className="ui threaded comments">
-        <div className="comment">
-          <div className="content">
-            <a className="author">{this.props.comment.username}</a>
-            <div className="metadata">
-              <span className="date">Today at TODO: update time</span>
-            </div>
-            <div className="text">{this.props.comment.body}</div>
-            <div className="actions">
-              <a className="reply" onClick={() => this.onClick()} href="#">
-                Reply
-              </a>
-              {this.state.showReply && <CommentForm />}
-              <a className="hideit">Hide</a>
-              <a className="delete comment">Delete</a>
-            </div>
-            <ul className="ui big horizontal list voters">
-              <li className="item">
-                <a onClick={() => this.upvote()}>
-                  <i className="arrow up icon" />
-                  upvote
-                </a>
-              </li>
-              <li className="item">{this.state.totalVotes}</li>
-              <li className="item">
-                <a onClick={() => this.downvote()}>
-                  <i className="arrow down icon" />
-                  downvote
-                </a>
-              </li>
-            </ul>
+      // <div className="comments">
+      <div className="comment">
+        <div className="content">
+          <a className="author">{this.props.comment.username}</a>
+          <div className="metadata">
+            <span className="date">Today at TODO: update time</span>
           </div>
+          <div className="text">{this.props.comment.body}</div>
+          <div className="actions">
+            <a className="reply" onClick={() => this.onClick()} href="#">
+              Reply
+            </a>
+            {this.state.showReply && <CommentForm />}
+            <a className="hideit">Hide</a>
+            <a className="delete comment">Delete</a>
+          </div>
+          <ul className="ui big horizontal list voters">
+            <li className="item">
+              <a onClick={() => this.upvote()}>
+                <i className="arrow up icon" />
+                upvote
+              </a>
+            </li>
+            <li className="item">{this.state.totalVotes}</li>
+            <li className="item">
+              <a onClick={() => this.downvote()}>
+                <i className="arrow down icon" />
+                downvote
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
+      // </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { gPost: state.gPost, authUser: state.authUser };
+  return { gPost: state.gPost, authUser: state.authUser, gComment: getComment };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateAuthUser }, dispatch);
+  return bindActionCreators({ getPost, updateAuthUser, getComment }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);

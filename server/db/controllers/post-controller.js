@@ -81,29 +81,53 @@ exports.getPost = (req, res) => {
 
 exports.createPost = (req, res) => {
   const {
-    title, body, image, subreddit, user_email, username, parentId,
+    title, body, image, subreddit, user_email, username, parentId, comment,
   } = req.body.post;
-
+  // console.log(comment);
+  console.log('req.body', req.body.post);
   if (parentId) {
-    model.Post.sync()
-      .then(() =>
-        model.Post.create({
-          id: null,
-          body,
-          commentCache: 0,
-          upvoteCache: 0,
-          downvoteCache: 0,
-          postType: 1,
-          // user_id: req.body.user_id,
-          id_parent: parentId,
-          user_email,
-          username,
-          // subreddit,
-        }))
-      .then((post) => {
-        console.log(post);
-        res.status(200).send(post);
-      });
+    if (comment) {
+      model.Post.sync()
+        .then(() =>
+          model.Post.create({
+            id: null,
+            body,
+            commentCache: 0,
+            upvoteCache: 0,
+            downvoteCache: 0,
+            postType: 1,
+            // user_id: req.body.user_id,
+            id_parent: comment.id,
+            user_email,
+            username,
+            // subreddit,
+          }))
+        .then((post) => {
+          console.log(post);
+          res.status(200).send(post);
+        });
+      // console.log(comment.id);
+    } else {
+      model.Post.sync()
+        .then(() =>
+          model.Post.create({
+            id: null,
+            body,
+            commentCache: 0,
+            upvoteCache: 0,
+            downvoteCache: 0,
+            postType: 1,
+            // user_id: req.body.user_id,
+            id_parent: parentId,
+            user_email,
+            username,
+            // subreddit,
+          }))
+        .then((post) => {
+          console.log(post);
+          res.status(200).send(post);
+        });
+    }
   } else {
     model.Post.sync()
       .then(() =>
