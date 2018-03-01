@@ -21,6 +21,7 @@ class PostList extends Component {
     axios
       .get('/posts')
       .then((res) => {
+        console.log(res.data);
         this.props.updatePosts(res.data);
       })
       .catch((err) => {
