@@ -4,6 +4,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Search extends Component {
+  search(e) {
+    const query = document.getElementById('query').value;
+    console.log('querys', query);
+    axios
+      .post('/search', { search: query })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  // hide inner on search and replace with postlist
+
+  // put request to server with query and update
   render() {
     return (
       <div className="outer">
@@ -14,13 +29,14 @@ class Search extends Component {
               <div className="two fields">
                 <div className="field">
                   <label>Search post titles:</label>
-                  <input id="email" placeholder="Your search here" type="text" />
+                  <input id="query" placeholder="Your search here" type="text" />
                 </div>
               </div>
-              <div onClick={() => console.log('clicked')} className="ui submit button">
+              <div onClick={() => this.search()} className="ui submit button">
                 Search
               </div>
               <div>
+                <br />
                 <small>
                   Back to notreddit? <Link to="/">Main feed</Link>
                 </small>
