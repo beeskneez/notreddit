@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import { createComment, getPost, createPost } from './../../actions/index.jsx';
+import { getPost, createPost } from './../../actions/index.jsx';
 
 class CommentForm extends Component {
   constructor(props) {
@@ -24,9 +24,9 @@ class CommentForm extends Component {
       this.state.username = this.props.user;
       // this.state.post = this.props.selectedPost;
       axios
-        .post('/comment', { post: this.state })
+        .post('/post', { post: this.state })
         // .then((res) => {
-        //   this.props.createC(res.data);
+        //   this.props.createComment(res.data);
         //   axios
         //     .get('/comments')
         //     .then((res) => {
@@ -79,7 +79,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createComment, getPost, createPost }, dispatch);
+  return bindActionCreators({ getPost, createPost }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

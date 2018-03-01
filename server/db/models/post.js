@@ -15,7 +15,6 @@ const Post = db.define('post', {
   },
   title: Sequelize.STRING,
   body: Sequelize.TEXT,
-  // voteCache: Sequelize.INTEGER,
   commentCache: Sequelize.INTEGER,
   image: Sequelize.STRING,
   upvoteCache: Sequelize.INTEGER,

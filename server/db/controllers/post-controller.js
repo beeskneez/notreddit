@@ -9,6 +9,7 @@ exports.getAllPosts = (req, res) => {
     model.Post.findAll({
       where: {
         user_email: req.query.user,
+        postType: 0,
       },
     })
       .then((posts) => {
@@ -19,7 +20,11 @@ exports.getAllPosts = (req, res) => {
       });
   } else {
     // find all posts
-    model.Post.findAll({}).then(
+    model.Post.findAll({
+      where: {
+        postType: 0,
+      },
+    }).then(
       (posts) => {
         res.status(200).send(posts);
       },
@@ -55,28 +60,51 @@ exports.createPost = (req, res) => {
   const subreddit = req.body.post.subreddit;
   const user_email = req.body.post.user_email;
   const username = req.body.post.username;
+  const parentId = req.body.post.postId;
 
-  model.Post.sync()
-    .then(() =>
-      model.Post.create({
-        id: null,
-        title,
-        body,
-        likeCache: 0,
-        commentCache: 0,
-        upvoteCache: 0,
-        downvoteCache: 0,
-        image,
-        postType: 0,
-        user_id: req.body.user_id,
-        user_email,
-        username,
-        subreddit,
-      }))
-    .then((post) => {
-      console.log(post);
-      res.status(200).send(post);
-    });
+  if (parentId) {
+    model.Post.sync()
+      .then(() =>
+        model.Post.create({
+          id: null,
+          body,
+          commentCache: 0,
+          upvoteCache: 0,
+          downvoteCache: 0,
+          postType: 1,
+          // user_id: req.body.user_id,
+          id_parent: parentId,
+          user_email,
+          username,
+          // subreddit,
+        }))
+      .then((post) => {
+        console.log(post);
+        res.status(200).send(post);
+      });
+  } else {
+    model.Post.sync()
+      .then(() =>
+        model.Post.create({
+          id: null,
+          title,
+          body,
+          likeCache: 0,
+          commentCache: 0,
+          upvoteCache: 0,
+          downvoteCache: 0,
+          image,
+          postType: 0,
+          user_id: req.body.user_id,
+          user_email,
+          username,
+          subreddit,
+        }))
+      .then((post) => {
+        console.log(post);
+        res.status(200).send(post);
+      });
+  }
 };
 
 exports.updatePostWithUpvote = (req, res) => {
@@ -113,34 +141,4 @@ exports.deleteAllPosts = (req, res) => {
     where: {},
     truncate: true,
   }).then(() => res.send('deleted all posts'));
-};
-
-// Comment Controllers
-
-exports.createComment = (req, res) => {
-  const body = req.body.post.body;
-  // const subreddit = req.body.post.subreddit;
-  const user_email = req.body.post.user_email;
-  const parentId = req.body.post.postId;
-  const username = req.body.post.username;
-
-  model.Post.sync()
-    .then(() =>
-      model.Post.create({
-        id: null,
-        body,
-        commentCache: 0,
-        upvoteCache: 0,
-        downvoteCache: 0,
-        postType: 1,
-        // user_id: req.body.user_id,
-        id_parent: parentId,
-        user_email,
-        username,
-        // subreddit,
-      }))
-    .then((post) => {
-      console.log(post);
-      res.status(200).send(post);
-    });
 };
