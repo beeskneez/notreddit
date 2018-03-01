@@ -6,8 +6,8 @@ exports.getAllPosts = (req, res) => {
   if (req.params.id) {
     model.Post.findAll({
       where: {
-        id_parent: req.params.id,
-        postType: 1,
+        user_email: req.query.user,
+        postType: 0,
       },
     })
       .then((posts) => {
@@ -80,10 +80,10 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  // console.log(req.body.post);
   const {
     title, body, image, subreddit, user_email, username, parentId,
   } = req.body.post;
+
   if (parentId) {
     model.Post.sync()
       .then(() =>
@@ -135,7 +135,8 @@ exports.updatePostWithUpvote = (req, res) => {
     .then(post => post.increment('upvoteCache', { by: 1 }))
     .then((post) => {
       res.status(200).send(post);
-    });
+    })
+    .catch(err => console.error(err));
 };
 
 exports.updatePostWithDownvote = (req, res) => {
@@ -143,7 +144,8 @@ exports.updatePostWithDownvote = (req, res) => {
     .then(post => post.increment('downvoteCache', { by: 1 }))
     .then((post) => {
       res.status(200).send(post);
-    });
+    })
+    .catch(err => console.error(err));
 };
 
 exports.updateOne = (req, res) => {

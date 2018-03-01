@@ -22,6 +22,7 @@ const defineUser = () =>
       },
       postVoteCache: Sequelize.INTEGER,
       commentVoteCache: Sequelize.INTEGER,
+      subredditSubscriptions: Sequelize.STRING,
     });
   });
 

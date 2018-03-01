@@ -60,14 +60,18 @@ class SubredditForm extends Component {
                   onChange={e => this.onChange(e)}
                 />
               </div>
+              <div className="field">
+                {this.props.authUser ? (
+                  <Link className="ui submit blue button" onClick={this.addNewSubreddit} to="/">
+                    Submit{' '}
+                  </Link>
+                ) : (
+                  <button className="ui disabled button">
+                    <i className="ban red icon" />must be logged in
+                  </button>
+                )}
+              </div>
             </div>
-            {this.props.authUser ? (
-              <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
-                Submit{' '}
-              </Link>
-            ) : (
-              'Must be logged in to submit!'
-            )}
           </div>
         </div>
       </div>
