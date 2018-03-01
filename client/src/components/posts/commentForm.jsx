@@ -10,25 +10,18 @@ class CommentForm extends Component {
     super(props);
     this.addNewComment = this.addNewComment.bind(this);
   }
-  componentDidMount() {
-    // this.props.getPost(this.props.post);
-    console.log('PROPS', this.props);
-    console.log('STATE', this.state);
-  }
-  addNewComment() {
-    // console.log(this);
-    // check if post is a type 1 or type 0?
 
+  addNewComment() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
-      this.state.postId = this.props.gPost.id;
+      this.state.parentId = this.props.gPost.id;
       this.state.username = this.props.user;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
           this.props.createComment(res.data);
           axios
-            .get(`/comments/${this.state.postId}`)
+            .get(`/comments/${this.state.parentId}`)
             .then((res) => {
               console.log(res.data);
               this.props.updateComments(res.data);
