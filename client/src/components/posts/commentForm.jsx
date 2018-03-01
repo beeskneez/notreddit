@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import { getPost, createPost, updateComments, createComment } from './../../actions/index.jsx';
+import {
+  getComment,
+  getPost,
+  createPost,
+  updateComments,
+  createComment,
+} from './../../actions/index.jsx';
 import { Link } from 'react-router-dom';
 
 class CommentForm extends Component {
@@ -12,10 +18,15 @@ class CommentForm extends Component {
   }
 
   addNewComment() {
+    // console.log(this.props);
+    // console.log(this.props.comment);
+    // console.log(this.state);
+    // axios.get('/post')
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
       this.state.username = this.props.user;
+      this.state.comment = this.props.comment;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
@@ -80,6 +91,7 @@ function mapStateToProps(state) {
     gPost: state.gPost,
     user: state.user,
     comments: state.comments,
+    gComment: state.gComment,
   };
 }
 
@@ -90,6 +102,7 @@ function mapDispatchToProps(dispatch) {
       createPost,
       updateComments,
       createComment,
+      getComment,
     },
     dispatch,
   );

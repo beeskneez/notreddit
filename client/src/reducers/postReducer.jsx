@@ -44,3 +44,12 @@ export function ReducerCreateComment(state = null, action) {
       return state;
   }
 }
+
+export function ReducerGetComment(state = null, action) {
+  switch (action.type) {
+    case 'GET_COMMENT':
+      return action.payload;
+    default:
+      return state;
+  }
+}

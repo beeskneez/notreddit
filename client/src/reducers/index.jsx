@@ -4,6 +4,8 @@ import {
   ReducerCreatePost,
   ReducerGetPost,
   ReducerComments,
+  ReducerCreateComment,
+  ReducerGetComment,
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -27,6 +29,8 @@ const allReducers = combineReducers({
   postsFromSubreddit: ReducerGetPostsFromSubreddit,
   user: ReducerUser,
   comments: ReducerComments,
+  comment: ReducerCreateComment,
+  gComment: ReducerGetComment,
 });
 
 export default allReducers;

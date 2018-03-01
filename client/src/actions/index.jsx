@@ -81,3 +81,10 @@ export function createComment(comment) {
     payload: comment,
   };
 }
+
+export function getComment(gComment) {
+  return {
+    type: 'ADD_COMMENT',
+    payload: gComment,
+  };
+}
