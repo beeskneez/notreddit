@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
-<<<<<<< HEAD
-=======
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -19,7 +17,6 @@ class PostForm extends Component {
     console.log(this.props.user);
   }
 
->>>>>>> Saving stuff
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;

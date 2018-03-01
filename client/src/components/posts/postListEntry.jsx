@@ -16,14 +16,6 @@ class PostListEntry extends Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-=======
-    console.log('LIST ENTRY', this.props);
-    this.setState({
-      upvotes: this.props.post.upvoteCache,
-      downvotes: this.props.post.downvoteCache,
-    });
->>>>>>> [feat] Comment input being passed to server
     auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.updateAuthUser(user.email);
