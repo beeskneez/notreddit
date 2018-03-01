@@ -58,7 +58,7 @@ class Signup extends Component {
                   <input id="password" placeholder="enter new password" type="text" />
                 </div>
               </div>
-              <a onClick={() => this.signup()} className="ui submit button">
+              <a onClick={() => this.signup()} className="ui submit blue button">
                 Submit
               </a>
             </div>
