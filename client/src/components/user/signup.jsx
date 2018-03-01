@@ -51,7 +51,7 @@ class Signup extends Component {
                 </div>
                 <div className="field">
                   <label>email</label>
-                  <input id="email" placeholder="enter new email" type="text" />
+                  <input id="email" placeholder="enter new email" type="password" />
                 </div>
                 <div className="field">
                   <label>password</label>

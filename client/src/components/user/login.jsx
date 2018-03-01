@@ -39,7 +39,7 @@ class Login extends Component {
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter login password" type="text" />
+                  <input id="password" placeholder="enter login password" type="password" />
                 </div>
               </div>
               <div onClick={() => this.login()} className="ui submit button">
