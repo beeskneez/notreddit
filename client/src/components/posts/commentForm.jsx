@@ -5,15 +5,15 @@ import { bindActionCreators } from 'redux';
 import { getPost, createPost } from './../../actions/index.jsx';
 
 class CommentForm extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.addNewComment = this.addNewComment.bind(this);
   }
-  componentDidMount() {
-    // this.props.getPost(this.props.post);
-    console.log('PROPS', this.props.gPost.id);
-    console.log('STATE', this.state);
-  }
+  // componentDidMount() {
+  //   // this.props.getPost(this.props.post);
+  //   console.log('PROPS', this.props.gPost.id);
+  //   console.log('STATE', this.state);
+  // }
   addNewComment() {
     // console.log(this);
     // check if post is a type 1 or type 0?

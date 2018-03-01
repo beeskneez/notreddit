@@ -34,6 +34,7 @@ router.route('/signup').post(userController.createUser);
 // router.route('/:subreddit/post').post(controller.createOne);
 
 router.route('/posts').get(postController.getAllPosts);
+// router.route('/posts:parentId').get(postController.getAllPosts);
 
 // router.route('/user-history');
 // router.route('/comment').post();
