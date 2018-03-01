@@ -6,8 +6,8 @@ exports.getAllPosts = (req, res) => {
   if (req.params.id) {
     model.Post.findAll({
       where: {
-        user_email: req.query.user,
-        postType: 0,
+        id_parent: req.params.id,
+        postType: 1,
       },
     })
       .then((posts) => {
