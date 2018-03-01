@@ -32,6 +32,7 @@ exports.getAllPosts = (req, res) => {
 
 exports.getPost = (req, res) => {
   const id = req.params.id;
+  console.log('!!!!!', id);
   model.Post.findOne({
     where: {
       id,

@@ -7,16 +7,6 @@ import { Link } from 'react-router-dom';
 import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-    this.addNewPost = this.addNewPost.bind(this);
-  }
-
-  componentDidMount() {
-    console.log(this.props.user);
-  }
-
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
@@ -91,7 +81,7 @@ class PostForm extends Component {
               </div>
               <div className="field">
                 {this.props.authUser ? (
-                  <Link className="ui submit button" onClick={this.addNewPost} to="/">
+                  <Link className="ui submit button" onClick={() => this.addNewPost()} to="/">
                     {' '}
                     Submit{' '}
                   </Link>
@@ -106,7 +96,6 @@ class PostForm extends Component {
     );
   }
 }
-// }
 
 function mapStateToProps(state) {
   return {

@@ -8,24 +8,14 @@ import axios from 'axios';
 import { getPost, updateAuthUser } from './../../actions/index.jsx';
 
 class PostListEntry extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      upvotes: 0,
-      downvotes: 0,
+      totalVotes: this.props.post.upvoteCache - this.props.post.downvoteCache,
     };
-    this.goToDetails = this.goToDetails.bind(this);
-    this.goToSubreddit = this.goToSubreddit.bind(this);
-    this.upvote = this.upvote.bind(this);
-    this.downvote = this.downvote.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props);
-    this.setState({
-      upvotes: this.props.post.upvoteCache,
-      downvotes: this.props.post.downvoteCache,
-    });
     auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.updateAuthUser(user.email);
@@ -45,29 +35,41 @@ class PostListEntry extends Component {
   }
 
   upvote() {
-    axios
-      .put(`/upvote/${this.props.post.id}`)
-      .then((res) => {
-        this.setState({
-          upvotes: res.data.upvoteCache,
+    if (this.props.authUser) {
+      axios
+        .put(`/upvote/${this.props.post.id}`)
+        .then((res) => {
+          axios
+            .get(`/post/${this.props.post.id}`)
+            .then(res2 => this.setTotalVotes(res2))
+            .catch(err => console.error(err));
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }
   }
 
   downvote() {
-    axios
-      .put(`/downvote/${this.props.post.id}`)
-      .then((res) => {
-        this.setState({
-          downvotes: res.data.downvoteCache,
+    if (this.props.authUser) {
+      axios
+        .put(`/downvote/${this.props.post.id}`)
+        .then((res) => {
+          axios
+            .get(`/post/${this.props.post.id}`)
+            .then(res2 => this.setTotalVotes(res2))
+            .catch(err => console.error(err));
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }
+  }
+
+  setTotalVotes(response) {
+    this.setState({
+      totalVotes: response.data.upvoteCache - response.data.downvoteCache,
+    });
   }
 
   render() {
@@ -87,14 +89,14 @@ class PostListEntry extends Component {
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a onClick={() => (this.props.authUser ? this.upvote() : null)}>
+            <a onClick={() => this.upvote()}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
-          <li className="item">{this.state.upvotes - this.state.downvotes}</li>
+          <li className="item">{this.state.totalVotes}</li>
           <li className="item">
-            <a onClick={() => (this.props.authUser ? this.downvote() : null)}>
+            <a onClick={() => this.downvote()}>
               <i className="arrow down icon" />
               downvote
             </a>
