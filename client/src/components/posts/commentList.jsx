@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import { getPost, updateComments } from './../../actions/index.jsx';
-// import PostListEntry from './postListEntry.jsx';
+import CommentListEntry from './commentListEntry.jsx';
 
 class CommentList extends Component {
   // componentWillMount() {
@@ -32,8 +32,12 @@ class CommentList extends Component {
   render() {
     return (
       <div>
-        {this.props.comments.map((comment, index) => <div key={index}>{comment.body}</div>)}
-        {/* {this.props.comments.map((comment, index) => <PostListEntry post={post} key={index} />).reverse()} */}
+        <br />
+        {/* <CommentListEntry /> */}
+        {/* {this.props.comments.map((comment, index) => <div key={index}>{comment.body}</div>)} */}
+        {this.props.comments
+          .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
+          .reverse()}
       </div>
     );
   }
