@@ -25,3 +25,12 @@ export function ReducerSelectedSubreddit(state = null, action) {
   }
   return state;
 }
+
+export function ReducerGetPostsFromSubreddit(state = [], action) {
+    switch (action.type) {
+      case 'GET_POSTS_FROM_SUBREDDIT':
+        return action.payload;
+        break;
+    }
+    return state;
+}
