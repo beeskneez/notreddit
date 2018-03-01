@@ -55,10 +55,10 @@ class Signup extends Component {
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter new password" type="text" />
+                  <input id="password" placeholder="enter new password" type="password" />
                 </div>
               </div>
-              <a onClick={() => this.signup()} className="ui submit button">
+              <a onClick={() => this.signup()} className="ui submit blue button">
                 Submit
               </a>
             </div>

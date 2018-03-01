@@ -39,17 +39,17 @@ class Login extends Component {
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter login password" type="text" />
+                  <input id="password" placeholder="enter login password" type="password" />
                 </div>
               </div>
-              <div onClick={() => this.login()} className="ui submit button">
-                Submit
+              <div className="field">
+                <div onClick={() => this.login()} className="ui submit blue button">
+                  Submit
+                </div>
               </div>
-              <div>
-                <small>
-                  don't have an account? <Link to="/signup">Sign up</Link>
-                </small>
-              </div>
+              <small>
+                don't have an account? <Link to="/signup">Sign up</Link>
+              </small>
             </div>
           </div>
         </div>
