@@ -91,12 +91,14 @@ class PostForm extends Component {
               </div>
               <div className="field">
                 {this.props.authUser ? (
-                  <Link className="ui submit button" onClick={() => this.addNewPost()} to="/">
+                  <Link className="ui submit blue button" onClick={() => this.addNewPost()} to="/">
                     {' '}
                     Submit{' '}
                   </Link>
                 ) : (
-                  'Must be logged in to submit!'
+                  <button className="ui disabled button">
+                    <i className="ban red icon" />must be logged in
+                  </button>
                 )}
               </div>
             </div>

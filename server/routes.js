@@ -41,6 +41,9 @@ router.route('/subreddit').post(subredditController.createSubreddit);
 
 // User Routers
 router.route('/user').post(userController.createUser);
+router.route('/user/:email').get(userController.getUser);
+router.route('/user/addSub/:id/:subreddit').put(userController.addToUserRedditSubscriptions);
+router.route('/user/remSub/:id/:subreddit').put(userController.remFromUserRedditSubscriptions);
 
 router.route('*').get((err, res) => {
   res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));
