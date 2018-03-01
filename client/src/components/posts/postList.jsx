@@ -19,8 +19,13 @@ class PostList extends Component {
 
   componentDidMount() {
     axios
+<<<<<<< HEAD
       .get('/posts')
       .then(res => {
+=======
+      .get('/postses')
+      .then((res) => {
+>>>>>>> [feat] Add function & route to get comments for a post
         console.log(res.data);
         this.props.updatePosts(res.data);
       })

@@ -3,14 +3,18 @@ const model = require('../models/post.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
-  // find all posts by one user
-  // console.log(req.query.user);
-  if (req.query.user) {
+  if (req.params.id) {
     model.Post.findAll({
       where: {
+<<<<<<< HEAD
         user_email: req.query.user,
         postType: 0
       }
+=======
+        id_parent: req.params.id,
+        postType: 1,
+      },
+>>>>>>> [feat] Add function & route to get comments for a post
     })
       .then(posts => {
         res.status(200).send(posts);
@@ -33,6 +37,7 @@ exports.getAllPosts = (req, res) => {
         console.error(err);
       });
   } else {
+<<<<<<< HEAD
     // find all posts
     model.Post.findAll({
       where: {
@@ -46,12 +51,43 @@ exports.getAllPosts = (req, res) => {
         console.log(err);
       }
     );
+=======
+    // find all posts by one user
+    // console.log(req.query.user);
+    if (req.query.user) {
+      model.Post.findAll({
+        where: {
+          user_email: req.query.user,
+          postType: 0,
+        },
+      })
+        .then((posts) => {
+          res.status(200).send(posts);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      // find all posts
+      model.Post.findAll({
+        where: {
+          postType: 0,
+        },
+      }).then(
+        (posts) => {
+          res.status(200).send(posts);
+        },
+        (err) => {
+          console.log(err);
+        },
+      );
+    }
+>>>>>>> [feat] Add function & route to get comments for a post
   }
 };
 
 exports.getPost = (req, res) => {
   const id = req.params.id;
-  console.log('!!!!!', id);
   model.Post.findOne({
     where: {
       id

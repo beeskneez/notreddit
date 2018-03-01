@@ -20,8 +20,9 @@ class CommentList extends Component {
   componentDidMount() {
     // console.log('whaddup');
     const parentId = this.props.gPost.id;
-    axios.get(`/posts/${parentId}`).then((res) => {
-      console.log('made it');
+    console.log('pid', parentId);
+    axios.get(`/comments/${parentId}`).then((res) => {
+      console.log(res.data);
     });
     // .catch((err) => {
     //   console.error(err);
