@@ -55,7 +55,7 @@ class CommentForm extends Component {
         <div className="field">
           {this.props.authUser ? (
             <Link
-              className="ui submit button"
+              className="ui submit blue button"
               to={`/postDetails/${this.props.gPost.id}`}
               onClick={() => this.addNewComment()}
             >
@@ -63,7 +63,9 @@ class CommentForm extends Component {
               Submit{' '}
             </Link>
           ) : (
-            'Must be logged in to submit!'
+            <button className="ui disabled button">
+              <i className="ban red icon" />must be logged in
+            </button>
           )}
         </div>
       </div>
