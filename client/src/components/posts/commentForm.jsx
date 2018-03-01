@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import { getPost, createPost } from './../../actions/index.jsx';
+import { getPost, createPost, updateComments, createComment } from './../../actions/index.jsx';
+import { Link } from 'react-router-dom';
 
 class CommentForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.addNewComment = this.addNewComment.bind(this);
   }
-  // componentDidMount() {
-  //   // this.props.getPost(this.props.post);
-  //   console.log('PROPS', this.props.gPost.id);
-  //   console.log('STATE', this.state);
-  // }
+  componentDidMount() {
+    // this.props.getPost(this.props.post);
+    console.log('PROPS', this.props);
+    console.log('STATE', this.state);
+  }
   addNewComment() {
     // console.log(this);
     // check if post is a type 1 or type 0?
@@ -22,21 +23,20 @@ class CommentForm extends Component {
       this.state.user_email = this.props.authUser;
       this.state.postId = this.props.gPost.id;
       this.state.username = this.props.user;
-      // this.state.post = this.props.selectedPost;
       axios
         .post('/post', { post: this.state })
-        // .then((res) => {
-        //   this.props.createComment(res.data);
-        //   axios
-        //     .get('/comments')
-        //     .then((res) => {
-        //       console.log(res.data);
-        //       this.props.updatePosts(res.data);
-        //     })
-        //     .catch((err) => {
-        //       console.error(err);
-        //     });
-        // })
+        .then((res) => {
+          this.props.createComment(res.data);
+          axios
+            .get(`/comments/${this.state.postId}`)
+            .then((res) => {
+              console.log(res.data);
+              this.props.updateComments(res.data);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
         .catch((err) => {
           console.error(err);
         });
@@ -59,8 +59,19 @@ class CommentForm extends Component {
           <label>Comment</label>
           <textarea name="body" rows="2" onChange={e => this.onChange(e)} />
         </div>
-        <div class="ui submit button" onClick={this.addNewComment}>
-          Submit
+        <div className="field">
+          {this.props.authUser ? (
+            <Link
+              className="ui submit button"
+              to={`/postDetails/${this.props.gPost.id}`}
+              onClick={() => this.addNewComment()}
+            >
+              {' '}
+              Submit{' '}
+            </Link>
+          ) : (
+            'Must be logged in to submit!'
+          )}
         </div>
       </div>
     );
@@ -73,13 +84,20 @@ function mapStateToProps(state) {
     authUser: state.authUser,
     gPost: state.gPost,
     user: state.user,
-    // selectedSubreddit: state.selectedSubreddit,
-    // user: state.user,
+    comments: state.comments,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, createPost }, dispatch);
+  return bindActionCreators(
+    {
+      getPost,
+      createPost,
+      updateComments,
+      createComment,
+    },
+    dispatch,
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

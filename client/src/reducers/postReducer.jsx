@@ -35,3 +35,12 @@ export function ReducerComments(state = [], action) {
       return state;
   }
 }
+
+export function ReducerCreateComment(state = null, action) {
+  switch (action.type) {
+    case 'ADD_COMMENT':
+      return action.payload;
+    default:
+      return state;
+  }
+}

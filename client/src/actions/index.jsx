@@ -79,3 +79,10 @@ export function getPostsFromSubreddit(posts) {
 >>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
   };
 }
+
+export function createComment(comment) {
+  return {
+    type: 'ADD_COMMENT',
+    payload: comment,
+  };
+}

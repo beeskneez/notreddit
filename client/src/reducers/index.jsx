@@ -7,7 +7,11 @@ import {
 =======
   ReducerGetPost,
   ReducerComments,
+<<<<<<< HEAD
 >>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
+=======
+  ReducerCreateComment,
+>>>>>>> [feat] New comment generating immediately on page
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -37,7 +41,11 @@ const allReducers = combineReducers({
 =======
   user: ReducerUser,
   comments: ReducerComments,
+<<<<<<< HEAD
 >>>>>>> [feat] Comments rendering on page using map func. Refactoring each into comment component
+=======
+  comment: ReducerCreateComment,
+>>>>>>> [feat] New comment generating immediately on page
 });
 
 export default allReducers;
