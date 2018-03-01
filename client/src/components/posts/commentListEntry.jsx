@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-
 import { getPost, updateAuthUser } from './../../actions/index.jsx';
+import CommentForm from './commentForm.jsx';
 
 class CommentListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
       totalVotes: this.props.comment.upvoteCache - this.props.comment.downvoteCache,
+      showReply: false,
     };
+  }
+
+  onClick() {
+    // e.preventDefault();
+    this.setState({
+      showReply: !this.state.showReply,
+    });
   }
 
   componentDidMount() {
@@ -77,7 +85,10 @@ class CommentListEntry extends Component {
             </div>
             <div className="text">{this.props.comment.body}</div>
             <div className="actions">
-              <a className="reply">Reply</a>
+              <a className="reply" onClick={() => this.onClick()} href="#">
+                Reply
+              </a>
+              {this.state.showReply && <CommentForm />}
               <a className="hideit">Hide</a>
               <a className="delete comment">Delete</a>
             </div>
