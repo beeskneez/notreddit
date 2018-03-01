@@ -13,7 +13,7 @@ class SubredditForm extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
   }
 
   onChange(e) {
@@ -61,11 +61,13 @@ class SubredditForm extends Component {
                 />
               </div>
             </div>
-            { this.props.authUser 
-                ? <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
-                  Submit </Link> 
-                : 'Must be logged in to submit!' }
-
+            {this.props.authUser ? (
+              <Link className="ui submit button" onClick={this.addNewSubreddit} to="/">
+                Submit{' '}
+              </Link>
+            ) : (
+              'Must be logged in to submit!'
+            )}
           </div>
         </div>
       </div>
@@ -76,7 +78,7 @@ class SubredditForm extends Component {
 function mapStateToProps(state) {
   return {
     subreddit: state.subreddit,
-    authUser: state.authUser
+    authUser: state.authUser,
   };
 }
 

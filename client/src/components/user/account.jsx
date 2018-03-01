@@ -6,7 +6,7 @@ class Account extends Component {
   constructor() {
     super();
     this.state = {
-      userPosts: []
+      userPosts: [],
     };
     this.getUserPosts = this.getUserPosts.bind(this);
   }
@@ -19,13 +19,13 @@ class Account extends Component {
   getUserPosts() {
     axios
       .get('/posts', { params: { user: this.props.authUser } })
-      .then(res => {
+      .then((res) => {
         this.setState({
-          userPosts: res.data
+          userPosts: res.data,
         });
         console.log(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -33,20 +33,15 @@ class Account extends Component {
   render() {
     return (
       <div className="twelve wide column">
-        <p className="ui large header">
-          History
-        </p>
+        <p className="ui large header">History</p>
         <ul>
           {this.state.userPosts
-            .map((post, index) => {
-              return (
+            .map((post, index) => (
                 <li key={index}>
                   {' '}
-                  <img className="thumbnail" src={post.image} alt="" />{' '}
-                  {post.title}
+                  <img className="thumbnail" src={post.image} alt="" /> {post.title}
                 </li>
-              );
-            })
+              ))
             .reverse()}
         </ul>
       </div>

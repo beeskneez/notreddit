@@ -24,3 +24,12 @@ export function ReducerGetPost(state = null, action) {
       return state;
   }
 }
+
+export function ReducerCreateComment(state = null, action) {
+  switch (action.type) {
+    case 'ADD_COMMENT':
+      return action.payload;
+    default:
+      return state;
+  }
+}

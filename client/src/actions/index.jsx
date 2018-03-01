@@ -60,3 +60,10 @@ export function selectSubreddit(subreddit) {
     payload: subreddit,
   };
 }
+
+export function createComment(comment) {
+  return {
+    type: 'ADD_COMMENT',
+    payload: comment,
+  };
+}

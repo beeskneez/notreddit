@@ -7,6 +7,16 @@ import { Link } from 'react-router-dom';
 import SubredditList from '../subreddits/subredditList.jsx';
 
 class PostForm extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.addNewPost = this.addNewPost.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.props.user);
+  }
+
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;

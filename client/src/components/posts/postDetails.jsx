@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import { getPost } from './../../actions/index.jsx';
+import CommentForm from './commentForm.jsx';
+import CommentList from './commentList.jsx';
 
 class PostDetails extends Component {
   render() {
@@ -30,6 +32,8 @@ class PostDetails extends Component {
             </a>
           </li>
         </ul>
+        <CommentForm />
+        <CommentList />
       </div>
     );
   }
