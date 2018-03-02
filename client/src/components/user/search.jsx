@@ -38,7 +38,7 @@ class Search extends Component {
               {this.state.results.map((post, index) => <PostListEntry post={post} key={index} />)}
             </ul>
           </div>
-          <div class="wide column" />
+          <div className="wide column" />
         </div>
       </div>
     ) : (
