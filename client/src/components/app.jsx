@@ -9,11 +9,14 @@ import Login from './user/login.jsx';
 import Signup from './user/signup.jsx';
 import PostList from './posts/postList.jsx';
 import SubredditForm from './subreddits/subredditForm.jsx';
-import SubredditPage from './subreddits/subredditPage.jsx'
+import SubredditPage from './subreddits/subredditPage.jsx';
 import PostForm from './posts/postForm.jsx';
 import PostDetails from './posts/postDetails.jsx';
+
 import Account from './user/account.jsx';
 import Search from './user/search.jsx';
+import History from './user/tabs/history.jsx';
+import Subscriptions from './user/tabs/subscriptions.jsx';
 
 const App = () => (
   <BrowserRouter>
@@ -36,7 +39,7 @@ const App = () => (
 
 function mapStateToProps(state) {
   return {
-    gPost: state.gPost,
+    gPost: state.gPost
   };
 }
 

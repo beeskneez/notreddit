@@ -19,6 +19,22 @@ exports.getSubreddit = (req, res) => {
   );
 };
 
+exports.getSubredditByName = (req, res) => {
+  console.log(req.params);
+  model.Subreddit.findOne({
+    where: {
+      name: req.params.name,
+    },
+  }).then(
+    (subreddit) => {
+      res.status(200).send(subreddit);
+    },
+    (err) => {
+      console.log(err);
+    },
+  );
+};
+
 exports.allSubredditNames = (req, res) => {
   model.Subreddit.findAll({
     attributes: ['name'],
