@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
+import { getComment, getPost, updateAuthUser, updateComments } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 
 class CommentListEntry extends Component {
@@ -13,6 +13,7 @@ class CommentListEntry extends Component {
     this.state = {
       totalVotes: this.props.comment.upvoteCache - this.props.comment.downvoteCache,
       showReply: false,
+      hasNestedComments: false,
     };
   }
 
@@ -23,6 +24,7 @@ class CommentListEntry extends Component {
     });
     // console.log(this.props);
     this.props.getComment(this.props.comment);
+    console.log('comment list entry', this.props.comment);
   }
 
   componentDidMount() {
@@ -34,10 +36,19 @@ class CommentListEntry extends Component {
         document.getElementById('logout').classList.add('hide');
       }
     });
+    axios
+      .get(`/comments/${this.props.comment.id}`)
+      .then((res) => {
+        // this.props.updateComments(res.data);
+        console.log('baby comments:', res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    console.log('Comment List Entry: ', this.props);
   }
 
   upvote() {
-    console.log(this.props.comment);
     if (this.props.authUser) {
       axios
         .put(`/upvote/${this.props.comment.id}`)
@@ -76,6 +87,7 @@ class CommentListEntry extends Component {
   }
 
   render() {
+    // console.log('Comment List Entry:', this.props);
     return (
       // <div className="comments">
       <div className="comment">
@@ -116,11 +128,18 @@ class CommentListEntry extends Component {
 }
 
 function mapStateToProps(state) {
-  return { gPost: state.gPost, authUser: state.authUser, gComment: getComment };
+  return {
+    gPost: state.gPost,
+    authUser: state.authUser,
+    gComment: getComment,
+    comments: state.comments,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateAuthUser, getComment }, dispatch);
+  return bindActionCreators({
+    getPost, updateAuthUser, getComment, updateComments,
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);

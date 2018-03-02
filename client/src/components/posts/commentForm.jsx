@@ -23,6 +23,7 @@ class CommentForm extends Component {
     // console.log(this.state);
     // axios.get('/post')
     if (this.props.authUser) {
+      console.log('comment form', this.props.comment);
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
       this.state.username = this.props.user;
