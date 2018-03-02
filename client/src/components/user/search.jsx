@@ -4,12 +4,20 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      results: [],
+    };
+  }
+
   search(e) {
     const query = document.getElementById('query').value;
     axios
       .post('/search', { search: query })
       .then((res) => {
-        console.log(res);
+        this.setState({ results: res.data });
+        console.log(this.state.results);
       })
       .catch((err) => {
         console.error(err);
