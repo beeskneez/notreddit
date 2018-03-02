@@ -32,7 +32,7 @@ class Search extends Component {
       <div>
         <h5>Results:</h5>
         <div className="ui grid">
-          <div classname="wide column" />
+          <div className="wide column" />
           <div className="twelve wide column">
             <ul>
               {this.state.results.map((post, index) => <PostListEntry post={post} key={index} />)}
