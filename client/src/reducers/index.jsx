@@ -6,6 +6,7 @@ import {
   ReducerComments,
   ReducerCreateComment,
   ReducerGetComment,
+  ReducerChildren,
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -31,6 +32,7 @@ const allReducers = combineReducers({
   comments: ReducerComments,
   comment: ReducerCreateComment,
   gComment: ReducerGetComment,
+  children: ReducerChildren,
 });
 
 export default allReducers;

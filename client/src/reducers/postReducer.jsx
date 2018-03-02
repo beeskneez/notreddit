@@ -53,3 +53,12 @@ export function ReducerGetComment(state = null, action) {
       return state;
   }
 }
+
+export function ReducerChildren(state = [], action) {
+  switch (action.type) {
+    case 'GET_CHILDREN':
+      return action.payload;
+    default:
+      return state;
+  }
+}

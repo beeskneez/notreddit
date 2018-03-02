@@ -88,3 +88,10 @@ export function getComment(gComment) {
     payload: gComment,
   };
 }
+
+export function updateChildren(children) {
+  return {
+    type: 'GET_CHILDREN',
+    payload: gComment,
+  };
+}
