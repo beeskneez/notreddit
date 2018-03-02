@@ -29,6 +29,7 @@ class SubredditForm extends Component {
       .post('/subreddit', { subreddit: this.state })
       .then((res) => {
         this.props.createSubreddit(res.data);
+        this.props.history.push('/');
       })
       .catch((err) => {
         console.error(err);
@@ -62,9 +63,9 @@ class SubredditForm extends Component {
               </div>
               <div className="field">
                 {this.props.authUser ? (
-                  <Link className="ui submit blue button" onClick={this.addNewSubreddit} to="/">
+                  <a className="ui submit blue button" onClick={() => this.addNewSubreddit()}>
                     Submit{' '}
-                  </Link>
+                  </a>
                 ) : (
                   <button className="ui disabled button">
                     <i className="ban red icon" />must be logged in

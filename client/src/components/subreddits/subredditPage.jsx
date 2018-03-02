@@ -9,33 +9,41 @@ class SubredditPage extends Component {
     super(props);
     this.state = {
       subreddit: this.props.location.pathname.replace(/^\/\w+\//, ''),
+      subredditDescription: '',
       subredditPosts: [],
-      subredditSubscriptions: '',
+      subredditSubscriptions: ''
     };
   }
 
   componentDidMount() {
     const subredditName = this.state.subreddit;
+    // get description
+    axios
+      .get(`/subreddit/${subredditName}`)
+      .then(res => this.setState({ description: res.data.description }))
+      .catch(err => console.error(err));
 
+    // get posts
     axios
       .get('/posts', { params: { subredditName } })
-      .then((res) => {
+      .then(res => {
         this.setState({
-          subredditPosts: res.data,
+          subredditPosts: res.data
         });
+        // get user subscriptions
         axios
           .get(`/user/${this.props.authUser}`)
-          .then((res2) => {
+          .then(res2 => {
             this.setState({
               subredditSubscriptions: res2.data.subredditSubscriptions,
-              userId: res2.data.id,
+              userId: res2.data.id
             });
           })
-          .catch((err) => {
+          .catch(err => {
             console.error(err);
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -43,13 +51,12 @@ class SubredditPage extends Component {
   subscribe() {
     axios
       .put(`/user/addSub/${this.state.userId}/${this.state.subreddit}`)
-      .then((res) => {
-        console.log(res.data);
+      .then(res => {
         this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions,
+          subredditSubscriptions: res.data.subredditSubscriptions
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -57,13 +64,12 @@ class SubredditPage extends Component {
   unsubscribe() {
     axios
       .put(`/user/remSub/${this.state.userId}/${this.state.subreddit}`)
-      .then((res) => {
-        console.log(res.data);
+      .then(res => {
         this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions,
+          subredditSubscriptions: res.data.subredditSubscriptions
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -75,7 +81,10 @@ class SubredditPage extends Component {
       <div className="ui grid">
         <div className="two wide column" />
         <div className="eight wide column">
-          <h2 className="ui large blue header">/r/{subredditName}</h2>
+          <h2 className="ui large blue header">
+            /r/{subredditName}
+            <div className="sub header">{this.state.description}</div>
+          </h2>
           <ul>
             {this.state.subredditPosts.map((subredditPost, index) => (
               <SubredditPostEntry key={index} subredditPost={subredditPost} />
@@ -89,8 +98,13 @@ class SubredditPage extends Component {
               : 0}{' '}
             subscriptions
           </h2>
-          {this.state.subredditSubscriptions.split(', ').includes(subredditName) ? (
-            <button onClick={() => this.unsubscribe()} className="ui red button">
+          {this.state.subredditSubscriptions
+            .split(', ')
+            .includes(subredditName) ? (
+            <button
+              onClick={() => this.unsubscribe()}
+              className="ui red button"
+            >
               unsubscribe from {subredditName}
             </button>
           ) : (

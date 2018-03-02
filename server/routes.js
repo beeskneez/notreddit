@@ -36,7 +36,9 @@ router.route('/posts').get(postController.getAllPosts);
 
 // Subreddit Routers
 router.route('/subreddits').get(subredditController.allSubredditNames);
-router.route('/subreddit').get(subredditController.getSubreddit);
+// COMMENTED THIS ↓↓↓↓↓ SO GET REQ BELOW THIS COULD RUN...IF I BROKE SOMETHING, SOWWY!!!
+// router.route('/subreddit').get(subredditController.getSubreddit);
+router.route('/subreddit/:name').get(subredditController.getSubredditByName); // by name
 router.route('/subreddit').post(subredditController.createSubreddit);
 
 // User Routers
