@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PostListEntry from '../posts/postListEntry.jsx';
 
 class Search extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       results: [],
     };
   }
 
-  search(e) {
+  search() {
     const query = document.getElementById('query').value;
     axios
       .post('/search', { search: query })
       .then((res) => {
         this.setState({ results: res.data });
-        console.log(this.state.results);
       })
       .catch((err) => {
         console.error(err);
       });
   }
-  // hide inner on search and replace with postlist
 
-  // put request to server with query and update
   render() {
     const results = this.state.results.length ? (
       <div>
@@ -69,10 +64,4 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    subreddits: state.subreddits,
-  };
-}
-
-export default connect(mapStateToProps)(Search);
+export default Search;
