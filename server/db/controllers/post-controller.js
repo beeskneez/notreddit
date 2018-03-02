@@ -190,3 +190,21 @@ exports.deleteAllPosts = (req, res) => {
     truncate: true,
   }).then(() => res.send('deleted all posts'));
 };
+
+exports.searchPosts = (req, res) => {
+  console.log('Searching our DB for: ', req.body.search);
+  model.Post.findAll({
+    where: {
+      title: {
+        $like: `%${req.body.search}%`,
+      },
+    },
+  }).then(
+    (posts) => {
+      res.status(200).send(posts);
+    },
+    (err) => {
+      console.log(err);
+    },
+  );
+};

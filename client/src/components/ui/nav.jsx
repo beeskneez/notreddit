@@ -24,8 +24,12 @@ class Nav extends Component {
           })
           .catch(err => console.log('err in login axios', err));
         document.getElementById('logout').classList.remove('hide');
+        document.getElementById('login').classList.add('hide');
+        document.getElementById('signup').classList.add('hide');
       } else {
         document.getElementById('logout').classList.add('hide');
+        document.getElementById('login').classList.remove('hide');
+        document.getElementById('signup').classList.remove('hide');
       }
     });
   }
@@ -42,6 +46,12 @@ class Nav extends Component {
             NotReddit
           </a>
           <a className="item">{this.props.user || 'not logged in'}</a>
+          <Link id="login" className="item" to="/login">
+            Login
+          </Link>
+          <Link id="signup" className="item" to="/signup">
+            Signup
+          </Link>
           <span className="empty-space" />
           <Link className="item" to="/">
             Main
@@ -52,11 +62,8 @@ class Nav extends Component {
           <Link className="item" to="/postForm">
             Create New Post
           </Link>
-          <Link className="item" to="/login">
-            Login
-          </Link>
-          <Link className="item" to="/signup">
-            Signup
+          <Link className="item" to="/search">
+            Search Posts
           </Link>
           {this.props.authUser ? (
             <Link className="item" to="/account">

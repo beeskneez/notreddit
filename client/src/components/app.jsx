@@ -13,6 +13,7 @@ import SubredditPage from './subreddits/subredditPage.jsx'
 import PostForm from './posts/postForm.jsx';
 import PostDetails from './posts/postDetails.jsx';
 import Account from './user/account.jsx';
+import Search from './user/search.jsx';
 
 const App = () => (
   <BrowserRouter>
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/postForm" component={PostForm} />
         <Route path="/postDetails" component={PostDetails} />
         <Route path="/account" component={Account} />
+        <Route path="/search" component={Search} />
         <Route exact path="/" component={PostList} />
       </Switch>
     </div>
@@ -34,7 +36,7 @@ const App = () => (
 
 function mapStateToProps(state) {
   return {
-    gPost: state.gPost
+    gPost: state.gPost,
   };
 }
 

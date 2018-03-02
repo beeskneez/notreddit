@@ -20,18 +20,6 @@ exports.createUser = (req, res) => {
     });
 };
 
-// exports.findUser = (req, res) => {
-//   model.User.sync()
-//     .then(() =>
-//       model.User.findOne({
-//         where: { email: req.body.email },
-//       }))
-//     .then((user) => {
-//       res.status(200).send(user);
-//       console.log('worked in login');
-//     });
-// };
-
 exports.getUser = (req, res) => {
   model.User.findOne({
     where: {
@@ -47,10 +35,9 @@ exports.getUser = (req, res) => {
 };
 
 exports.findUserAlt = (req, res) => {
-  const id = req.body.email;
   model.User.findOne({
     where: {
-      email: id,
+      email: req.body.email,
     },
   }).then(
     (user) => {
