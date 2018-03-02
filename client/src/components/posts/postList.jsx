@@ -28,6 +28,12 @@ class PostList extends Component {
       });
   }
 
+  renderTop() {
+    // create action to sort state.posts by a.upvoteCache - b.upvoteCache
+    console.log('in da func');
+    this.props.updatePosts(this.props.posts.sort((a, b) => a.upvoteCache - b.upvoteCache));
+  }
+
   render() {
     if (!this.props.posts.length) {
       return <h4>Loading posts...</h4>;
@@ -37,6 +43,7 @@ class PostList extends Component {
       <div className="ui grid">
         <div className="wide column" />
         <div className="twelve wide column">
+          <button onClick={() => this.renderTop()}>Top</button>
           <ul>
             {this.props.posts
               .map((post, index) => <PostListEntry post={post} key={index} />)
