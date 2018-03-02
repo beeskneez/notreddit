@@ -57,8 +57,9 @@ class Account extends Component {
     axios
       .get(`/user/${this.props.authUser}`)
       .then(res => {
-        this.setState({});
-        console.log('!!!!', res.data);
+        this.setState({
+          subredditSubscriptions: res.data.subredditSubscriptions
+        });
       })
       .catch(err => {
         console.error(err);
@@ -83,7 +84,9 @@ class Account extends Component {
                   to={{ pathname: route.path, state: this.state }}
                   onClick={() => this.handleClick(index)}
                   className={
-                    this.state.selectedIndex === index ? 'active item' : 'item'
+                    this.state.selectedIndex === index
+                      ? 'active blue item'
+                      : 'item'
                   }
                 >
                   {route.name}
