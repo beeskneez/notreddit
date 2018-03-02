@@ -33,17 +33,13 @@ class Search extends Component {
         <div class="wide column" />
         <div className="twelve wide column">
           <ul>
-            {this.state.results.map((post, index) => (
-              <div post={post} key={index}>
-                {post.title}
-              </div>
-            ))}
+            {this.state.results.map((post, index) => <PostListEntry post={post} key={index} />)}
           </ul>
         </div>
         <div class="wide column" />
       </div>
     ) : (
-      <div>no length</div>
+      <div />
     );
     return (
       <div className="outer">
