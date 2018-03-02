@@ -7,6 +7,14 @@ import { updatePosts } from './../../actions/index.jsx';
 import PostListEntry from './postListEntry.jsx';
 
 class PostList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      posts: [],
+      sort: 'Top',
+    };
+  }
+
   componentWillMount() {
     auth().onAuthStateChanged((user) => {
       if (user) {
@@ -21,6 +29,7 @@ class PostList extends Component {
     axios
       .get('/posts')
       .then((res) => {
+        // this.setState({posts: res.data});
         this.props.updatePosts(res.data);
       })
       .catch((err) => {
@@ -29,9 +38,27 @@ class PostList extends Component {
   }
 
   renderTop() {
-    // create action to sort state.posts by a.upvoteCache - b.upvoteCache
-    console.log('in da func');
-    this.props.updatePosts(this.props.posts.sort((a, b) => a.upvoteCache - b.upvoteCache));
+    const top = this.props.posts;
+    top.sort((a, b) => b.upvoteCache - a.upvoteCache);
+    this.setState({ posts: top });
+  }
+
+  renderBot() {
+    const bot = this.props.posts;
+    bot.sort((a, b) => a.upvoteCache - b.upvoteCache);
+    this.setState({ posts: bot });
+  }
+
+  renderComm() {
+    const comm = this.props.posts;
+    comm.sort((a, b) => b.commentCache - a.commentCache);
+    this.setState({ posts: comm });
+  }
+
+  renderLatest() {
+    const late = this.props.posts;
+    late.sort((a, b) => b.createdAt - a.createdAt);
+    this.setState({ posts: late });
   }
 
   render() {
@@ -43,7 +70,9 @@ class PostList extends Component {
       <div className="ui grid">
         <div className="wide column" />
         <div className="twelve wide column">
-          <button onClick={() => this.renderTop()}>Top</button>
+          <button className="ui right floated button" onClick={() => this.renderTop()}>
+            {this.state.sort}
+          </button>
           <ul>
             {this.props.posts
               .map((post, index) => <PostListEntry post={post} key={index} />)
