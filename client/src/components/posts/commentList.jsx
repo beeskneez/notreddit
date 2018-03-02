@@ -40,12 +40,12 @@ class CommentList extends Component {
     return (
       <div>
         <br />
-        <div className="ui threaded comments">
-          <div className="comments" />
-          {this.props.comments
-            .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
-            .reverse()}
-        </div>
+        {/* <div className="ui threaded comments">
+          <div className="comments" /> */}
+        {this.props.comments
+          .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
+          .reverse()}
+        {/* </div> */}
       </div>
     );
   }

@@ -110,45 +110,46 @@ class CommentListEntry extends Component {
     // console.log('Comment List Entry:', this.props);
     return (
       // <div className="comments">
-      <div className="comment">
-        <div className="content">
-          <a className="author">{this.props.comment.username}</a>
-          <div className="metadata">
-            <span className="date">Today at TODO: update time</span>
-          </div>
-          <div className="text">{this.props.comment.body}</div>
-          <div className="actions">
-            <a className="reply" onClick={() => this.onClick()} href="#">
-              Reply
-            </a>
-            {this.state.showReply && <CommentForm />}
-            <a className="hideit">Hide</a>
-            <a className="delete comment">Delete</a>
-          </div>
-          <ul className="ui big horizontal list voters">
-            <li className="item">
-              <a onClick={() => this.upvote()}>
-                <i className="arrow up icon" />
-                upvote
+      <div className="ui threaded comments">
+        <div className="comments" />
+        <div className="ui comment">
+          <div className="content">
+            <a className="author">{this.props.comment.username}</a>
+            <div className="metadata">
+              <span className="date">Today at TODO: update time</span>
+            </div>
+            <div className="text">{this.props.comment.body}</div>
+            <div className="actions">
+              <a className="reply" onClick={() => this.onClick()} href="#">
+                Reply
               </a>
-            </li>
-            <li className="item">{this.state.totalVotes}</li>
-            <li className="item">
-              <a onClick={() => this.downvote()}>
-                <i className="arrow down icon" />
-                downvote
-              </a>
-            </li>
-          </ul>
-          <div>Chillens {this.state.children.length}</div>
+              {this.state.showReply && <CommentForm />}
+              <a className="hideit">Hide</a>
+              <a className="delete comment">Delete</a>
+            </div>
+            <ul className="ui big horizontal list voters">
+              <li className="item">
+                <a onClick={() => this.upvote()}>
+                  <i className="arrow up icon" />
+                  upvote
+                </a>
+              </li>
+              <li className="item">{this.state.totalVotes}</li>
+              <li className="item">
+                <a onClick={() => this.downvote()}>
+                  <i className="arrow down icon" />
+                  downvote
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            {' '}
+            {this.state.children.length > 0 &&
+              this.state.children.map(child => <CommentListEntry key={child.id} comment={child} />)}
+          </div>
         </div>
-        {/* <div>
-          {' '}
-          {this.props.children.length > 0 &&
-            this.props.children.map(child => <CommentListEntry key={child.id} comment={child} />)}
-        </div> */}
       </div>
-      // </div>
     );
   }
 }
