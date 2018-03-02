@@ -17,13 +17,16 @@ class CommentList extends Component {
   //   });
   // }
 
-  componentDidMount() {
+  componentWillMount() {
     // console.log(this.props);
     const parentId = this.props.gPost.id;
     axios
       .get(`/comments/${parentId}`)
       .then((res) => {
         this.props.updateComments(res.data);
+        // this.props.forEach((comment) => {
+        //   console.log('comment', comment);
+        // });
         // console.log('Comment List:', this.props);
       })
       .catch((err) => {

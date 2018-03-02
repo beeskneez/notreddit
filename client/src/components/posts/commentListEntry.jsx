@@ -6,6 +6,7 @@ import { auth } from 'firebase';
 import axios from 'axios';
 import { getComment, getPost, updateAuthUser, updateChildren } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
+import CommentList from './commentList.jsx';
 
 class CommentListEntry extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class CommentListEntry extends Component {
     this.state = {
       totalVotes: this.props.comment.upvoteCache - this.props.comment.downvoteCache,
       showReply: false,
-      hasNestedComments: false,
+      children: [],
     };
   }
 
@@ -24,26 +25,42 @@ class CommentListEntry extends Component {
     });
     // console.log(this.props);
     this.props.getComment(this.props.comment);
-    console.log('comment list entry', this.props.comment);
+    // console.log('comment list entry', this.props.comment);
   }
 
+  // componentWillMount() {
+  //   axios
+  //     .get(`/comments/${this.props.comment.id}`)
+  //     .then((res) => {
+  //       this.props.updateChildren(res.data);
+  //       // console.log(this.props.children);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }
+
   componentDidMount() {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.props.updateAuthUser(user.email);
-        document.getElementById('logout').classList.remove('hide');
-      } else {
-        document.getElementById('logout').classList.add('hide');
-      }
-    });
-    // console.log(this.props.comment.id);
+    // console.log(this.props)
+    // console.log(this.state);
+    // console.log('list entry', this.props);
+    // console.log(this.state);
+    // auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.props.updateAuthUser(user.email);
+    //     document.getElementById('logout').classList.remove('hide');
+    //   } else {
+    //     document.getElementById('logout').classList.add('hide');
+    //   }
+    // });
     axios
       .get(`/comments/${this.props.comment.id}`)
       .then((res) => {
-        this.props.updateComments(res.data);
-        // console.log('baby comments:', res.data);
-        console.log(this.props);
-        // console.log('Comment List Entry: ', this.props);
+        this.setState({
+          children: res.data,
+        });
+        // this.props.updateChildren(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -89,6 +106,7 @@ class CommentListEntry extends Component {
   }
 
   render() {
+    // const comment = this.props.comment;
     // console.log('Comment List Entry:', this.props);
     return (
       // <div className="comments">
@@ -122,7 +140,13 @@ class CommentListEntry extends Component {
               </a>
             </li>
           </ul>
+          <div>Chillens {this.state.children.length}</div>
         </div>
+        {/* <div>
+          {' '}
+          {this.props.children.length > 0 &&
+            this.props.children.map(child => <CommentListEntry key={child.id} comment={child} />)}
+        </div> */}
       </div>
       // </div>
     );
@@ -131,20 +155,20 @@ class CommentListEntry extends Component {
 
 function mapStateToProps(state) {
   return {
+    children: state.children,
     gPost: state.gPost,
     authUser: state.authUser,
     gComment: getComment,
-    children: state.children,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
+      updateChildren,
       getPost,
       updateAuthUser,
       getComment,
-      updateChildren,
     },
     dispatch,
   );

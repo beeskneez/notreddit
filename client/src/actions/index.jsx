@@ -92,6 +92,6 @@ export function getComment(gComment) {
 export function updateChildren(children) {
   return {
     type: 'GET_CHILDREN',
-    payload: gComment,
+    payload: children,
   };
 }
