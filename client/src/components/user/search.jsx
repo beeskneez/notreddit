@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PostListEntry from '../posts/postListEntry.jsx';
 
 class Search extends Component {
   constructor(props) {
@@ -27,6 +28,23 @@ class Search extends Component {
 
   // put request to server with query and update
   render() {
+    const results = this.state.results.length ? (
+      <div className="ui grid">
+        <div class="wide column" />
+        <div className="twelve wide column">
+          <ul>
+            {this.state.results.map((post, index) => (
+              <div post={post} key={index}>
+                {post.title}
+              </div>
+            ))}
+          </ul>
+        </div>
+        <div class="wide column" />
+      </div>
+    ) : (
+      <div>no length</div>
+    );
     return (
       <div className="outer">
         <div className="middle">
@@ -37,17 +55,15 @@ class Search extends Component {
                 <div className="field">
                   <label>Search post titles:</label>
                   <input id="query" placeholder="Your search here" type="text" />
+                  <a onClick={() => this.search()} className="ui submit button">
+                    Search
+                  </a>
                 </div>
               </div>
-              <div onClick={() => this.search()} className="ui submit button">
-                Search
-              </div>
-              <div>
-                <br />
-                <small>
-                  Back to notreddit? <Link to="/">Main feed</Link>
-                </small>
-              </div>
+              <div />
+              <div />
+              <h5>Results:</h5>
+              {results}
             </div>
           </div>
         </div>
@@ -58,7 +74,6 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts,
     subreddits: state.subreddits,
   };
 }
