@@ -18,20 +18,28 @@ import Search from './user/search.jsx';
 import History from './user/tabs/history.jsx';
 import Subscriptions from './user/tabs/subscriptions.jsx';
 
+const routes = [
+  { path: '/', component: PostList },
+  { path: '/login', component: Login },
+  { path: '/signup', component: Signup },
+  { path: '/subredditForm', component: SubredditForm },
+  { path: '/subreddit', component: SubredditPage },
+  { path: '/postForm', component: PostForm },
+  { path: '/postDetails', component: PostDetails },
+  { path: '/account', component: Account },
+  { path: '/search', component: Search }
+];
+
 const App = () => (
   <BrowserRouter>
     <div>
       <Nav />
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/subredditForm" component={SubredditForm} />
-        <Route path="/subreddit" component={SubredditPage} />
-        <Route path="/postForm" component={PostForm} />
-        <Route path="/postDetails" component={PostDetails} />
-        <Route path="/account" component={Account} />
-        <Route path="/search" component={Search} />
-        <Route exact path="/" component={PostList} />
+        {routes.map((route, index) => {
+          return (
+            <Route key={index} path={route.path} component={route.component} />
+          );
+        })}
       </Switch>
     </div>
   </BrowserRouter>
