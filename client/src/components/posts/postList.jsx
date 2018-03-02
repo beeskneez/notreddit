@@ -43,7 +43,7 @@ class PostList extends Component {
               .reverse()}
           </ul>
         </div>
-        <div class="wide column" />
+        <div className="wide column" />
       </div>
     );
   }
