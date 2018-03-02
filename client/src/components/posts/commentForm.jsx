@@ -58,8 +58,8 @@ class CommentForm extends Component {
 
   render() {
     return (
-      <div class="ui form">
-        <div class="field">
+      <div className="ui form">
+        <div className="field">
           <label>Comment</label>
           <textarea name="body" rows="2" onChange={e => this.onChange(e)} />
         </div>

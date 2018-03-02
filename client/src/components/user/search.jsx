@@ -29,14 +29,17 @@ class Search extends Component {
   // put request to server with query and update
   render() {
     const results = this.state.results.length ? (
-      <div className="ui grid">
-        <div class="wide column" />
-        <div className="twelve wide column">
-          <ul>
-            {this.state.results.map((post, index) => <PostListEntry post={post} key={index} />)}
-          </ul>
+      <div>
+        <h5>Results:</h5>
+        <div className="ui grid">
+          <div className="wide column" />
+          <div className="twelve wide column">
+            <ul>
+              {this.state.results.map((post, index) => <PostListEntry post={post} key={index} />)}
+            </ul>
+          </div>
+          <div className="wide column" />
         </div>
-        <div class="wide column" />
       </div>
     ) : (
       <div />
@@ -46,7 +49,6 @@ class Search extends Component {
         <div className="middle">
           <div className="inner">
             <div className="ui huge form">
-              <h2>Search</h2>
               <div className="two fields">
                 <div className="field">
                   <label>Search post titles:</label>
@@ -58,7 +60,6 @@ class Search extends Component {
               </div>
               <div />
               <div />
-              <h5>Results:</h5>
               {results}
             </div>
           </div>
