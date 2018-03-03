@@ -1,37 +1,37 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
-import { updatePosts } from './../../actions/index.jsx';
-import PostListEntry from './postListEntry.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { auth } from "firebase";
+import { updatePosts } from "./../../actions/index.jsx";
+import PostListEntry from "./postListEntry.jsx";
 
 class PostList extends Component {
   constructor() {
     super();
     this.state = {
-      posts: [],
+      posts: []
     };
   }
 
   componentWillMount() {
-    auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('User logged in: ', user.email);
+        console.log("User logged in: ", user.email);
       } else {
-        console.log('User not logged in');
+        console.log("User not logged in");
       }
     });
   }
 
   componentDidMount() {
     axios
-      .get('/posts')
-      .then((res) => {
+      .get("/posts")
+      .then(res => {
         // this.setState({posts: res.data});
         this.props.updatePosts(res.data.reverse());
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -81,11 +81,13 @@ class PostList extends Component {
               Active
             </button>
             <button className="ui button" onClick={() => this.renderLatest()}>
-              /r/all
+              Latest
             </button>
           </div>
           <ul>
-            {this.props.posts.map((post, index) => <PostListEntry post={post} key={index} />)}
+            {this.props.posts.map((post, index) => (
+              <PostListEntry post={post} key={index} />
+            ))}
           </ul>
         </div>
         <div className="wide column" />
@@ -97,7 +99,7 @@ class PostList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
-    user: state.user,
+    user: state.user
   };
 }
 
