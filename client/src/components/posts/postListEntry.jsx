@@ -70,7 +70,6 @@ class PostListEntry extends Component {
 
   render() {
     const timestamp = moment(this.props.post.createdAt).format("ddd, h:mmA");
-    console.log("our timestamp", timestamp);
     return (
       <div className="twelve wide column">
         <img className="thumbnail" src={this.props.post.image} alt="" />
@@ -87,21 +86,25 @@ class PostListEntry extends Component {
             this.props.post.subreddit
           }`}</Link>
         </div>
-        <ul className="ui big horizontal list voters">
-          <li className="item">
-            <a onClick={() => this.upvote()}>
-              <i className="arrow up icon" />
-              upvote
-            </a>
-          </li>
-          <li className="item">{this.state.totalVotes}</li>
-          <li className="item">
-            <a onClick={() => this.downvote()}>
-              <i className="arrow down icon" />
-              downvote
-            </a>
-          </li>
-        </ul>
+        <div>
+          <ul className="ui big horizontal list voters">
+            <li className="item">
+              <a onClick={() => this.upvote()}>
+                <i className="arrow up icon" />
+                upvote
+              </a>
+            </li>
+            <li className="item">
+              {this.props.post.upvoteCache - this.props.post.downvoteCache}
+            </li>
+            <li className="item">
+              <a onClick={() => this.downvote()}>
+                <i className="arrow down icon" />
+                downvote
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
