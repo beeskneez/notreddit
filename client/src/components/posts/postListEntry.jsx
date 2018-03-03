@@ -70,7 +70,6 @@ class PostListEntry extends Component {
 
   render() {
     const timestamp = moment(this.props.post.createdAt).format("ddd, h:mmA");
-    console.log("our timestamp", timestamp);
     return (
       <div className="twelve wide column">
         <img className="thumbnail" src={this.props.post.image} alt="" />

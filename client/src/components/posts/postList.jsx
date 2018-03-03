@@ -28,7 +28,7 @@ class PostList extends Component {
     axios
       .get("/posts")
       .then(res => {
-        // this.setState({posts: res.data});
+        this.setState({ posts: res.data });
         this.props.updatePosts(res.data.reverse());
       })
       .catch(err => {
@@ -85,7 +85,7 @@ class PostList extends Component {
             </button>
           </div>
           <ul>
-            {this.props.posts.map((post, index) => (
+            {this.state.posts.map((post, index) => (
               <PostListEntry post={post} key={index} />
             ))}
           </ul>
