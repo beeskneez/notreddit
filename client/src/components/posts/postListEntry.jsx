@@ -86,21 +86,25 @@ class PostListEntry extends Component {
             this.props.post.subreddit
           }`}</Link>
         </div>
-        <ul className="ui big horizontal list voters">
-          <li className="item">
-            <a onClick={() => this.upvote()}>
-              <i className="arrow up icon" />
-              upvote
-            </a>
-          </li>
-          <li className="item">{this.state.totalVotes}</li>
-          <li className="item">
-            <a onClick={() => this.downvote()}>
-              <i className="arrow down icon" />
-              downvote
-            </a>
-          </li>
-        </ul>
+        <div>
+          <ul className="ui big horizontal list voters">
+            <li className="item">
+              <a onClick={() => this.upvote()}>
+                <i className="arrow up icon" />
+                upvote
+              </a>
+            </li>
+            <li className="item">
+              {this.props.post.upvoteCache - this.props.post.downvoteCache}
+            </li>
+            <li className="item">
+              <a onClick={() => this.downvote()}>
+                <i className="arrow down icon" />
+                downvote
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
