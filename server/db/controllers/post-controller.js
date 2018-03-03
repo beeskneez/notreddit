@@ -84,7 +84,7 @@ exports.createPost = (req, res) => {
     title, body, image, subreddit, user_email, username, parentId, comment,
   } = req.body.post;
   // console.log(comment);
-  console.log('req.body', req.body.post);
+  // console.log('req.body', req.body);
   if (parentId) {
     if (comment) {
       model.Post.sync()

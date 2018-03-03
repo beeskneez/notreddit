@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-import { getComment, getPost, updateAuthUser, updateChildren } from './../../actions/index.jsx';
+import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
 
@@ -19,48 +19,20 @@ class CommentListEntry extends Component {
   }
 
   onClick() {
-    // e.preventDefault();
     this.setState({
       showReply: !this.state.showReply,
     });
+    // this.props.getComment(this.props.comment);
     // console.log(this.props);
-    this.props.getComment(this.props.comment);
-    // console.log('comment list entry', this.props.comment);
   }
 
-  // componentWillMount() {
-  //   axios
-  //     .get(`/comments/${this.props.comment.id}`)
-  //     .then((res) => {
-  //       this.props.updateChildren(res.data);
-  //       // console.log(this.props.children);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
   componentDidMount() {
-    // console.log(this.props)
-    // console.log(this.state);
-    // console.log('list entry', this.props);
-    // console.log(this.state);
-    // auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.props.updateAuthUser(user.email);
-    //     document.getElementById('logout').classList.remove('hide');
-    //   } else {
-    //     document.getElementById('logout').classList.add('hide');
-    //   }
-    // });
     axios
       .get(`/comments/${this.props.comment.id}`)
       .then((res) => {
         this.setState({
           children: res.data,
         });
-        // this.props.updateChildren(res.data);
-        // console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -106,8 +78,6 @@ class CommentListEntry extends Component {
   }
 
   render() {
-    // const comment = this.props.comment;
-    // console.log('Comment List Entry:', this.props);
     return (
       // <div className="comments">
       <div className="ui threaded comments">
@@ -142,11 +112,13 @@ class CommentListEntry extends Component {
                 </a>
               </li>
             </ul>
-          </div>
-          <div>
-            {' '}
-            {this.state.children.length > 0 &&
-              this.state.children.map(child => <CommentListEntry key={child.id} comment={child} />)}
+            <div>
+              {' '}
+              {this.state.children.length > 0 &&
+                this.state.children.map((child, index) => (
+                  <CommentListEntry key={index} comment={child} />
+                ))}
+            </div>
           </div>
         </div>
       </div>
@@ -156,20 +128,20 @@ class CommentListEntry extends Component {
 
 function mapStateToProps(state) {
   return {
-    children: state.children,
     gPost: state.gPost,
     authUser: state.authUser,
-    gComment: getComment,
+    gComment: state.gComment,
+    // child: state.child
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      updateChildren,
       getPost,
       updateAuthUser,
       getComment,
+      // getChild,
     },
     dispatch,
   );

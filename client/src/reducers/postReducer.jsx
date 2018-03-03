@@ -54,9 +54,9 @@ export function ReducerGetComment(state = null, action) {
   }
 }
 
-export function ReducerChildren(state = [], action) {
+export function ReducerGetChild(state = null, action) {
   switch (action.type) {
-    case 'GET_CHILDREN':
+    case 'GET_CHILD':
       return action.payload;
     default:
       return state;

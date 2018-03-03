@@ -18,16 +18,13 @@ class CommentForm extends Component {
   }
 
   addNewComment() {
-    // console.log(this.props);
-    // console.log(this.props.comment);
-    // console.log(this.state);
-    // axios.get('/post')
+    // console.log('meow', this.props);
     if (this.props.authUser) {
-      console.log('comment form', this.props.comment);
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
       this.state.username = this.props.user;
       this.state.comment = this.props.comment;
+      // this.state.
       axios
         .post('/post', { post: this.state })
         .then((res) => {
