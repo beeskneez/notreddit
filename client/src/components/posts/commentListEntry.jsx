@@ -19,11 +19,11 @@ class CommentListEntry extends Component {
   }
 
   onClick() {
-    this.setState({
-      showReply: !this.state.showReply,
-    });
+    console.log(this.props);
+    // this.setState({
+    //   showReply: !this.state.showReply,
+    // });
     // this.props.getComment(this.props.comment);
-    // console.log(this.props);
   }
 
   componentDidMount() {
@@ -116,7 +116,7 @@ class CommentListEntry extends Component {
               {' '}
               {this.state.children.length > 0 &&
                 this.state.children.map((child, index) => (
-                  <CommentListEntry key={index} comment={child} />
+                  <CommentContainer key={index} comment={child} />
                 ))}
             </div>
           </div>
@@ -146,5 +146,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
   );
 }
+
+const CommentContainer = connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);
