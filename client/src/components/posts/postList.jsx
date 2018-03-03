@@ -11,7 +11,6 @@ class PostList extends Component {
     super();
     this.state = {
       posts: [],
-      sort: 'Top',
     };
   }
 
@@ -30,7 +29,7 @@ class PostList extends Component {
       .get('/posts')
       .then((res) => {
         // this.setState({posts: res.data});
-        this.props.updatePosts(res.data);
+        this.props.updatePosts(res.data.reverse());
       })
       .catch((err) => {
         console.error(err);
@@ -40,6 +39,7 @@ class PostList extends Component {
   renderTop() {
     const top = this.props.posts;
     top.sort((a, b) => b.upvoteCache - a.upvoteCache);
+    console.log(top);
     this.setState({ posts: top });
   }
 
@@ -57,7 +57,7 @@ class PostList extends Component {
 
   renderLatest() {
     const late = this.props.posts;
-    late.sort((a, b) => b.createdAt - a.createdAt);
+    late.sort((a, b) => b.id - a.id);
     this.setState({ posts: late });
   }
 
@@ -70,13 +70,22 @@ class PostList extends Component {
       <div className="ui grid">
         <div className="wide column" />
         <div className="twelve wide column">
-          <button className="ui right floated button" onClick={() => this.renderTop()}>
-            {this.state.sort}
-          </button>
+          <div className="ui right floated vertical buttons">
+            <button className="ui button" onClick={() => this.renderTop()}>
+              Top
+            </button>
+            <button className="ui button" onClick={() => this.renderBot()}>
+              Worst
+            </button>
+            <button className="ui button" onClick={() => this.renderComm()}>
+              Active
+            </button>
+            <button className="ui button" onClick={() => this.renderLatest()}>
+              /r/all
+            </button>
+          </div>
           <ul>
-            {this.props.posts
-              .map((post, index) => <PostListEntry post={post} key={index} />)
-              .reverse()}
+            {this.props.posts.map((post, index) => <PostListEntry post={post} key={index} />)}
           </ul>
         </div>
         <div className="wide column" />
