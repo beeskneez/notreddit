@@ -24,19 +24,10 @@ export default class History extends Component {
               </div>
               <ul className="ui big horizontal list voters">
                 <li className="item">
-                  <a>
-                    <i className="arrow up icon" />
-                    upvote
-                  </a>
+                  <a>upvotes</a>
                 </li>
                 <li className="item">
                   {post.upvoteCache - post.downvoteCache}
-                </li>
-                <li className="item">
-                  <a>
-                    <i className="arrow down icon" />
-                    downvote
-                  </a>
                 </li>
               </ul>
             </div>
