@@ -80,7 +80,9 @@ class PostListEntry extends Component {
         </Link>
         <div className="meta">
           submitted 3 hours ago by <a>{this.props.post.username}</a> to{' '}
-          <Link to={`/subreddit/${this.props.post.subreddit}`}>{`/${this.props.post.subreddit}`}</Link>
+          <Link to={`/subreddit/${this.props.post.subreddit}`}>{`/${
+            this.props.post.subreddit
+          }`}</Link>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">

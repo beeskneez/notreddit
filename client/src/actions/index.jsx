@@ -75,16 +75,23 @@ export function getPostsFromSubreddit(posts) {
   };
 }
 
-export function createComment(comment) {
+export function createComment(gComment) {
   return {
     type: 'ADD_COMMENT',
+    payload: gComment,
+  };
+}
+
+export function getComment(comment) {
+  return {
+    type: 'GET_COMMENT',
     payload: comment,
   };
 }
 
-export function getComment(gComment) {
+export function getChild(child) {
   return {
-    type: 'ADD_COMMENT',
-    payload: gComment,
+    type: 'GET_CHILD',
+    payload: child,
   };
 }

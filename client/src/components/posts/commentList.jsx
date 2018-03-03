@@ -17,7 +17,7 @@ class CommentList extends Component {
   //   });
   // }
 
-  componentDidMount() {
+  componentWillMount() {
     const parentId = this.props.gPost.id;
     axios
       .get(`/comments/${parentId}`)
@@ -30,19 +30,12 @@ class CommentList extends Component {
   }
 
   render() {
-    // const comment = this.props.comment;
-    console.log('props man', this.props);
     return (
       <div>
         <br />
-        {/* <CommentListEntry /> */}
-        {/* {this.props.comments.map((comment, index) => <div key={index}>{comment.body}</div>)} */}
-        <div className="ui threaded comments">
-          <div className="comments" />
-          {this.props.comments
-            .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
-            .reverse()}
-        </div>
+        {this.props.comments
+          .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
+          .reverse()}
       </div>
     );
   }

@@ -6,6 +6,7 @@ import { auth } from 'firebase';
 import axios from 'axios';
 import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
+import CommentList from './commentList.jsx';
 
 class CommentListEntry extends Component {
   constructor(props) {
@@ -13,31 +14,32 @@ class CommentListEntry extends Component {
     this.state = {
       totalVotes: this.props.comment.upvoteCache - this.props.comment.downvoteCache,
       showReply: false,
+      children: [],
     };
   }
 
   onClick() {
-    // e.preventDefault();
     this.setState({
       showReply: !this.state.showReply,
     });
+    // this.props.getComment(this.props.comment);
     // console.log(this.props);
-    this.props.getComment(this.props.comment);
   }
 
   componentDidMount() {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.props.updateAuthUser(user.email);
-        document.getElementById('logout').classList.remove('hide');
-      } else {
-        document.getElementById('logout').classList.add('hide');
-      }
-    });
+    axios
+      .get(`/comments/${this.props.comment.id}`)
+      .then((res) => {
+        this.setState({
+          children: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   upvote() {
-    console.log(this.props.comment);
     if (this.props.authUser) {
       axios
         .put(`/upvote/${this.props.comment.id}`)
@@ -78,49 +80,71 @@ class CommentListEntry extends Component {
   render() {
     return (
       // <div className="comments">
-      <div className="comment">
-        <div className="content">
-          <a className="author">{this.props.comment.username}</a>
-          <div className="metadata">
-            <span className="date">Today at TODO: update time</span>
-          </div>
-          <div className="text">{this.props.comment.body}</div>
-          <div className="actions">
-            <a className="reply" onClick={() => this.onClick()} href="#">
-              Reply
-            </a>
-            {this.state.showReply && <CommentForm />}
-            <a className="hideit">Hide</a>
-            <a className="delete comment">Delete</a>
-          </div>
-          <ul className="ui big horizontal list voters">
-            <li className="item">
-              <a onClick={() => this.upvote()}>
-                <i className="arrow up icon" />
-                upvote
+      <div className="ui threaded comments">
+        <div className="comments" />
+        <div className="ui comment">
+          <div className="content">
+            <a className="author">{this.props.comment.username}</a>
+            <div className="metadata">
+              <span className="date">Today at TODO: update time</span>
+            </div>
+            <div className="text">{this.props.comment.body}</div>
+            <div className="actions">
+              <a className="reply" onClick={() => this.onClick()} href="#">
+                Reply
               </a>
-            </li>
-            <li className="item">{this.state.totalVotes}</li>
-            <li className="item">
-              <a onClick={() => this.downvote()}>
-                <i className="arrow down icon" />
-                downvote
-              </a>
-            </li>
-          </ul>
+              {this.state.showReply && <CommentForm />}
+              <a className="hideit">Hide</a>
+              <a className="delete comment">Delete</a>
+            </div>
+            <ul className="ui big horizontal list voters">
+              <li className="item">
+                <a onClick={() => this.upvote()}>
+                  <i className="arrow up icon" />
+                  upvote
+                </a>
+              </li>
+              <li className="item">{this.state.totalVotes}</li>
+              <li className="item">
+                <a onClick={() => this.downvote()}>
+                  <i className="arrow down icon" />
+                  downvote
+                </a>
+              </li>
+            </ul>
+            <div>
+              {' '}
+              {this.state.children.length > 0 &&
+                this.state.children.map((child, index) => (
+                  <CommentListEntry key={index} comment={child} />
+                ))}
+            </div>
+          </div>
         </div>
       </div>
-      // </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { gPost: state.gPost, authUser: state.authUser, gComment: getComment };
+  return {
+    gPost: state.gPost,
+    authUser: state.authUser,
+    gComment: state.gComment,
+    // child: state.child
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateAuthUser, getComment }, dispatch);
+  return bindActionCreators(
+    {
+      getPost,
+      updateAuthUser,
+      getComment,
+      // getChild,
+    },
+    dispatch,
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);
