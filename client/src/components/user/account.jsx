@@ -37,6 +37,7 @@ class Account extends Component {
   componentDidMount() {
     this.getUserPosts();
     this.getUserSubscriptions();
+    console.log(this.props);
   }
 
   getUserPosts() {
@@ -46,7 +47,6 @@ class Account extends Component {
         this.setState({
           userPosts: res.data
         });
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -112,7 +112,10 @@ class Account extends Component {
 }
 
 function mapStateToProps(state) {
-  return { authUser: state.authUser };
+  return {
+    authUser: state.authUser,
+    userPosts: state.userPosts
+  };
 }
 
 export default connect(mapStateToProps)(Account);
