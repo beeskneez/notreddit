@@ -18,13 +18,12 @@ class CommentForm extends Component {
   }
 
   addNewComment() {
-    // console.log('meow', this.props);
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
+      this.state.comment = 0 || this.props.gComment;
       this.state.username = this.props.user;
-      this.state.comment = this.props.comment;
-      // this.state.
+      // this.state.comment = this.props.comment;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
@@ -33,7 +32,7 @@ class CommentForm extends Component {
             .get(`/comments/${this.state.parentId}`)
             .then((res) => {
               console.log(res.data);
-              this.props.updateComments(res.data);
+              // this.props.updateComments(res.data);
             })
             .catch((err) => {
               console.error(err);
@@ -63,14 +62,14 @@ class CommentForm extends Component {
         </div>
         <div className="field">
           {this.props.authUser ? (
-            <Link
+            <button
               className="ui submit blue button"
-              to={`/postDetails/${this.props.gPost.id}`}
+              // to={`/postDetails/${this.props.gPost.id}`}
               onClick={() => this.addNewComment()}
             >
               {' '}
               Submit{' '}
-            </Link>
+            </button>
           ) : (
             <button className="ui disabled button">
               <i className="ban red icon" />must be logged in

@@ -19,11 +19,11 @@ class CommentListEntry extends Component {
   }
 
   onClick() {
-    console.log(this.props);
-    // this.setState({
-    //   showReply: !this.state.showReply,
-    // });
-    // this.props.getComment(this.props.comment);
+    // console.log(this.props);
+    this.setState({
+      showReply: !this.state.showReply,
+    });
+    this.props.getComment(this.props.comment);
   }
 
   componentDidMount() {
