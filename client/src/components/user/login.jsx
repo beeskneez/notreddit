@@ -18,24 +18,11 @@ class Login extends Component {
           .post('/login', { email: user.email })
           .then(res => {
             this.props.updateUser(res.data.username);
-            this.getUserPosts();
             this.props.history.push('/');
           })
           .catch(err => console.log('err in login axios', err));
       })
       .catch(e => console.error(e.message));
-  }
-
-  getUserPosts() {
-    // axios
-    //   .get('/posts', { params: { user: this.props.authUser } })
-    //   .then(res => {
-    //     this.props.getUserPosts(res.data);
-    //     console.log('!!!!!!!', this.props);
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
   }
 
   render() {
