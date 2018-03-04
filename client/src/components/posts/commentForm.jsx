@@ -23,20 +23,29 @@ class CommentForm extends Component {
       this.state.parentId = this.props.gPost.id;
       this.state.comment = 0 || this.props.gComment;
       this.state.username = this.props.user;
-      // this.state.comment = this.props.comment;
       axios
         .post('/post', { post: this.state })
         .then((res) => {
           this.props.createComment(res.data);
-          axios
-            .get(`/comments/${this.state.parentId}`)
-            .then((res) => {
-              console.log(res.data);
-              // this.props.updateComments(res.data);
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+          if (!this.state.comment) {
+            axios
+              .get(`/comments/${this.props.gPost.id}`)
+              .then((res2) => {
+                this.props.updateComments(JSON.parse(JSON.stringify(res2.data)));
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          } else {
+            axios
+              .get(`/comments/${this.props.gPost.id}`)
+              .then((res2) => {
+                this.props.updateComments(res2.data);
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -62,14 +71,14 @@ class CommentForm extends Component {
         </div>
         <div className="field">
           {this.props.authUser ? (
-            <button
+            <Link
               className="ui submit blue button"
-              // to={`/postDetails/${this.props.gPost.id}`}
               onClick={() => this.addNewComment()}
+              to={`/postDetails/${this.props.gPost.id}`}
             >
               {' '}
               Submit{' '}
-            </button>
+            </Link>
           ) : (
             <button className="ui disabled button">
               <i className="ban red icon" />must be logged in

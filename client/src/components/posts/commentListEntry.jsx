@@ -19,7 +19,6 @@ class CommentListEntry extends Component {
   }
 
   onClick() {
-    // console.log(this.props);
     this.setState({
       showReply: !this.state.showReply,
     });
@@ -27,16 +26,26 @@ class CommentListEntry extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(`/comments/${this.props.comment.id}`)
-      .then((res) => {
-        this.setState({
-          children: res.data,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // console.log('listentry', this.props);
+    // this.setState({
+    //   children: this.props.comment,
+    // });
+    const arr = [];
+    const promise1 = new Promise((resolve, reject) =>
+      this.props.comment.forEach((comment) => {
+        axios
+          .get(`/comments/${comment.id}`)
+          .then((res) => {
+            resolve(arr.push(res));
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }));
+
+    promise1.then(() => {
+      console.log(arr);
+    });
   }
 
   upvote() {
