@@ -25,27 +25,17 @@ class CommentListEntry extends Component {
     this.props.getComment(this.props.comment);
   }
 
-  componentDidMount() {
-    // console.log('listentry', this.props);
-    // this.setState({
-    //   children: this.props.comment,
-    // });
-    const arr = [];
-    const promise1 = new Promise((resolve, reject) =>
-      this.props.comment.forEach((comment) => {
-        axios
-          .get(`/comments/${comment.id}`)
-          .then((res) => {
-            resolve(arr.push(res));
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }));
-
-    promise1.then(() => {
-      console.log(arr);
-    });
+  componentWillMount() {
+    axios
+      .get(`/comments/${this.props.comment.id}`)
+      .then((res) => {
+        this.setState({
+          children: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   upvote() {

@@ -16,6 +16,9 @@ class CommentForm extends Component {
     super(props);
     this.addNewComment = this.addNewComment.bind(this);
   }
+  componentDidMount() {
+    console.log(this.state);
+  }
 
   addNewComment() {
     if (this.props.authUser) {

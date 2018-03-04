@@ -30,8 +30,7 @@ export function ReducerGetPost(state = null, action) {
 export function ReducerComments(state = [], action) {
   switch (action.type) {
     case 'GET_COMMENTS':
-      return [...state, action.payload];
-      return action.payload;
+      return JSON.parse(JSON.stringify(action.payload));
     default:
       return JSON.parse(JSON.stringify(state));
   }
