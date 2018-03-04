@@ -129,7 +129,7 @@ class CommentListEntry extends Component {
               {this.state.showReply && (
                 <CommentForm sendData={this.getData} hideForm={() => this.hideForm()} />
               )}
-              <a className="hideit">Hide</a>
+              {/* <a className="hideit">Hide</a> */}
               <a className="delete comment" onClick={() => this.deleteComment()}>
                 Delete
               </a>
