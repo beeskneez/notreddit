@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { auth } from "firebase";
-import axios from "axios";
-import moment from "moment";
-import { getPost, updateAuthUser } from "./../../actions/index.jsx";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { auth } from 'firebase';
+import axios from 'axios';
+import moment from 'moment';
+import { getPost, updateAuthUser } from './../../actions/index.jsx';
 
 class PostListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalVotes: this.props.post.upvoteCache - this.props.post.downvoteCache
+      votes: this.props.post.votes
     };
   }
 
@@ -19,9 +19,9 @@ class PostListEntry extends Component {
     auth().onAuthStateChanged(user => {
       if (user) {
         this.props.updateAuthUser(user.email);
-        document.getElementById("logout").classList.remove("hide");
+        document.getElementById('logout').classList.remove('hide');
       } else {
-        document.getElementById("logout").classList.add("hide");
+        document.getElementById('logout').classList.add('hide');
       }
     });
   }
@@ -39,7 +39,9 @@ class PostListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.post.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setState({ votes: res2.data.votes });
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -55,7 +57,9 @@ class PostListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.post.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setState({ votes: res2.data.votes });
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -64,14 +68,14 @@ class PostListEntry extends Component {
     }
   }
 
-  setTotalVotes(response) {
+  setTotalVotes(votes) {
     this.setState({
-      totalVotes: response.data.upvoteCache - response.data.downvoteCache
+      votes: votes
     });
   }
 
   render() {
-    const timestamp = moment(this.props.post.createdAt).format("ddd, h:mmA");
+    const timestamp = moment(this.props.post.createdAt).format('ddd, h:mmA');
     return (
       <div className="twelve wide column">
         <img className="thumbnail" src={this.props.post.image} alt="" />
@@ -83,7 +87,7 @@ class PostListEntry extends Component {
           {this.props.post.title}
         </Link>
         <div className="meta">
-          submitted {timestamp} by <a>{this.props.post.username}</a> to{" "}
+          submitted {timestamp} by <a>{this.props.post.username}</a> to{' '}
           <Link to={`/subreddit/${this.props.post.subreddit}`}>{`/${
             this.props.post.subreddit
           }`}</Link>
@@ -96,9 +100,7 @@ class PostListEntry extends Component {
                 upvote
               </a>
             </li>
-            <li className="item">
-              {this.props.post.upvoteCache - this.props.post.downvoteCache}
-            </li>
+            <li className="item">{this.state.votes}</li>
             <li className="item">
               <a onClick={() => this.downvote()}>
                 <i className="arrow down icon" />

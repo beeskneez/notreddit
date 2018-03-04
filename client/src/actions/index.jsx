@@ -19,6 +19,14 @@ export function getPost(post) {
   };
 }
 
+export function storeUserPosts(posts) {
+  return {
+    type: 'GET_USER_POSTS',
+    payload: posts
+
+  };
+}
+
 export function updateAuthUser(user) {
   return {
     type: 'AUTH_USER',
@@ -93,5 +101,12 @@ export function getChild(child) {
   return {
     type: 'GET_CHILD',
     payload: child
+  };
+}
+
+export function getUserSubscriptionList(list) {
+  return {
+    type: 'GET_USER_SUBSCRIPTION_LIST',
+    payload: list
   };
 }

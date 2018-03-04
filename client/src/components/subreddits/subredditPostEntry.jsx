@@ -10,7 +10,9 @@ class SubredditPostEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalVotes: this.props.subredditPost.upvoteCache - this.props.subredditPost.downvoteCache
+      totalVotes:
+        this.props.subredditPost.upvoteCache -
+        this.props.subredditPost.downvoteCache
     };
   }
 

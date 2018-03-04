@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { getUserSubscriptionList } from './../../actions/index.jsx';
 import SubredditPostEntry from './subredditPostEntry.jsx';
 
 class SubredditPage extends Component {
@@ -55,6 +57,7 @@ class SubredditPage extends Component {
         this.setState({
           subredditSubscriptions: res.data.subredditSubscriptions
         });
+        this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
       })
       .catch(err => {
         console.error(err);
@@ -68,6 +71,7 @@ class SubredditPage extends Component {
         this.setState({
           subredditSubscriptions: res.data.subredditSubscriptions
         });
+        this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
       })
       .catch(err => {
         console.error(err);
@@ -119,7 +123,14 @@ class SubredditPage extends Component {
 }
 
 function mapStateToProps(state) {
-  return { authUser: state.authUser };
+  return {
+    authUser: state.authUser,
+    userSubscriptionList: state.userSubscriptionList
+  };
 }
 
-export default connect(mapStateToProps)(SubredditPage);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getUserSubscriptionList }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubredditPage);
