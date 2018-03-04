@@ -16,6 +16,7 @@ class CommentListEntry extends Component {
       showReply: false,
       children: [],
     };
+    this.getData = this.getData.bind(this);
   }
 
   onClick() {
@@ -36,6 +37,12 @@ class CommentListEntry extends Component {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  getData(data) {
+    this.setState({
+      children: data,
+    });
   }
 
   upvote() {
@@ -92,7 +99,7 @@ class CommentListEntry extends Component {
               <a className="reply" onClick={() => this.onClick()} href="#">
                 Reply
               </a>
-              {this.state.showReply && <CommentForm />}
+              {this.state.showReply && <CommentForm sendData={this.getData} />}
               <a className="hideit">Hide</a>
               <a className="delete comment">Delete</a>
             </div>

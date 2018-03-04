@@ -16,9 +16,6 @@ class CommentForm extends Component {
     super(props);
     this.addNewComment = this.addNewComment.bind(this);
   }
-  componentDidMount() {
-    console.log(this.state);
-  }
 
   addNewComment() {
     if (this.props.authUser) {
@@ -34,16 +31,16 @@ class CommentForm extends Component {
             axios
               .get(`/comments/${this.props.gPost.id}`)
               .then((res2) => {
-                this.props.updateComments(JSON.parse(JSON.stringify(res2.data)));
+                this.props.updateComments(res2.data);
               })
               .catch((err) => {
                 console.error(err);
               });
           } else {
             axios
-              .get(`/comments/${this.props.gPost.id}`)
+              .get(`/comments/${this.props.gComment.id}`)
               .then((res2) => {
-                this.props.updateComments(res2.data);
+                this.props.sendData(res2.data);
               })
               .catch((err) => {
                 console.error(err);
