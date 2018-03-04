@@ -30,9 +30,9 @@ export function ReducerGetPost(state = null, action) {
 export function ReducerComments(state = [], action) {
   switch (action.type) {
     case 'GET_COMMENTS':
-      return action.payload;
+      return JSON.parse(JSON.stringify(action.payload));
     default:
-      return state;
+      return JSON.parse(JSON.stringify(state));
   }
 }
 
@@ -57,7 +57,7 @@ export function ReducerGetComment(state = null, action) {
 export function ReducerGetChild(state = null, action) {
   switch (action.type) {
     case 'GET_CHILD':
-      return action.payload;
+      return [...state, action.payload];
     default:
       return state;
   }

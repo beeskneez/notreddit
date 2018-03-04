@@ -16,28 +16,39 @@ class CommentForm extends Component {
     super(props);
     this.addNewComment = this.addNewComment.bind(this);
   }
+  componentDidMount() {
+    console.log(this.state);
+  }
 
   addNewComment() {
-    // console.log('meow', this.props);
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
+      this.state.comment = 0 || this.props.gComment;
       this.state.username = this.props.user;
-      this.state.comment = this.props.comment;
-      // this.state.
       axios
         .post('/post', { post: this.state })
         .then((res) => {
           this.props.createComment(res.data);
-          axios
-            .get(`/comments/${this.state.parentId}`)
-            .then((res) => {
-              console.log(res.data);
-              this.props.updateComments(res.data);
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+          if (!this.state.comment) {
+            axios
+              .get(`/comments/${this.props.gPost.id}`)
+              .then((res2) => {
+                this.props.updateComments(JSON.parse(JSON.stringify(res2.data)));
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          } else {
+            axios
+              .get(`/comments/${this.props.gPost.id}`)
+              .then((res2) => {
+                this.props.updateComments(res2.data);
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -65,8 +76,8 @@ class CommentForm extends Component {
           {this.props.authUser ? (
             <Link
               className="ui submit blue button"
-              to={`/postDetails/${this.props.gPost.id}`}
               onClick={() => this.addNewComment()}
+              to={`/postDetails/${this.props.gPost.id}`}
             >
               {' '}
               Submit{' '}

@@ -27,7 +27,9 @@ class PostListEntry extends Component {
   }
 
   setDetails() {
+    console.log('before', this.props);
     this.props.getPost(this.props.post);
+    console.log('after', this.props);
   }
 
   upvote() {
