@@ -91,21 +91,24 @@ class CommentListEntry extends Component {
   }
 
   deleteComment() {
-    axios
-      .delete(`/comment/${this.props.comment.id}`)
-      .then((res) => {
-        axios
-          .get(`/comments/${this.props.gPost.id}`)
-          .then((res2) => {
-            this.props.updateComments(res2.data);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // console.log(this.props.user);
+    if (this.props.user === this.props.comment.username) {
+      axios
+        .delete(`/comment/${this.props.comment.id}`)
+        .then((res) => {
+          axios
+            .get(`/comments/${this.props.gPost.id}`)
+            .then((res2) => {
+              this.props.updateComments(res2.data);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }
 
   render() {
@@ -167,6 +170,7 @@ function mapStateToProps(state) {
     authUser: state.authUser,
     gComment: state.gComment,
     comments: state.updateComments,
+    user: state.user,
   };
 }
 
