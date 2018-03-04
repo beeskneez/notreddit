@@ -35,6 +35,7 @@ class CommentForm extends Component {
               .get(`/comments/${this.props.gComment.id}`)
               .then((res2) => {
                 this.props.sendData(res2.data);
+                this.props.hideForm();
               })
               .catch((err) => {
                 console.error(err);
@@ -68,6 +69,7 @@ class CommentForm extends Component {
             <Link
               className="ui submit blue button"
               onClick={() => this.addNewComment()}
+              // onClick={() => this.props.hideForm()}
               to={`/postDetails/${this.props.gPost.id}`}
             >
               {' '}

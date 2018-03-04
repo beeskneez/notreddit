@@ -18,6 +18,7 @@ class CommentListEntry extends Component {
       children: [],
     };
     this.getData = this.getData.bind(this);
+    this.hideForm = this.hideForm.bind(this);
   }
 
   onClick() {
@@ -25,6 +26,12 @@ class CommentListEntry extends Component {
       showReply: !this.state.showReply,
     });
     this.props.getComment(this.props.comment);
+  }
+
+  hideForm() {
+    this.setState({
+      showReply: !this.state.showReply,
+    });
   }
 
   componentWillMount() {
@@ -101,7 +108,9 @@ class CommentListEntry extends Component {
               <a className="reply" onClick={() => this.onClick()} href="#">
                 Reply
               </a>
-              {this.state.showReply && <CommentForm sendData={this.getData} />}
+              {this.state.showReply && (
+                <CommentForm sendData={this.getData} hideForm={this.hideForm} />
+              )}
               <a className="hideit">Hide</a>
               <a className="delete comment">Delete</a>
             </div>
