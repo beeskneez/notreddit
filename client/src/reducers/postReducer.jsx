@@ -1,3 +1,5 @@
+// Post Reducers
+
 export function ReducerPosts(state = [], action) {
   switch (action.type) {
     case 'REFRESH_FEED':
@@ -23,6 +25,15 @@ export function ReducerGetPost(state = null, action) {
     default:
       return state;
   }
+}
+
+export function ReducerStoreUserPosts(state = [], action) {
+  switch (action.type) {
+    case 'GET_USER_POSTS':
+      return action.payload;
+      break;
+  }
+  return state;
 }
 
 // Comment Reducers

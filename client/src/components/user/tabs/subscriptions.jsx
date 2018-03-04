@@ -9,6 +9,7 @@ export default class Subscriptions extends Component {
   render() {
     return (
       <div className="ui segment">
+        <h2 className="ui header">subscriptions</h2>
         {this.subscriptions ? (
           this.subscriptions.split(', ').map((subscription, index) => {
             return (
