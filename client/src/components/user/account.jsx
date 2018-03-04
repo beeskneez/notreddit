@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Route, Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -34,9 +35,13 @@ class Account extends Component {
     this.getUserPosts = this.getUserPosts.bind(this);
   }
 
+  // componentWillMount() {}
+
   componentDidMount() {
+    this.props.getUserPosts([{ test: 'testststststst' }]);
     this.getUserPosts();
     this.getUserSubscriptions();
+    console.log(this.props);
   }
 
   getUserPosts() {
@@ -46,7 +51,6 @@ class Account extends Component {
         this.setState({
           userPosts: res.data
         });
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -112,7 +116,9 @@ class Account extends Component {
 }
 
 function mapStateToProps(state) {
-  return { authUser: state.authUser };
+  return {
+    authUser: state.authUser
+  };
 }
 
 export default connect(mapStateToProps)(Account);

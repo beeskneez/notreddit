@@ -12,11 +12,11 @@ class Login extends Component {
     const password = document.getElementById('password').value;
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then((user) => {
+      .then(user => {
         this.props.updateAuthUser(user.email);
         axios
           .post('/login', { email: user.email })
-          .then((res) => {
+          .then(res => {
             this.props.updateUser(res.data.username);
             this.props.history.push('/');
           })
@@ -35,15 +35,26 @@ class Login extends Component {
               <div className="two fields">
                 <div className="field">
                   <label>email</label>
-                  <input id="email" placeholder="enter login email" type="text" />
+                  <input
+                    id="email"
+                    placeholder="enter login email"
+                    type="text"
+                  />
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter login password" type="password" />
+                  <input
+                    id="password"
+                    placeholder="enter login password"
+                    type="password"
+                  />
                 </div>
               </div>
               <div className="field">
-                <div onClick={() => this.login()} className="ui submit blue button">
+                <div
+                  onClick={() => this.login()}
+                  className="ui submit blue button"
+                >
                   Submit
                 </div>
               </div>
@@ -61,7 +72,7 @@ class Login extends Component {
 function mapStateToProps(state) {
   return {
     authUser: state.authUser,
-    user: state.user,
+    user: state.user
   };
 }
 
