@@ -6,9 +6,13 @@ import {
   ReducerComments,
   ReducerCreateComment,
   ReducerGetComment,
+<<<<<<< HEAD
   ReducerGetChild,
   ReducerStoreUserPosts
 
+=======
+  ReducerGetUserPosts
+>>>>>>> [feat] Add Moment timestamp to comments & post details
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -34,9 +38,12 @@ const allReducers = combineReducers({
   comments: ReducerComments,
   comment: ReducerCreateComment,
   gComment: ReducerGetComment,
+<<<<<<< HEAD
   child: ReducerGetChild,
   userPosts: ReducerStoreUserPosts,
   userSubscriptionList: ReducerUserSubscriptionList
+=======
+>>>>>>> [feat] Add Moment timestamp to comments & post details
 });
 
 export default allReducers;

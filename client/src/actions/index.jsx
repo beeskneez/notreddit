@@ -96,6 +96,7 @@ export function getComment(comment) {
     payload: comment
   };
 }
+<<<<<<< HEAD
 
 export function getChild(child) {
   return {
@@ -110,3 +111,5 @@ export function getUserSubscriptionList(list) {
     payload: list
   };
 }
+=======
+>>>>>>> [feat] Add Moment timestamp to comments & post details

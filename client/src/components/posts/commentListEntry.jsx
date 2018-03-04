@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
+import moment from 'moment';
 import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
@@ -84,6 +85,7 @@ class CommentListEntry extends Component {
   }
 
   render() {
+    const timestamp = moment(this.props.comment.createdAt).format('ddd, h:mmA');
     return (
       // <div className="comments">
       <div className="ui threaded comments">
@@ -92,7 +94,7 @@ class CommentListEntry extends Component {
           <div className="content">
             <a className="author">{this.props.comment.username}</a>
             <div className="metadata">
-              <span className="date">Today at TODO: update time</span>
+              <span className="date">submitted {timestamp}</span>
             </div>
             <div className="text">{this.props.comment.body}</div>
             <div className="actions">
@@ -137,7 +139,6 @@ function mapStateToProps(state) {
     gPost: state.gPost,
     authUser: state.authUser,
     gComment: state.gComment,
-    // child: state.child
   };
 }
 
@@ -147,7 +148,6 @@ function mapDispatchToProps(dispatch) {
       getPost,
       updateAuthUser,
       getComment,
-      // getChild,
     },
     dispatch,
   );

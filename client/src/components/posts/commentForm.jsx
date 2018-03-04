@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import {
-  getComment,
-  getPost,
-  createPost,
-  updateComments,
-  createComment,
-} from './../../actions/index.jsx';
+import { getComment, updateComments, createComment } from './../../actions/index.jsx';
 import { Link } from 'react-router-dom';
 
 class CommentForm extends Component {
@@ -104,8 +98,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getPost,
-      createPost,
       updateComments,
       createComment,
       getComment,
