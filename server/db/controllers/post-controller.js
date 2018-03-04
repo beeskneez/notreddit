@@ -89,8 +89,6 @@ exports.createPost = (req, res) => {
     parentId,
     comment
   } = req.body.post;
-  // console.log(comment);
-  // console.log('req.body', req.body);
   if (parentId) {
     if (comment) {
       model.Post.sync()

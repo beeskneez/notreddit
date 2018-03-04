@@ -18,10 +18,12 @@ class CommentList extends Component {
   // }
 
   componentWillMount() {
+    // console.log('propy', this.props);
     const parentId = this.props.gPost.id;
     axios
       .get(`/comments/${parentId}`)
       .then((res) => {
+        // console.log(res);
         this.props.updateComments(res.data);
       })
       .catch((err) => {

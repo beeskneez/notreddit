@@ -24,7 +24,7 @@ router.route('/signup').post(userController.createUser);
 // New route created below
 
 // router.route('/:subreddit/post').post(controller.createOne);
-
+router.route('/comment/:id').get(postController.getPost);
 router.route('/comments/:id').get(postController.getAllPosts);
 router.route('/posts').get(postController.getAllPosts);
 

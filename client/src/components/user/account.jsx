@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
+
 import axios from 'axios';
 
 import {
@@ -46,9 +47,13 @@ class Account extends Component {
     };
   }
 
+  // componentWillMount() {}
+
   componentDidMount() {
+    this.props.getUserPosts([{ test: 'testststststst' }]);
     this.getUserPosts();
     this.getUserSubscriptions();
+    console.log(this.props);
   }
 
   getUserPosts() {

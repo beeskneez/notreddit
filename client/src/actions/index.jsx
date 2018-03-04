@@ -23,6 +23,7 @@ export function storeUserPosts(posts) {
   return {
     type: 'GET_USER_POSTS',
     payload: posts
+
   };
 }
 
