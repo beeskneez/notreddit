@@ -42,15 +42,15 @@ class Main extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     authUser: state.authUser,
     userPosts: state.userPosts
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({ storeUserPosts }, dispatch);
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

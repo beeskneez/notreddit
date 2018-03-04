@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
-export default class History extends Component {
-  constructor(props) {
-    super(props);
-    this.posts = this.props.location.state.userPosts;
-  }
-
+class History extends Component {
   render() {
     return (
       <div className="ui segment">
-        {this.posts
+        {this.props.userPosts
           .map((post, index) => {
             return (
               <div key={index} className="twelve wide column">
@@ -34,3 +30,11 @@ export default class History extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    userPosts: state.userPosts
+  };
+};
+
+export default connect(mapStateToProps)(History);

@@ -25,9 +25,6 @@ class New extends Component {
             this.setState({ posts: this.state.posts.concat([post]) })
           )
         )
-        .then(_ => {
-          console.log(this.state);
-        })
         .catch(err => console.error(err));
     });
   }

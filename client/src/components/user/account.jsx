@@ -41,11 +41,9 @@ class Account extends Component {
   constructor() {
     super();
     this.state = {
-      userPosts: [],
       selectedIndex: 0,
       subredditSubscriptions: ''
     };
-    this.getUserPosts = this.getUserPosts.bind(this);
   }
 
   componentDidMount() {
@@ -57,9 +55,6 @@ class Account extends Component {
     axios
       .get('/posts', { params: { user: this.props.authUser } })
       .then(res => {
-        this.setState({
-          userPosts: res.data
-        });
         this.props.storeUserPosts(res.data);
       })
       .catch(err => {
@@ -71,9 +66,6 @@ class Account extends Component {
     axios
       .get(`/user/${this.props.authUser}`)
       .then(res => {
-        this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions
-        });
         this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
       })
       .catch(err => {
@@ -98,7 +90,7 @@ class Account extends Component {
               return (
                 <Link
                   key={index}
-                  to={{ pathname: route.path, state: this.state }}
+                  to={route.path}
                   onClick={() => this.handleClick(index)}
                   className={
                     this.state.selectedIndex === index
@@ -131,20 +123,20 @@ class Account extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     authUser: state.authUser,
     userPosts: state.userPosts,
     user: state.user,
     userSubscriptionList: state.userSubscriptionList
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     { storeUserPosts, getUserSubscriptionList },
     dispatch
   );
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
