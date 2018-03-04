@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
 import moment from 'moment';
-import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
+import { getComment, getPost, updateAuthUser, updateComments } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
 
@@ -18,20 +18,6 @@ class CommentListEntry extends Component {
       children: [],
     };
     this.getData = this.getData.bind(this);
-    this.hideForm = this.hideForm.bind(this);
-  }
-
-  onClick() {
-    this.setState({
-      showReply: !this.state.showReply,
-    });
-    this.props.getComment(this.props.comment);
-  }
-
-  hideForm() {
-    this.setState({
-      showReply: !this.state.showReply,
-    });
   }
 
   componentWillMount() {
@@ -45,6 +31,19 @@ class CommentListEntry extends Component {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  onClick() {
+    this.setState({
+      showReply: !this.state.showReply,
+    });
+    this.props.getComment(this.props.comment);
+  }
+
+  hideForm() {
+    this.setState({
+      showReply: !this.state.showReply,
+    });
   }
 
   getData(data) {
@@ -91,10 +90,27 @@ class CommentListEntry extends Component {
     });
   }
 
+  deleteComment() {
+    axios
+      .delete(`/comment/${this.props.comment.id}`)
+      .then((res) => {
+        axios
+          .get(`/comments/${this.props.gPost.id}`)
+          .then((res2) => {
+            this.props.updateComments(res2.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   render() {
     const timestamp = moment(this.props.comment.createdAt).format('ddd, h:mmA');
     return (
-      // <div className="comments">
       <div className="ui threaded comments">
         <div className="comments" />
         <div className="ui comment">
@@ -109,10 +125,12 @@ class CommentListEntry extends Component {
                 Reply
               </a>
               {this.state.showReply && (
-                <CommentForm sendData={this.getData} hideForm={this.hideForm} />
+                <CommentForm sendData={this.getData} hideForm={() => this.hideForm()} />
               )}
               <a className="hideit">Hide</a>
-              <a className="delete comment">Delete</a>
+              <a className="delete comment" onClick={() => this.deleteComment()}>
+                Delete
+              </a>
             </div>
             <ul className="ui big horizontal list voters">
               <li className="item">
@@ -148,6 +166,7 @@ function mapStateToProps(state) {
     gPost: state.gPost,
     authUser: state.authUser,
     gComment: state.gComment,
+    comments: state.updateComments,
   };
 }
 
@@ -157,6 +176,7 @@ function mapDispatchToProps(dispatch) {
       getPost,
       updateAuthUser,
       getComment,
+      updateComments,
     },
     dispatch,
   );

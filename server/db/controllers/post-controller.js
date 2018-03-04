@@ -187,10 +187,23 @@ exports.updateOne = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
+  console.log(req.params);
   model.Post.destroy({
     where: {
+<<<<<<< HEAD
       id: req.body.id
     }
+=======
+      $or: {
+        id: {
+          $eq: req.params.id,
+        },
+        id_parent: {
+          $eq: req.params.id,
+        },
+      },
+    },
+>>>>>>> [feat] Add Delete functionality to comments
   }).then(() => res.status(200).send('deleted'));
 };
 
