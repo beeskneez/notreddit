@@ -39,7 +39,7 @@ class New extends Component {
 
     return (
       <div className="ui segment">
-        <h2 className="ui header">new posts in your subscriptions</h2>
+        <h2 className="ui header">newest posts in your subscriptions</h2>
         {sortedPosts.map((post, index) => {
           return (
             <div key={index} className="twelve wide column">
