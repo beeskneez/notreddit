@@ -91,7 +91,6 @@ class CommentListEntry extends Component {
   }
 
   deleteComment() {
-    // console.log(this.props.user);
     if (this.props.user === this.props.comment.username) {
       axios
         .delete(`/comment/${this.props.comment.id}`)
