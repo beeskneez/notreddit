@@ -47,13 +47,9 @@ class Account extends Component {
     };
   }
 
-  // componentWillMount() {}
-
   componentDidMount() {
-    // this.props.getUserPosts([{ test: 'testststststst' }]);
     this.getUserPosts();
     this.getUserSubscriptions();
-    console.log(this.props);
   }
 
   getUserPosts() {

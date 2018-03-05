@@ -1,7 +1,6 @@
-const db = require('../db.js');
-const model = require('../models/user.js');
+const db = require("../db.js");
+const model = require("../models/user.js");
 
-// TODO: create model for these to do something with
 exports.getAllUsers = (req, res) => {};
 
 exports.createUser = (req, res) => {
@@ -13,9 +12,10 @@ exports.createUser = (req, res) => {
         email: req.body.email,
         postVoteCache: 0,
         commentVoteCache: 0,
-        subredditSubscriptions: '',
-      }))
-    .then((user) => {
+        subredditSubscriptions: ""
+      })
+    )
+    .then(user => {
       res.status(200).send(user);
     });
 };
@@ -23,13 +23,13 @@ exports.createUser = (req, res) => {
 exports.getUser = (req, res) => {
   model.User.findOne({
     where: {
-      email: req.params.email,
-    },
+      email: req.params.email
+    }
   })
-    .then((user) => {
+    .then(user => {
       res.status(200).send(user);
     })
-    .catch((err) => {
+    .catch(err => {
       console.error(err);
     });
 };
@@ -37,27 +37,26 @@ exports.getUser = (req, res) => {
 exports.findUserAlt = (req, res) => {
   model.User.findOne({
     where: {
-      email: req.body.email,
-    },
+      email: req.body.email
+    }
   }).then(
-    (user) => {
+    user => {
       res.status(200).send(user);
     },
-    (err) => {
+    err => {
       console.log(err);
-    },
+    }
   );
 };
 
 exports.addToUserRedditSubscriptions = (req, res) => {
-  console.log(req.params);
   model.User.findById(req.params.id)
-    .then((user) => {
+    .then(user => {
       let newVal = user.dataValues.subredditSubscriptions;
       if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(', ');
+        newVal = newVal.split(", ");
         newVal.push(req.params.subreddit);
-        user.update({ subredditSubscriptions: newVal.join(', ') });
+        user.update({ subredditSubscriptions: newVal.join(", ") });
       } else {
         user.update({ subredditSubscriptions: req.params.subreddit });
       }
@@ -68,12 +67,12 @@ exports.addToUserRedditSubscriptions = (req, res) => {
 
 exports.remFromUserRedditSubscriptions = (req, res) => {
   model.User.findById(req.params.id)
-    .then((user) => {
+    .then(user => {
       let newVal = user.dataValues.subredditSubscriptions;
       if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(', ');
+        newVal = newVal.split(", ");
         newVal.splice(newVal.indexOf(req.params.subreddit), 1);
-        user.update({ subredditSubscriptions: newVal.join(', ') });
+        user.update({ subredditSubscriptions: newVal.join(", ") });
       } else {
         user.update({ subredditSubscriptions: req.params.subreddit });
       }

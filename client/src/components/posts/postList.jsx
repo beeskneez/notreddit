@@ -1,37 +1,27 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
-import { updatePosts } from './../../actions/index.jsx';
-import PostListEntry from './postListEntry.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { auth } from "firebase";
+import { updatePosts } from "./../../actions/index.jsx";
+import PostListEntry from "./postListEntry.jsx";
 
 class PostList extends Component {
   constructor() {
     super();
     this.state = {
-      posts: [],
+      posts: []
     };
-  }
-
-  componentWillMount() {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log('User logged in: ', user.email);
-      } else {
-        console.log('User not logged in');
-      }
-    });
   }
 
   componentDidMount() {
     axios
-      .get('/posts')
-      .then((res) => {
+      .get("/posts")
+      .then(res => {
         this.setState({ posts: res.data });
         this.props.updatePosts(res.data.reverse());
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -39,7 +29,6 @@ class PostList extends Component {
   renderTop() {
     const top = this.props.posts;
     top.sort((a, b) => b.votes - a.votes);
-    console.log(top);
     this.setState({ posts: top });
   }
 
@@ -48,12 +37,6 @@ class PostList extends Component {
     bot.sort((a, b) => a.votes - b.votes);
     this.setState({ posts: bot });
   }
-
-  // renderComm() {
-  //   const comm = this.props.posts;
-  //   comm.sort((a, b) => b.commentCache - a.commentCache);
-  //   this.setState({ posts: comm });
-  // }
 
   renderLatest() {
     const late = this.props.posts;
@@ -82,7 +65,9 @@ class PostList extends Component {
             </button>
           </div>
           <ul>
-            {this.state.posts.map((post, index) => <PostListEntry post={post} key={index} />)}
+            {this.state.posts.map((post, index) => (
+              <PostListEntry post={post} key={index} />
+            ))}
           </ul>
         </div>
         <div className="wide column" />
@@ -94,7 +79,7 @@ class PostList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
-    user: state.user,
+    user: state.user
   };
 }
 

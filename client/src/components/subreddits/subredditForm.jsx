@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { createSubreddit } from './../../actions/index.jsx';
-import { Link, Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { createSubreddit } from "./../../actions/index.jsx";
+import { Link, Redirect } from "react-router-dom";
 
 class SubredditForm extends Component {
   constructor(props) {
@@ -12,26 +12,22 @@ class SubredditForm extends Component {
     this.addNewSubreddit = this.addNewSubreddit.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-
   onChange(e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
   addNewSubreddit() {
     axios
-      .post('/subreddit', { subreddit: this.state })
-      .then((res) => {
+      .post("/subreddit", { subreddit: this.state })
+      .then(res => {
         this.props.createSubreddit(res.data);
-        this.props.history.push('/');
+        this.props.history.push("/");
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -63,8 +59,11 @@ class SubredditForm extends Component {
               </div>
               <div className="field">
                 {this.props.authUser ? (
-                  <a className="ui submit blue button" onClick={() => this.addNewSubreddit()}>
-                    Submit{' '}
+                  <a
+                    className="ui submit blue button"
+                    onClick={() => this.addNewSubreddit()}
+                  >
+                    Submit{" "}
                   </a>
                 ) : (
                   <button className="ui disabled button">
@@ -83,7 +82,7 @@ class SubredditForm extends Component {
 function mapStateToProps(state) {
   return {
     subreddit: state.subreddit,
-    authUser: state.authUser,
+    authUser: state.authUser
   };
 }
 
