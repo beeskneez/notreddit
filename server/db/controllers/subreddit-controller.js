@@ -1,53 +1,47 @@
-const db = require('../db.js');
-const model = require('../models/subreddit.js');
-
-// Subreddit Controllers
+const db = require("../db.js");
+const model = require("../models/subreddit.js");
 
 exports.getSubreddit = (req, res) => {
   const id = req.params.id;
   model.Subreddit.findOne({
     where: {
-      id,
-    },
+      id
+    }
   }).then(
-    (subreddit) => {
+    subreddit => {
       res.status(200).send(subreddit);
     },
-    (err) => {
+    err => {
       console.log(err);
-    },
+    }
   );
 };
 
 exports.getSubredditByName = (req, res) => {
-  console.log(req.params);
   model.Subreddit.findOne({
     where: {
-      name: req.params.name,
-    },
+      name: req.params.name
+    }
   }).then(
-    (subreddit) => {
+    subreddit => {
       res.status(200).send(subreddit);
     },
-    (err) => {
+    err => {
       console.log(err);
-    },
+    }
   );
 };
 
 exports.allSubredditNames = (req, res) => {
   model.Subreddit.findAll({
-    attributes: ['name'],
+    attributes: ["name"]
   }).then(
-    (subreddits) => {
-      // // console.log(subreddits);
-      // console.log('gtotten');
-      // res.send();
+    subreddits => {
       res.status(200).send(subreddits);
     },
-    (err) => {
+    err => {
       console.log(err);
-    },
+    }
   );
 };
 
@@ -58,22 +52,10 @@ exports.createSubreddit = (req, res) => {
     .then(() =>
       model.Subreddit.create({
         name,
-        description,
-      }))
-    .then((subreddit) => {
-      console.log(subreddit);
+        description
+      })
+    )
+    .then(subreddit => {
       res.status(200).send(subreddit);
     });
 };
-
-// exports.updateOne = (req, res) => {
-//   res.status(200).send("update one");
-// };
-
-// exports.deletePost = (req, res) => {
-//   model.Post.destroy({
-//     where: {
-//       id: req.body.id
-//     }
-//   }).then(() => res.status(200).send("deleted"));
-// };
