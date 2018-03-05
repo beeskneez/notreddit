@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Subscriptions extends Component {
   render() {
@@ -11,9 +12,9 @@ class Subscriptions extends Component {
             .split(', ')
             .map((subscription, index) => {
               return (
-                <h2 key={index} className="ui large blue header">
-                  /r/{subscription}
-                </h2>
+                <Link to={`/subreddit/${subscription}`} key={index}>
+                  <h2 className="ui large blue header">/r/{subscription}</h2>
+                </Link>
               );
             })
         ) : (
