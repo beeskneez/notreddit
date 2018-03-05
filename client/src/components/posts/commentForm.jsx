@@ -36,9 +36,6 @@ class CommentForm extends Component {
               .then((res2) => {
                 this.props.sendData(res2.data);
                 this.props.hideForm();
-                console.log('propster', this.props);
-                this.props.gComment = null;
-                console.log('afterpropster', this.props);
               })
               .catch((err) => {
                 console.error(err);
