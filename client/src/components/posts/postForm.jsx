@@ -13,10 +13,6 @@ class PostForm extends Component {
     this.addNewPost = this.addNewPost.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.props.user);
-  }
-
   addNewPost() {
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
@@ -29,7 +25,6 @@ class PostForm extends Component {
           axios
             .get('/posts')
             .then((res) => {
-              // console.log(res.data);
               this.props.updatePosts(res.data);
             })
             .catch((err) => {

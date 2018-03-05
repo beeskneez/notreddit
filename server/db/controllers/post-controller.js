@@ -177,7 +177,7 @@ exports.updateOne = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  console.log(req.params);
+  // console.log('meow', req.params);
   model.Post.destroy({
     where: {
       $or: {

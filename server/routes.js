@@ -12,7 +12,7 @@ router.route('/post/:id').get(postController.getPost);
 router.route('/upvote/:id').put(postController.updatePostWithUpvote);
 router.route('/downvote/:id').put(postController.updatePostWithDownvote);
 router.route('/search').post(postController.searchPosts);
-// router.route('/post').delete(postController.deletePost);
+router.route('/post/:id').delete(postController.deletePost);
 
 router.route('/login').post(userController.findUserAlt);
 router.route('/signup').post(userController.createUser);

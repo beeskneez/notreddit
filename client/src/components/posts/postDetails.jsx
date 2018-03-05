@@ -2,12 +2,47 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
-import { getPost } from './../../actions/index.jsx';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { getPost, updatePosts } from './../../actions/index.jsx';
 import moment from 'moment';
 import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
 
 class PostDetails extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showDelete: false,
+    };
+  }
+  componentDidMount() {
+    console.log(this.props);
+    if (this.props.user === this.props.gPost.username) {
+      this.setState({
+        showDelete: true,
+      });
+    }
+  }
+
+  onClick() {
+    axios
+      .delete(`/post/${this.props.gPost.id}`)
+      .then((res) => {
+        axios
+          .get('/posts')
+          .then((res2) => {
+            this.props.updatePosts(res2.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   render() {
     const timestamp = moment(this.props.gPost.createdAt).format('ddd, h:mmA');
     return (
@@ -23,6 +58,11 @@ class PostDetails extends Component {
           submitted {timestamp} <a>{this.props.gPost.username}</a> to{' '}
           <a>{`/${this.props.gPost.subreddit}`}</a>
         </div>
+        {this.state.showDelete && (
+          <Link onClick={() => this.onClick()} to="/">
+            Delete Post
+          </Link>
+        )}
         <ul className="ui big horizontal list voters">
           <li className="item">
             <a href="">
@@ -47,11 +87,12 @@ class PostDetails extends Component {
 function mapStateToProps(state) {
   return {
     gPost: state.gPost,
+    user: state.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost }, dispatch);
+  return bindActionCreators({ getPost, updatePosts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
