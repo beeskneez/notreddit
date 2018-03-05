@@ -1,39 +1,39 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Route, Link, Switch, Redirect } from "react-router-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
 import {
   storeUserPosts,
   getUserSubscriptionList
-} from './../../actions/index.jsx';
+} from "./../../actions/index.jsx";
 
-import Main from './tabs/main.jsx';
-import New from './tabs/new.jsx';
-import History from './tabs/history.jsx';
-import Subscriptions from './tabs/subscriptions.jsx';
+import Main from "./tabs/main.jsx";
+import New from "./tabs/new.jsx";
+import History from "./tabs/history.jsx";
+import Subscriptions from "./tabs/subscriptions.jsx";
 
 const routes = [
   {
-    name: 'main',
-    path: '/account/main',
+    name: "main",
+    path: "/account/main",
     component: Main
   },
   {
-    name: 'new posts',
-    path: '/account/new',
+    name: "new posts",
+    path: "/account/new",
     component: New
   },
   {
-    name: 'history',
-    path: '/account/history',
+    name: "history",
+    path: "/account/history",
     component: History
   },
   {
-    name: 'subscriptions',
-    path: '/account/subscriptions',
+    name: "subscriptions",
+    path: "/account/subscriptions",
     component: Subscriptions
   }
 ];
@@ -43,14 +43,14 @@ class Account extends Component {
     super();
     this.state = {
       selectedIndex: 0,
-      subredditSubscriptions: ''
+      subredditSubscriptions: ""
     };
   }
 
   // componentWillMount() {}
 
   componentDidMount() {
-    this.props.getUserPosts([{ test: 'testststststst' }]);
+    // this.props.getUserPosts([{ test: 'testststststst' }]);
     this.getUserPosts();
     this.getUserSubscriptions();
     console.log(this.props);
@@ -58,7 +58,7 @@ class Account extends Component {
 
   getUserPosts() {
     axios
-      .get('/posts', { params: { user: this.props.authUser } })
+      .get("/posts", { params: { user: this.props.authUser } })
       .then(res => {
         this.props.storeUserPosts(res.data);
       })
@@ -99,8 +99,8 @@ class Account extends Component {
                   onClick={() => this.handleClick(index)}
                   className={
                     this.state.selectedIndex === index
-                      ? 'active blue item'
-                      : 'item'
+                      ? "active blue item"
+                      : "item"
                   }
                 >
                   {route.name}

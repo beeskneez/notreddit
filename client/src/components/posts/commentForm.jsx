@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { getComment, updateComments, createComment } from './../../actions/index.jsx';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import {
+  getComment,
+  updateComments,
+  createComment
+} from "./../../actions/index.jsx";
+import { Link } from "react-router-dom";
 
 class CommentForm extends Component {
   constructor(props) {
@@ -11,49 +15,52 @@ class CommentForm extends Component {
     this.addNewComment = this.addNewComment.bind(this);
   }
 
-  addNewComment() {
+  addNewComment(e) {
+    e.preventDefault();
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
       this.state.parentId = this.props.gPost.id;
       this.state.comment = 0 || this.props.gComment;
       this.state.username = this.props.user;
       axios
-        .post('/post', { post: this.state })
-        .then((res) => {
+        .post("/post", { post: this.state })
+        .then(res => {
           this.props.createComment(res.data);
           if (!this.state.comment) {
             axios
               .get(`/comments/${this.props.gPost.id}`)
-              .then((res2) => {
+              .then(res2 => {
                 this.props.updateComments(res2.data);
               })
-              .catch((err) => {
+              .catch(err => {
                 console.error(err);
               });
           } else {
             axios
               .get(`/comments/${this.props.gComment.id}`)
-              .then((res2) => {
+              .then(res2 => {
                 this.props.sendData(res2.data);
                 this.props.hideForm();
+                this.props.getComment(null);
+                this.props.history.push(`/postDetails/${this.props.gPost.id}`);
               })
-              .catch((err) => {
+              .catch(err => {
                 console.error(err);
               });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     } else {
-      console.log('not logged in');
+      console.log("not logged in");
     }
   }
 
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -66,14 +73,13 @@ class CommentForm extends Component {
         </div>
         <div className="field">
           {this.props.authUser ? (
-            <Link
+            <button
               className="ui submit blue button"
-              onClick={() => this.addNewComment()}
-              to={`/postDetails/${this.props.gPost.id}`}
+              onClick={e => this.addNewComment(e)}
             >
-              {' '}
-              Submit{' '}
-            </Link>
+              {" "}
+              Submit{" "}
+            </button>
           ) : (
             <button className="ui disabled button">
               <i className="ban red icon" />must be logged in
@@ -92,7 +98,7 @@ function mapStateToProps(state) {
     gPost: state.gPost,
     user: state.user,
     comments: state.comments,
-    gComment: state.gComment,
+    gComment: state.gComment
   };
 }
 
@@ -101,9 +107,9 @@ function mapDispatchToProps(dispatch) {
     {
       updateComments,
       createComment,
-      getComment,
+      getComment
     },
-    dispatch,
+    dispatch
   );
 }
 

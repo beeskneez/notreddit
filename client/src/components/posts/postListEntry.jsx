@@ -11,12 +11,12 @@ class PostListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      votes: this.props.post.votes
+      votes: this.props.post.votes,
     };
   }
 
   componentDidMount() {
-    auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.updateAuthUser(user.email);
         document.getElementById('logout').classList.remove('hide');
@@ -27,24 +27,22 @@ class PostListEntry extends Component {
   }
 
   setDetails() {
-    console.log('before', this.props);
     this.props.getPost(this.props.post);
-    console.log('after', this.props);
   }
 
   upvote() {
     if (this.props.authUser) {
       axios
         .put(`/upvote/${this.props.post.id}`)
-        .then(res => {
+        .then((res) => {
           axios
             .get(`/post/${this.props.post.id}`)
-            .then(res2 => {
+            .then((res2) => {
               this.setState({ votes: res2.data.votes });
             })
             .catch(err => console.error(err));
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     }
@@ -54,15 +52,15 @@ class PostListEntry extends Component {
     if (this.props.authUser) {
       axios
         .put(`/downvote/${this.props.post.id}`)
-        .then(res => {
+        .then((res) => {
           axios
             .get(`/post/${this.props.post.id}`)
-            .then(res2 => {
+            .then((res2) => {
               this.setState({ votes: res2.data.votes });
             })
             .catch(err => console.error(err));
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     }
@@ -70,7 +68,7 @@ class PostListEntry extends Component {
 
   setTotalVotes(votes) {
     this.setState({
-      votes: votes
+      votes,
     });
   }
 
