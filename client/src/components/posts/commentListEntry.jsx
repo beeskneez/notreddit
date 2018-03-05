@@ -66,7 +66,10 @@ class CommentListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setTotalVotes(res2);
+              this.props.comment.votes++;
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -82,7 +85,11 @@ class CommentListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setTotalVotes(res2);
+              console.log(res2.data);
+              this.props.comment.votes--;
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -121,7 +128,6 @@ class CommentListEntry extends Component {
     const timestamp = moment(this.props.comment.createdAt).format("ddd, h:mmA");
     return (
       <div className="ui threaded comments">
-        <div className="comments" />
         <div className="ui comment">
           <div className="content">
             <a className="author">{this.props.comment.username}</a>
@@ -130,31 +136,33 @@ class CommentListEntry extends Component {
             </div>
             <div className="text">{this.props.comment.body}</div>
             <div className="actions">
-              <a className="reply" onClick={e => this.onClick(e)} href="#">
-                Reply
-              </a>
-              {this.state.showReply && (
-                <CommentForm
-                  sendData={this.getData}
-                  hideForm={() => this.hideForm()}
-                />
-              )}
-              {/* <a className="hideit">Hide</a> */}
-              <a
-                className="delete comment"
-                onClick={() => this.deleteComment()}
-              >
-                Delete
-              </a>
+              <div>
+                <a className="reply" onClick={e => this.onClick(e)} href="#">
+                  Reply
+                </a>
+                {this.state.showReply && (
+                  <CommentForm
+                    sendData={this.getData}
+                    hideForm={() => this.hideForm()}
+                  />
+                )}
+                {/* <a className="hideit">Hide</a> */}
+                <a
+                  className="delete comment"
+                  onClick={() => this.deleteComment()}
+                >
+                  Delete
+                </a>
+              </div>
             </div>
-            <ul className="ui big horizontal list voters">
+            <ul className="ui small horizontal list voters">
               <li className="item">
                 <a onClick={() => this.upvote()}>
                   <i className="arrow up icon" />
                   upvote
                 </a>
               </li>
-              <li className="item">{this.state.totalVotes}</li>
+              <li className="item">{this.props.comment.votes}</li>
               <li className="item">
                 <a onClick={() => this.downvote()}>
                   <i className="arrow down icon" />
