@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import moment from 'moment';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import moment from "moment";
+import axios from "axios";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 
-import { getPost } from './../../../actions/index.jsx';
+import { getPost } from "./../../../actions/index.jsx";
 
 class NewListEntry extends Component {
   constructor(props) {
@@ -13,10 +13,6 @@ class NewListEntry extends Component {
     this.state = {
       votes: this.props.post.votes
     };
-  }
-
-  componentDidMount() {
-    console.log(this.props);
   }
 
   goToDetails(post) {
@@ -71,8 +67,8 @@ class NewListEntry extends Component {
           {this.props.post.title}
         </a>
         <div className="meta">
-          submitted {moment(this.props.post.createdAt).format('ddd, h:mmA')} ago
-          by <a>{this.props.post.username}</a> to{' '}
+          submitted {moment(this.props.post.createdAt).format("ddd, h:mmA")} ago
+          by <a>{this.props.post.username}</a> to{" "}
           <Link to={`/subreddit/${this.props.post.subreddit}`}>
             /{this.props.post.subreddit}
           </Link>
