@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { auth } from 'firebase';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
-import { signedIn, updateUser } from '../../actions/index.jsx';
+import React, { Component } from "react";
+import axios from "axios";
+import { auth } from "firebase";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
+import { signedIn, updateUser } from "../../actions/index.jsx";
 
 class Signup extends Component {
   componentWillMount() {
-    auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged(user => {
       if (user) {
         this.props.signedIn(true);
       } else {
@@ -18,19 +18,18 @@ class Signup extends Component {
   }
 
   signup() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const username = document.getElementById('username').value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         const user = { username, email };
         axios
-          .post('/signup', user)
-          .then((res) => {
+          .post("/signup", user)
+          .then(res => {
             this.props.updateUser(res.data.username);
-            console.log('success sign up', res);
-            this.props.history.push('/');
+            this.props.history.push("/");
           })
           .catch(err => console.log(err));
       })
@@ -47,7 +46,11 @@ class Signup extends Component {
               <div className="two fields">
                 <div className="field">
                   <label>username</label>
-                  <input id="username" placeholder="enter new username" type="text" />
+                  <input
+                    id="username"
+                    placeholder="enter new username"
+                    type="text"
+                  />
                 </div>
                 <div className="field">
                   <label>email</label>
@@ -55,10 +58,17 @@ class Signup extends Component {
                 </div>
                 <div className="field">
                   <label>password</label>
-                  <input id="password" placeholder="enter new password" type="password" />
+                  <input
+                    id="password"
+                    placeholder="enter new password"
+                    type="password"
+                  />
                 </div>
               </div>
-              <a onClick={() => this.signup()} className="ui submit blue button">
+              <a
+                onClick={() => this.signup()}
+                className="ui submit blue button"
+              >
                 Submit
               </a>
             </div>
@@ -72,7 +82,7 @@ class Signup extends Component {
 function mapStateToProps(state) {
   return {
     active: state.active,
-    user: state.user,
+    user: state.user
   };
 }
 
