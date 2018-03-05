@@ -24,6 +24,8 @@ class PostListEntry extends Component {
         document.getElementById('logout').classList.add('hide');
       }
     });
+
+    console.log(this.props.post.id);
   }
 
   setDetails() {
