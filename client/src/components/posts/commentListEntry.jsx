@@ -170,9 +170,6 @@ class CommentListEntry extends Component {
                 </a>
               </li>
             </ul>
-            <br />
-            <br />
-            <br />
             <div>
               {" "}
               {this.state.children.length > 0 &&
