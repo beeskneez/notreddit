@@ -15,10 +15,13 @@ class PostDetails extends Component {
         <a className="ui large header" href="">
           {this.props.gPost.title}
         </a>
+        <br /> <br />
+        <div>{this.props.gPost.body}</div>
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-          submitted {timestamp} <a>{this.props.gPost.username}</a> to <a>/mildyinteresting</a>
+          submitted {timestamp} <a>{this.props.gPost.username}</a> to{' '}
+          <a>{`/${this.props.gPost.subreddit}`}</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
