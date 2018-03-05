@@ -66,7 +66,10 @@ class CommentListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setTotalVotes(res2);
+              this.props.comment.upvoteCache++;
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -82,7 +85,10 @@ class CommentListEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => {
+              this.setTotalVotes(res2);
+              this.props.comment.downvoteCache++;
+            })
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -154,7 +160,10 @@ class CommentListEntry extends Component {
                   upvote
                 </a>
               </li>
-              <li className="item">{this.state.totalVotes}</li>
+              <li className="item">
+                {this.props.comment.upvoteCache -
+                  this.props.comment.downvoteCache}
+              </li>
               <li className="item">
                 <a onClick={() => this.downvote()}>
                   <i className="arrow down icon" />
