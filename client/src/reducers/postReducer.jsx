@@ -2,7 +2,7 @@
 
 export function ReducerPosts(state = [], action) {
   switch (action.type) {
-    case 'REFRESH_FEED':
+    case "REFRESH_FEED":
       return action.payload;
     default:
       return state;
@@ -11,7 +11,7 @@ export function ReducerPosts(state = [], action) {
 
 export function ReducerCreatePost(state = null, action) {
   switch (action.type) {
-    case 'ADD_POST':
+    case "ADD_POST":
       return action.payload;
     default:
       return state;
@@ -20,7 +20,7 @@ export function ReducerCreatePost(state = null, action) {
 
 export function ReducerGetPost(state = null, action) {
   switch (action.type) {
-    case 'GET_POST':
+    case "GET_POST":
       return action.payload;
     default:
       return state;
@@ -29,18 +29,18 @@ export function ReducerGetPost(state = null, action) {
 
 export function ReducerStoreUserPosts(state = [], action) {
   switch (action.type) {
-    case 'GET_USER_POSTS':
+    case "GET_USER_POSTS":
       return action.payload;
-      break;
+    default:
+      return state;
   }
-  return state;
 }
 
 // Comment Reducers
 
 export function ReducerComments(state = [], action) {
   switch (action.type) {
-    case 'GET_COMMENTS':
+    case "GET_COMMENTS":
       return JSON.parse(JSON.stringify(action.payload));
     default:
       return JSON.parse(JSON.stringify(state));
@@ -49,7 +49,7 @@ export function ReducerComments(state = [], action) {
 
 export function ReducerCreateComment(state = null, action) {
   switch (action.type) {
-    case 'ADD_COMMENT':
+    case "ADD_COMMENT":
       return action.payload;
     default:
       return state;
@@ -58,7 +58,7 @@ export function ReducerCreateComment(state = null, action) {
 
 export function ReducerGetComment(state = null, action) {
   switch (action.type) {
-    case 'GET_COMMENT':
+    case "GET_COMMENT":
       return action.payload;
     default:
       return state;
