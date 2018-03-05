@@ -87,7 +87,6 @@ class CommentListEntry extends Component {
             .get(`/post/${this.props.comment.id}`)
             .then(res2 => {
               this.setTotalVotes(res2);
-              console.log(res2.data);
               this.props.comment.votes--;
             })
             .catch(err => console.error(err));
