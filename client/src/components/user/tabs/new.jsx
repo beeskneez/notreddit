@@ -14,22 +14,25 @@ class New extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log('posts!!!!!', this.state.posts);
     this.getPostsFromSubscriptions();
   }
 
   getPostsFromSubscriptions() {
     let subscriptions = this.props.userSubscriptionList.split(', ');
-    subscriptions.forEach(sub => {
-      axios
-        .get('/posts', { params: { subredditName: sub } })
-        .then(res =>
-          res.data.forEach(post =>
-            this.setState({ posts: this.state.posts.concat([post]) })
-          )
-        )
-        .catch(err => console.error(err));
-    });
+    if (subscriptions[0]) {
+      subscriptions.forEach(sub => {
+        axios
+          .get('/posts', { params: { subredditName: sub } })
+          .then(res => {
+            res.data.forEach(post =>
+              this.setState({ posts: this.state.posts.concat([post]) })
+            );
+          })
+          .catch(err => console.error(err));
+      });
+    }
   }
 
   render() {

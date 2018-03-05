@@ -17,6 +17,7 @@ class PostDetails extends Component {
       votes: this.props.gPost.votes
     };
   }
+
   componentDidMount() {
     console.log(this.props);
     if (this.props.user === this.props.gPost.username) {
@@ -92,8 +93,10 @@ class PostDetails extends Component {
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-          submitted {timestamp} <a>{this.props.gPost.username}</a> to{' '}
-          <a>{`/${this.props.gPost.subreddit}`}</a>
+          submitted {timestamp} by <a>{this.props.gPost.username}</a> to{' '}
+          <Link to={`/subreddit/${this.props.gPost.subreddit}`}>{`/${
+            this.props.gPost.subreddit
+          }`}</Link>
         </div>
         {this.state.showDelete && (
           <Link onClick={() => this.onClick()} to="/">
