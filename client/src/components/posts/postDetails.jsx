@@ -10,35 +10,72 @@ import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
 
 class PostDetails extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showDelete: false,
+      votes: this.props.gPost.votes
     };
   }
   componentDidMount() {
     console.log(this.props);
     if (this.props.user === this.props.gPost.username) {
       this.setState({
-        showDelete: true,
+        showDelete: true
       });
     }
+  }
+
+  upvote(id) {
+    axios
+      .put(`/upvote/${id}`)
+      .then(res => {
+        axios
+          .get(`/post/${id}`)
+          .then(res2 => {
+            this.setState({
+              votes: res2.data.votes
+            });
+          })
+          .catch(err => console.error(err));
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  downvote(id) {
+    axios
+      .put(`/downvote/${id}`)
+      .then(res => {
+        axios
+          .get(`/post/${id}`)
+          .then(res2 => {
+            this.setState({
+              votes: res2.data.votes
+            });
+          })
+          .catch(err => console.error(err));
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   onClick() {
     axios
       .delete(`/post/${this.props.gPost.id}`)
-      .then((res) => {
+      .then(res => {
         axios
           .get('/posts')
-          .then((res2) => {
+          .then(res2 => {
             this.props.updatePosts(res2.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.error(err);
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -65,13 +102,14 @@ class PostDetails extends Component {
         )}
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a href="">
+            <a onClick={() => this.upvote(this.props.gPost.id)}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
+          <li className="item">{this.state.votes}</li>
           <li className="item">
-            <a href="">
+            <a onClick={() => this.downvote(this.props.gPost.id)}>
               <i className="arrow down icon" />
               downvote
             </a>
@@ -87,7 +125,7 @@ class PostDetails extends Component {
 function mapStateToProps(state) {
   return {
     gPost: state.gPost,
-    user: state.user,
+    user: state.user
   };
 }
 
