@@ -7,23 +7,11 @@ import { getComment, getPost, updateComments } from './../../actions/index.jsx';
 import CommentListEntry from './commentListEntry.jsx';
 
 class CommentList extends Component {
-  // componentWillMount() {
-  //   auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       console.log('User logged in: ', user.email);
-  //     } else {
-  //       console.log('User not logged in');
-  //     }
-  //   });
-  // }
-
   componentWillMount() {
-    // console.log('propy', this.props);
     const parentId = this.props.gPost.id;
     axios
       .get(`/comments/${parentId}`)
       .then((res) => {
-        // console.log(res);
         this.props.updateComments(res.data);
       })
       .catch((err) => {

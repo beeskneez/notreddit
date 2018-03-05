@@ -6,9 +6,7 @@ import {
   ReducerComments,
   ReducerCreateComment,
   ReducerGetComment,
-  ReducerGetChild,
-  ReducerStoreUserPosts
-
+  ReducerStoreUserPosts,
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -16,7 +14,7 @@ import {
   ReducerCreateSubreddit,
   ReducerGetSubreddits,
   ReducerSelectedSubreddit,
-  ReducerGetPostsFromSubreddit
+  ReducerGetPostsFromSubreddit,
 } from './subredditReducer.jsx';
 import { ReducerUser, ReducerUserSubscriptionList } from './userReducer.jsx';
 
@@ -34,9 +32,8 @@ const allReducers = combineReducers({
   comments: ReducerComments,
   comment: ReducerCreateComment,
   gComment: ReducerGetComment,
-  child: ReducerGetChild,
   userPosts: ReducerStoreUserPosts,
-  userSubscriptionList: ReducerUserSubscriptionList
+  userSubscriptionList: ReducerUserSubscriptionList,
 });
 
 export default allReducers;

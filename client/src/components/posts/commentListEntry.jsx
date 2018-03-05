@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
-import { getComment, getPost, updateAuthUser } from './../../actions/index.jsx';
+import moment from 'moment';
+import { getComment, getPost, updateAuthUser, updateComments } from './../../actions/index.jsx';
 import CommentForm from './commentForm.jsx';
 import CommentList from './commentList.jsx';
 
@@ -16,13 +17,7 @@ class CommentListEntry extends Component {
       showReply: false,
       children: [],
     };
-  }
-
-  onClick() {
-    this.setState({
-      showReply: !this.state.showReply,
-    });
-    this.props.getComment(this.props.comment);
+    this.getData = this.getData.bind(this);
   }
 
   componentWillMount() {
@@ -36,6 +31,25 @@ class CommentListEntry extends Component {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  onClick() {
+    this.setState({
+      showReply: !this.state.showReply,
+    });
+    this.props.getComment(this.props.comment);
+  }
+
+  hideForm() {
+    this.setState({
+      showReply: !this.state.showReply,
+    });
+  }
+
+  getData(data) {
+    this.setState({
+      children: data,
+    });
   }
 
   upvote() {
@@ -76,25 +90,49 @@ class CommentListEntry extends Component {
     });
   }
 
+  deleteComment() {
+    if (this.props.user === this.props.comment.username) {
+      axios
+        .delete(`/comment/${this.props.comment.id}`)
+        .then((res) => {
+          axios
+            .get(`/comments/${this.props.gPost.id}`)
+            .then((res2) => {
+              this.props.updateComments(res2.data);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
+
   render() {
+    const timestamp = moment(this.props.comment.createdAt).format('ddd, h:mmA');
     return (
-      // <div className="comments">
       <div className="ui threaded comments">
         <div className="comments" />
         <div className="ui comment">
           <div className="content">
             <a className="author">{this.props.comment.username}</a>
             <div className="metadata">
-              <span className="date">Today at TODO: update time</span>
+              <span className="date">submitted {timestamp}</span>
             </div>
             <div className="text">{this.props.comment.body}</div>
             <div className="actions">
               <a className="reply" onClick={() => this.onClick()} href="#">
                 Reply
               </a>
-              {this.state.showReply && <CommentForm />}
-              <a className="hideit">Hide</a>
-              <a className="delete comment">Delete</a>
+              {this.state.showReply && (
+                <CommentForm sendData={this.getData} hideForm={() => this.hideForm()} />
+              )}
+              {/* <a className="hideit">Hide</a> */}
+              <a className="delete comment" onClick={() => this.deleteComment()}>
+                Delete
+              </a>
             </div>
             <ul className="ui big horizontal list voters">
               <li className="item">
@@ -130,7 +168,8 @@ function mapStateToProps(state) {
     gPost: state.gPost,
     authUser: state.authUser,
     gComment: state.gComment,
-    // child: state.child
+    comments: state.updateComments,
+    user: state.user,
   };
 }
 
@@ -140,7 +179,7 @@ function mapDispatchToProps(dispatch) {
       getPost,
       updateAuthUser,
       getComment,
-      // getChild,
+      updateComments,
     },
     dispatch,
   );

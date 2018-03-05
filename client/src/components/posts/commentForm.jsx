@@ -2,22 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import {
-  getComment,
-  getPost,
-  createPost,
-  updateComments,
-  createComment,
-} from './../../actions/index.jsx';
+import { getComment, updateComments, createComment } from './../../actions/index.jsx';
 import { Link } from 'react-router-dom';
 
 class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.addNewComment = this.addNewComment.bind(this);
-  }
-  componentDidMount() {
-    console.log(this.state);
   }
 
   addNewComment() {
@@ -34,16 +25,17 @@ class CommentForm extends Component {
             axios
               .get(`/comments/${this.props.gPost.id}`)
               .then((res2) => {
-                this.props.updateComments(JSON.parse(JSON.stringify(res2.data)));
+                this.props.updateComments(res2.data);
               })
               .catch((err) => {
                 console.error(err);
               });
           } else {
             axios
-              .get(`/comments/${this.props.gPost.id}`)
+              .get(`/comments/${this.props.gComment.id}`)
               .then((res2) => {
-                this.props.updateComments(res2.data);
+                this.props.sendData(res2.data);
+                this.props.hideForm();
               })
               .catch((err) => {
                 console.error(err);
@@ -107,8 +99,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getPost,
-      createPost,
       updateComments,
       createComment,
       getComment,

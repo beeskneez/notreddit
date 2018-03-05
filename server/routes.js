@@ -7,9 +7,6 @@ const subredditController = require('./db/controllers/subreddit-controller.js');
 
 // Post Routers
 
-// router.route('/all').get(postController.getAllPosts);
-// router.route('/all').delete(postController.deleteAllPosts);
-// router.route('/post').get(postController.getPost);
 router.route('/post').post(postController.createPost);
 router.route('/post/:id').get(postController.getPost);
 router.route('/upvote/:id').put(postController.updatePostWithUpvote);
@@ -19,12 +16,12 @@ router.route('/search').post(postController.searchPosts);
 
 router.route('/login').post(userController.findUserAlt);
 router.route('/signup').post(userController.createUser);
-// router.route('/subreddit');
 
 // New route created below
 
 // router.route('/:subreddit/post').post(controller.createOne);
 router.route('/comment/:id').get(postController.getPost);
+router.route('/comment/:id').delete(postController.deletePost);
 router.route('/comments/:id').get(postController.getAllPosts);
 router.route('/posts').get(postController.getAllPosts);
 

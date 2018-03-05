@@ -64,12 +64,3 @@ export function ReducerGetComment(state = null, action) {
       return state;
   }
 }
-
-export function ReducerGetChild(state = null, action) {
-  switch (action.type) {
-    case 'GET_CHILD':
-      return [...state, action.payload];
-    default:
-      return state;
-  }
-}
