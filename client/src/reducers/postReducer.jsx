@@ -1,5 +1,3 @@
-// Post Reducers
-
 export function ReducerPosts(state = [], action) {
   switch (action.type) {
     case "REFRESH_FEED":
