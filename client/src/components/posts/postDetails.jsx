@@ -92,6 +92,7 @@ class PostDetails extends Component {
 >>>>>>> Commit
           .then(res2 => {
             this.props.updatePosts(res2.data);
+            this.props.history.push("/");
           })
           .catch(err => {
             console.error(err);
@@ -125,9 +126,9 @@ class PostDetails extends Component {
 >>>>>>> Commit
         </div>
         {this.state.showDelete && (
-          <Link onClick={() => this.onClick()} to="/">
+          <a className="delete button" onClick={() => this.onClick()} to="/">
             Delete Post
-          </Link>
+          </a>
         )}
         <ul className="ui big horizontal list voters">
           <li className="item">
