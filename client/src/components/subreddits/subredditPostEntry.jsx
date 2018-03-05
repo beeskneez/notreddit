@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -12,9 +13,7 @@ class SubredditPostEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalVotes:
-        this.props.subredditPost.upvoteCache -
-        this.props.subredditPost.downvoteCache
+      totalVotes: this.props.subredditPost.votes
     };
   }
 
@@ -29,7 +28,7 @@ class SubredditPostEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.subredditPost.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => this.setTotalVotes(res2.data.votes))
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -45,7 +44,7 @@ class SubredditPostEntry extends Component {
         .then(res => {
           axios
             .get(`/post/${this.props.subredditPost.id}`)
-            .then(res2 => this.setTotalVotes(res2))
+            .then(res2 => this.setTotalVotes(res2.data.votes))
             .catch(err => console.error(err));
         })
         .catch(err => {
@@ -54,9 +53,9 @@ class SubredditPostEntry extends Component {
     }
   }
 
-  setTotalVotes(response) {
+  setTotalVotes(votes) {
     this.setState({
-      totalVotes: response.data.upvoteCache - response.data.downvoteCache
+      totalVotes: votes
     });
   }
 
@@ -80,7 +79,7 @@ class SubredditPostEntry extends Component {
           {this.props.subredditPost.title}
         </Link>
         <div className="meta">
-          submitted {timestamp} by <a>{this.props.subredditPost.username}</a> to
+          submitted {timestamp} by <a>{this.props.subredditPost.username}</a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
