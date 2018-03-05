@@ -38,14 +38,14 @@ class PostList extends Component {
 
   renderTop() {
     const top = this.props.posts;
-    top.sort((a, b) => b.upvoteCache - a.upvoteCache);
+    top.sort((a, b) => b.votes - a.votes);
     console.log(top);
     this.setState({ posts: top });
   }
 
   renderBot() {
     const bot = this.props.posts;
-    bot.sort((a, b) => a.upvoteCache - b.upvoteCache);
+    bot.sort((a, b) => a.votes - b.votes);
     this.setState({ posts: bot });
   }
 
