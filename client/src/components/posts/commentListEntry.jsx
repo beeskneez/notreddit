@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
-import axios from 'axios';
-import moment from 'moment';
-import { getComment, getPost, updateAuthUser, updateComments } from './../../actions/index.jsx';
-import CommentForm from './commentForm.jsx';
-import CommentList from './commentList.jsx';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { auth } from "firebase";
+import axios from "axios";
+import moment from "moment";
+import {
+  getComment,
+  getPost,
+  updateAuthUser,
+  updateComments
+} from "./../../actions/index.jsx";
+import CommentForm from "./commentForm.jsx";
+import CommentList from "./commentList.jsx";
 
 class CommentListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalVotes: this.props.comment.upvoteCache - this.props.comment.downvoteCache,
+      totalVotes:
+        this.props.comment.upvoteCache - this.props.comment.downvoteCache,
       showReply: false,
-      children: [],
+      children: []
     };
     this.getData = this.getData.bind(this);
   }
@@ -23,32 +29,33 @@ class CommentListEntry extends Component {
   componentWillMount() {
     axios
       .get(`/comments/${this.props.comment.id}`)
-      .then((res) => {
+      .then(res => {
         this.setState({
-          children: res.data,
+          children: res.data
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   }
 
-  onClick() {
+  onClick(e) {
+    e.preventDefault();
     this.setState({
-      showReply: !this.state.showReply,
+      showReply: !this.state.showReply
     });
     this.props.getComment(this.props.comment);
   }
 
   hideForm() {
     this.setState({
-      showReply: !this.state.showReply,
+      showReply: !this.state.showReply
     });
   }
 
   getData(data) {
     this.setState({
-      children: data,
+      children: data
     });
   }
 
@@ -56,13 +63,13 @@ class CommentListEntry extends Component {
     if (this.props.authUser) {
       axios
         .put(`/upvote/${this.props.comment.id}`)
-        .then((res) => {
+        .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
             .then(res2 => this.setTotalVotes(res2))
             .catch(err => console.error(err));
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
@@ -72,13 +79,13 @@ class CommentListEntry extends Component {
     if (this.props.authUser) {
       axios
         .put(`/downvote/${this.props.comment.id}`)
-        .then((res) => {
+        .then(res => {
           axios
             .get(`/post/${this.props.comment.id}`)
             .then(res2 => this.setTotalVotes(res2))
             .catch(err => console.error(err));
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
@@ -86,7 +93,7 @@ class CommentListEntry extends Component {
 
   setTotalVotes(response) {
     this.setState({
-      totalVotes: response.data.upvoteCache - response.data.downvoteCache,
+      totalVotes: response.data.upvoteCache - response.data.downvoteCache
     });
   }
 
@@ -94,24 +101,24 @@ class CommentListEntry extends Component {
     if (this.props.user === this.props.comment.username) {
       axios
         .delete(`/comment/${this.props.comment.id}`)
-        .then((res) => {
+        .then(res => {
           axios
             .get(`/comments/${this.props.gPost.id}`)
-            .then((res2) => {
+            .then(res2 => {
               this.props.updateComments(res2.data);
             })
-            .catch((err) => {
+            .catch(err => {
               console.error(err);
             });
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
   }
 
   render() {
-    const timestamp = moment(this.props.comment.createdAt).format('ddd, h:mmA');
+    const timestamp = moment(this.props.comment.createdAt).format("ddd, h:mmA");
     return (
       <div className="ui threaded comments">
         <div className="comments" />
@@ -123,14 +130,20 @@ class CommentListEntry extends Component {
             </div>
             <div className="text">{this.props.comment.body}</div>
             <div className="actions">
-              <a className="reply" onClick={() => this.onClick()} href="#">
+              <a className="reply" onClick={e => this.onClick(e)} href="#">
                 Reply
               </a>
               {this.state.showReply && (
-                <CommentForm sendData={this.getData} hideForm={() => this.hideForm()} />
+                <CommentForm
+                  sendData={this.getData}
+                  hideForm={() => this.hideForm()}
+                />
               )}
               {/* <a className="hideit">Hide</a> */}
-              <a className="delete comment" onClick={() => this.deleteComment()}>
+              <a
+                className="delete comment"
+                onClick={() => this.deleteComment()}
+              >
                 Delete
               </a>
             </div>
@@ -150,7 +163,7 @@ class CommentListEntry extends Component {
               </li>
             </ul>
             <div>
-              {' '}
+              {" "}
               {this.state.children.length > 0 &&
                 this.state.children.map((child, index) => (
                   <CommentContainer key={index} comment={child} />
@@ -169,7 +182,7 @@ function mapStateToProps(state) {
     authUser: state.authUser,
     gComment: state.gComment,
     comments: state.updateComments,
-    user: state.user,
+    user: state.user
   };
 }
 
@@ -179,12 +192,14 @@ function mapDispatchToProps(dispatch) {
       getPost,
       updateAuthUser,
       getComment,
-      updateComments,
+      updateComments
     },
-    dispatch,
+    dispatch
   );
 }
 
-const CommentContainer = connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);
+const CommentContainer = connect(mapStateToProps, mapDispatchToProps)(
+  CommentListEntry
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { createPost, updatePosts } from './../../actions/index.jsx';
-import { Link } from 'react-router-dom';
-import SubredditList from '../subreddits/subredditList.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { createPost, updatePosts } from "./../../actions/index.jsx";
+import { Link } from "react-router-dom";
+import SubredditList from "../subreddits/subredditList.jsx";
 
 class PostForm extends Component {
   constructor(props) {
@@ -19,30 +19,23 @@ class PostForm extends Component {
       this.state.subreddit = this.props.selectedSubreddit;
       this.state.username = this.props.user;
       axios
-        .post('/post', { post: this.state })
-        .then((res) => {
+        .post("/post", { post: this.state })
+        .then(res => {
           this.props.createPost(res.data);
-          axios
-            .get('/posts')
-            .then((res) => {
-              this.props.updatePosts(res.data);
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+          this.props.history.push("/");
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     } else {
-      console.log('not logged in');
+      console.log("not logged in");
     }
   }
 
   onChange(e) {
     const { name, value } = e.target;
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -86,10 +79,13 @@ class PostForm extends Component {
               </div>
               <div className="field">
                 {this.props.authUser ? (
-                  <Link className="ui submit blue button" onClick={() => this.addNewPost()} to="/">
-                    {' '}
-                    Submit{' '}
-                  </Link>
+                  <a
+                    className="ui submit blue button"
+                    onClick={() => this.addNewPost()}
+                  >
+                    {" "}
+                    Submit{" "}
+                  </a>
                 ) : (
                   <button className="ui disabled button">
                     <i className="ban red icon" />must be logged in
@@ -109,7 +105,7 @@ function mapStateToProps(state) {
     post: state.post,
     authUser: state.authUser,
     selectedSubreddit: state.selectedSubreddit,
-    user: state.user,
+    user: state.user
   };
 }
 
