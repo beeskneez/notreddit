@@ -49,11 +49,11 @@ class PostList extends Component {
     this.setState({ posts: bot });
   }
 
-  renderComm() {
-    const comm = this.props.posts;
-    comm.sort((a, b) => b.commentCache - a.commentCache);
-    this.setState({ posts: comm });
-  }
+  // renderComm() {
+  //   const comm = this.props.posts;
+  //   comm.sort((a, b) => b.commentCache - a.commentCache);
+  //   this.setState({ posts: comm });
+  // }
 
   renderLatest() {
     const late = this.props.posts;
@@ -76,9 +76,6 @@ class PostList extends Component {
             </button>
             <button className="ui button" onClick={() => this.renderBot()}>
               Worst
-            </button>
-            <button className="ui button" onClick={() => this.renderComm()}>
-              Active
             </button>
             <button className="ui button" onClick={() => this.renderLatest()}>
               Latest
