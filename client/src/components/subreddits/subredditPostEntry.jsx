@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
+import moment from 'moment';
+
 import { getPost } from './../../actions/index.jsx';
 
 class SubredditPostEntry extends Component {
@@ -59,6 +61,10 @@ class SubredditPostEntry extends Component {
   }
 
   render() {
+    const timestamp = moment(this.props.subredditPost.createdAt).format(
+      'ddd, h:mmA'
+    );
+
     return (
       <div className="twelve wide column">
         <img
@@ -74,7 +80,7 @@ class SubredditPostEntry extends Component {
           {this.props.subredditPost.title}
         </Link>
         <div className="meta">
-          submitted 3 hours ago by <a>{this.props.subredditPost.username}</a> to
+          submitted {timestamp} by <a>{this.props.subredditPost.username}</a> to
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
