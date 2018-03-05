@@ -24,6 +24,7 @@ class CommentListEntry extends Component {
       children: []
     };
     this.getData = this.getData.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   componentWillMount() {
@@ -104,12 +105,14 @@ class CommentListEntry extends Component {
   }
 
   deleteComment() {
+    let entry = this;
+    let pid = this.props.comment.id_parent;
     if (this.props.user === this.props.comment.username) {
       axios
         .delete(`/comment/${this.props.comment.id}`)
         .then(res => {
           axios
-            .get(`/comments/${this.props.gPost.id}`)
+            .get(`/comments/${this.props.comment.id_parent}`)
             .then(res2 => {
               this.props.updateComments(res2.data);
               this.props.getComment(null);
@@ -146,7 +149,6 @@ class CommentListEntry extends Component {
                     hideForm={() => this.hideForm()}
                   />
                 )}
-                {/* <a className="hideit">Hide</a> */}
                 <a
                   className="delete comment"
                   onClick={() => this.deleteComment()}

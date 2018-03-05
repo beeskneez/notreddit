@@ -42,7 +42,7 @@ class CommentForm extends Component {
                 this.props.sendData(res2.data);
                 this.props.hideForm();
                 this.props.getComment(null);
-                this.props.history.push(`/postDetails/${this.props.gPost.id}`);
+                // this.props.history.push(`/postDetails/${this.props.gPost.id}`);
               })
               .catch(err => {
                 console.error(err);
