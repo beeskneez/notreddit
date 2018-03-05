@@ -28,7 +28,7 @@ class PostForm extends Component {
           console.error(err);
         });
     } else {
-      console.log("not logged in");
+      console.log("Login to continue");
     }
   }
 

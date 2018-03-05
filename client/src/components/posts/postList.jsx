@@ -29,7 +29,6 @@ class PostList extends Component {
   renderTop() {
     const top = this.props.posts;
     top.sort((a, b) => b.votes - a.votes);
-    console.log(top);
     this.setState({ posts: top });
   }
 
