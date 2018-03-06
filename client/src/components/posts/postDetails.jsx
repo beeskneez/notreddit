@@ -96,8 +96,6 @@ class PostDetails extends Component {
           <Link to={`/subreddit/${this.props.gPost.subreddit}`}>{`/${
             this.props.gPost.subreddit
           }`}</Link>
-          submitted {timestamp} <a>{this.props.gPost.username}</a> to{" "}
-          <a>{`/${this.props.gPost.subreddit}`}</a>
         </div>
         {this.state.showDelete && (
           <Link onClick={() => this.onClick()} to="/">
