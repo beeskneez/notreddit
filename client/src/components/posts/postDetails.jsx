@@ -17,13 +17,8 @@ class PostDetails extends Component {
       votes: this.props.gPost.votes
     };
   }
-<<<<<<< HEAD
 
   componentDidMount() {
-=======
-  componentWillMount() {
-    console.log("Post Details", this.props.history);
->>>>>>> Commit
     if (this.props.user === this.props.gPost.username) {
       this.setState({
         showDelete: true
@@ -72,19 +67,7 @@ class PostDetails extends Component {
       .delete(`/post/${this.props.gPost.id}`)
       .then(res => {
         axios
-<<<<<<< HEAD
-<<<<<<< HEAD
           .get("/posts")
-=======
-<<<<<<< HEAD
-          .get('/posts')
-=======
-          .get("/posts")
->>>>>>> [feat] Working on deleting nested comments without refresh
->>>>>>> Commit
-=======
-          .get("/posts")
->>>>>>> [refactor] Utils functions created for post controllers
           .then(res2 => {
             this.props.updatePosts(res2.data);
           })
@@ -109,15 +92,12 @@ class PostDetails extends Component {
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
-<<<<<<< HEAD
           submitted {timestamp} by <a>{this.props.gPost.username}</a> to{" "}
           <Link to={`/subreddit/${this.props.gPost.subreddit}`}>{`/${
             this.props.gPost.subreddit
           }`}</Link>
-=======
           submitted {timestamp} <a>{this.props.gPost.username}</a> to{" "}
           <a>{`/${this.props.gPost.subreddit}`}</a>
->>>>>>> Commit
         </div>
         {this.state.showDelete && (
           <Link onClick={() => this.onClick()} to="/">
