@@ -14,11 +14,7 @@ class PostDetails extends Component {
     super(props);
     this.state = {
       showDelete: false,
-<<<<<<< HEAD
       votes: this.props.gPost.votes
-=======
-      history: null
->>>>>>> [feat] Working on deleting nested comments without refresh
     };
   }
 <<<<<<< HEAD
@@ -30,12 +26,7 @@ class PostDetails extends Component {
 >>>>>>> Commit
     if (this.props.user === this.props.gPost.username) {
       this.setState({
-<<<<<<< HEAD
         showDelete: true
-=======
-        showDelete: true,
-        history: this.props.history
->>>>>>> [feat] Working on deleting nested comments without refresh
       });
     }
   }
@@ -82,6 +73,7 @@ class PostDetails extends Component {
       .then(res => {
         axios
 <<<<<<< HEAD
+<<<<<<< HEAD
           .get("/posts")
 =======
 <<<<<<< HEAD
@@ -90,9 +82,11 @@ class PostDetails extends Component {
           .get("/posts")
 >>>>>>> [feat] Working on deleting nested comments without refresh
 >>>>>>> Commit
+=======
+          .get("/posts")
+>>>>>>> [refactor] Utils functions created for post controllers
           .then(res2 => {
             this.props.updatePosts(res2.data);
-            this.props.history.push("/");
           })
           .catch(err => {
             console.error(err);
@@ -126,9 +120,9 @@ class PostDetails extends Component {
 >>>>>>> Commit
         </div>
         {this.state.showDelete && (
-          <a className="delete button" onClick={() => this.onClick()} to="/">
+          <Link onClick={() => this.onClick()} to="/">
             Delete Post
-          </a>
+          </Link>
         )}
         <ul className="ui big horizontal list voters">
           <li className="item">
