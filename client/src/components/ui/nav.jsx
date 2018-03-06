@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { auth } from 'firebase';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { updateAuthUser, updateUser } from './../../actions/index.jsx';
+import React, { Component } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { auth } from "firebase";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateAuthUser, updateUser } from "./../../actions/index.jsx";
 
 class Nav extends Component {
   signOut() {
@@ -14,22 +14,22 @@ class Nav extends Component {
   }
 
   componentWillMount() {
-    auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged(user => {
       if (user) {
         this.props.updateAuthUser(user.email);
         axios
-          .post('/login', { email: user.email })
-          .then((res) => {
+          .post("/login", { email: user.email })
+          .then(res => {
             this.props.updateUser(res.data.username);
           })
-          .catch(err => console.log('err in login axios', err));
-        document.getElementById('logout').classList.remove('hide');
-        document.getElementById('login').classList.add('hide');
-        document.getElementById('signup').classList.add('hide');
+          .catch(err => console.log("err in login axios", err));
+        document.getElementById("logout").classList.remove("hide");
+        document.getElementById("login").classList.add("hide");
+        document.getElementById("signup").classList.add("hide");
       } else {
-        document.getElementById('logout').classList.add('hide');
-        document.getElementById('login').classList.remove('hide');
-        document.getElementById('signup').classList.remove('hide');
+        document.getElementById("logout").classList.add("hide");
+        document.getElementById("login").classList.remove("hide");
+        document.getElementById("signup").classList.remove("hide");
       }
     });
   }
@@ -38,14 +38,14 @@ class Nav extends Component {
     return (
       <div className="ui menu">
         <div className="ui container">
-          <a href="#" className="header item">
+          <Link to="/" className="header item">
             <img
               className="logo"
               src="https://vignette.wikia.nocookie.net/atlas-reactor/images/1/10/Reddit.png/revision/latest?cb=20170201145049"
-            />{' '}
+            />{" "}
             NotReddit
-          </a>
-          <a className="item">{this.props.user || 'not logged in'}</a>
+          </Link>
+          <a className="item">{this.props.user || "not logged in"}</a>
           <Link id="login" className="item" to="/login">
             Login
           </Link>
@@ -53,9 +53,6 @@ class Nav extends Component {
             Signup
           </Link>
           <span className="empty-space" />
-          <Link className="item" to="/">
-            Main
-          </Link>
           <Link className="item" to="/subredditForm">
             Create New Subreddit
           </Link>
@@ -70,7 +67,12 @@ class Nav extends Component {
               Account
             </Link>
           ) : null}
-          <Link id="logout" className="item hide" to="/login" onClick={() => this.signOut()}>
+          <Link
+            id="logout"
+            className="item hide"
+            to="/login"
+            onClick={() => this.signOut()}
+          >
             Logout
           </Link>
         </div>
@@ -82,7 +84,7 @@ class Nav extends Component {
 function mapStateToProps(state) {
   return {
     authUser: state.authUser,
-    user: state.user,
+    user: state.user
   };
 }
 
