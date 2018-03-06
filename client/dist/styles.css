@@ -12,7 +12,7 @@ form.ui.segment.form {
 }
 
 form.form:after {
-  content: '';
+  content: "";
   display: block;
   height: 0;
   clear: both;
@@ -41,7 +41,7 @@ form.form:after {
 }
 
 ul.ui.list li:before {
-  content: '';
+  content: "";
 }
 
 .voters {
@@ -89,4 +89,9 @@ ul.ui.list li:before {
 
 .hide {
   visibility: hidden;
+}
+
+.delete:hover {
+  color: red;
+  cursor: pointer;
 }
