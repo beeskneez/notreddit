@@ -1,22 +1,28 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
-import { getComment, getPost, updateComments } from './../../actions/index.jsx';
-import CommentListEntry from './commentListEntry.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import { bindActionCreators } from "redux";
+import { auth } from "firebase";
+import { getComment, getPost, updateComments } from "./../../actions/index.jsx";
+import CommentListEntry from "./commentListEntry.jsx";
 
 class CommentList extends Component {
+  constructor(props) {
+    super(props);
+  }
   componentWillMount() {
     const parentId = this.props.gPost.id;
     axios
       .get(`/comments/${parentId}`)
-      .then((res) => {
+      .then(res => {
         this.props.updateComments(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
+  }
+  componentDidMount() {
+    console.log("history from commentlist", this.props);
   }
 
   render() {
@@ -24,7 +30,9 @@ class CommentList extends Component {
       <div>
         <br />
         {this.props.comments
-          .map((comment, index) => <CommentListEntry comment={comment} key={index} />)
+          .map((comment, index) => (
+            <CommentListEntry comment={comment} key={index} />
+          ))
           .reverse()}
       </div>
     );
@@ -36,7 +44,7 @@ function mapStateToProps(state) {
     comments: state.comments,
     gPost: state.gPost,
     user: state.user,
-    gComment: state.gComment,
+    gComment: state.gComment
   };
 }
 

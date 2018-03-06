@@ -112,6 +112,7 @@ class CommentListEntry extends Component {
             .get(`/comments/${this.props.gPost.id}`)
             .then(res2 => {
               this.props.updateComments(res2.data);
+              this.props.getComment(null);
             })
             .catch(err => {
               console.error(err);

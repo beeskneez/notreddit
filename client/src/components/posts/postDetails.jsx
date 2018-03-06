@@ -14,14 +14,28 @@ class PostDetails extends Component {
     super(props);
     this.state = {
       showDelete: false,
+<<<<<<< HEAD
       votes: this.props.gPost.votes
+=======
+      history: null
+>>>>>>> [feat] Working on deleting nested comments without refresh
     };
   }
+<<<<<<< HEAD
 
   componentDidMount() {
+=======
+  componentWillMount() {
+    console.log("Post Details", this.props.history);
+>>>>>>> Commit
     if (this.props.user === this.props.gPost.username) {
       this.setState({
+<<<<<<< HEAD
         showDelete: true
+=======
+        showDelete: true,
+        history: this.props.history
+>>>>>>> [feat] Working on deleting nested comments without refresh
       });
     }
   }
@@ -67,7 +81,15 @@ class PostDetails extends Component {
       .delete(`/post/${this.props.gPost.id}`)
       .then(res => {
         axios
+<<<<<<< HEAD
           .get("/posts")
+=======
+<<<<<<< HEAD
+          .get('/posts')
+=======
+          .get("/posts")
+>>>>>>> [feat] Working on deleting nested comments without refresh
+>>>>>>> Commit
           .then(res2 => {
             this.props.updatePosts(res2.data);
           })
@@ -92,10 +114,15 @@ class PostDetails extends Component {
         <br />
         <img src={this.props.gPost.image} alt="" />
         <div className="meta">
+<<<<<<< HEAD
           submitted {timestamp} by <a>{this.props.gPost.username}</a> to{" "}
           <Link to={`/subreddit/${this.props.gPost.subreddit}`}>{`/${
             this.props.gPost.subreddit
           }`}</Link>
+=======
+          submitted {timestamp} <a>{this.props.gPost.username}</a> to{" "}
+          <a>{`/${this.props.gPost.subreddit}`}</a>
+>>>>>>> Commit
         </div>
         {this.state.showDelete && (
           <Link onClick={() => this.onClick()} to="/">
