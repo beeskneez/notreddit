@@ -1,4 +1,4 @@
-@mixin form-position($width: 75%, $marginY: 0, $marginX: auto) {
+@mixin small-width($width: 75%, $marginY: 0, $marginX: auto) {
   width: $width;
   margin: $marginY $marginX;
 }
@@ -18,15 +18,18 @@
   .page {
     grid-area: page;
     position: relative;
-    &.post-list {
+    &.columns-9-1 {
       display: grid;
       grid-template-columns: 9fr 1fr;
     }
     &.not-reddit-form {
-      @include form-position();
+      @include small-width();
       .onboarding-inner {
-        @include form-position(75%, 10%);
+        @include small-width(75%, 10%);
       }
+    }
+    &.post-details {
+      @include small-width();
     }
   }
 }

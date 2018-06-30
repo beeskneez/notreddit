@@ -5,7 +5,11 @@ import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { signedIn, updateUser } from '../../actions/index.jsx';
-import { validateEmail, validatePassword, validateUsername } from './helpers';
+import {
+  emailValidateMessage,
+  passwordValidateMessage,
+  usernameValidateMessage
+} from './helpers';
 
 class Signup extends Component {
   constructor() {
@@ -28,19 +32,24 @@ class Signup extends Component {
   }
 
   signup() {
+    const { email, password } = this.state;
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        const user = { username, email };
-        axios
-          .post('/signup', user)
-          .then(res => {
-            this.props.updateUser(res.data.username);
-            this.props.history.push('/');
-          })
-          .catch(err => console.log(err));
+        this.afterSignup();
       })
       .catch(e => console.error(e.message));
+  }
+
+  afterSignup() {
+    const { username, email } = this.state;
+    axios
+      .post('/signup', { email: email, username: username })
+      .then(res => {
+        this.props.updateUser(res.data.username);
+        this.props.history.push('/');
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange(e) {
@@ -54,15 +63,11 @@ class Signup extends Component {
     return isEmail(value);
   }
 
-  verifyPassword(value) {
-    return validatePassword(password);
-  }
-
   render() {
     const { email, password, username } = this.state;
-    const EMAIL_VALIDATION = validateEmail(email, this.verifyEmail);
-    const PASSWORD_VALIDATION = validatePassword(password);
-    const USERNAME_VALIDATION = validateUsername(username);
+    const EMAIL_VALIDATION = emailValidateMessage(email, this.verifyEmail);
+    const PASSWORD_VALIDATION = passwordValidateMessage(password);
+    const USERNAME_VALIDATION = usernameValidateMessage(username);
 
     return (
       <div className="page not-reddit-form">

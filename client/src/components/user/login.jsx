@@ -6,7 +6,7 @@ import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateAuthUser, updateUser } from './../../actions/index.jsx';
-import { validateEmail, validatePassword } from './helpers';
+import { emailValidateMessage, passwordValidateMessage } from './helpers';
 class Login extends Component {
   constructor() {
     super();
@@ -20,16 +20,20 @@ class Login extends Component {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(user => {
-        this.props.updateAuthUser(user.email);
-        axios
-          .post('/login', { email: user.email })
-          .then(res => {
-            this.props.updateUser(res.data.username);
-            this.props.history.push('/');
-          })
-          .catch(err => console.log('err logging in: ', err));
+        this.afterLogin(user.email);
       })
       .catch(e => console.error(e.message));
+  }
+
+  afterLogin(email) {
+    this.props.updateAuthUser(email);
+    axios
+      .post('/login', { email: email })
+      .then(res => {
+        this.props.updateUser(res.data.username);
+        this.props.history.push('/');
+      })
+      .catch(err => console.log('err logging in: ', err));
   }
 
   handleChange(e) {
@@ -39,18 +43,16 @@ class Login extends Component {
     });
   }
 
-  verifyEmail(value) {
+  validateEmail(value) {
     return isEmail(value);
   }
 
-  verifyPassword(value) {
-    return validatePassword(password);
-  }
-
   render() {
-    const EMAIL_VALIDATION = validateEmail(this.state.email, this.verifyEmail);
-
-    const PASSWORD_VALIDATION = validatePassword(this.state.password);
+    const EMAIL_VALIDATION = emailValidateMessage(
+      this.state.email,
+      this.validateEmail
+    );
+    const PASSWORD_VALIDATION = passwordValidateMessage(this.state.password);
 
     return (
       <div className="page not-reddit-form">

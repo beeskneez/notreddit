@@ -44,37 +44,28 @@ class PostList extends Component {
   }
 
   render() {
-    if (!this.props.posts.length) {
-      return <h4>Loading posts...</h4>;
-    }
-
     return (
-      <div className="page post-list">
-        <div className="post-group">
-          <ul>
-            {this.state.posts.map((post, index) => (
-              <PostListEntry post={post} key={index} />
-            ))}
-          </ul>
+      <div className="page columns-9-1">
+        <div className="group-1">
+          {this.props.posts.length ? (
+            <ul>
+              {this.state.posts.map((post, index) => (
+                <PostListEntry post={post} key={index} />
+              ))}
+            </ul>
+          ) : (
+            <h4>Loading posts...</h4>
+          )}
         </div>
-        <div className="button-group">
+        <div className="group-2">
           <div className="ui vertical buttons">
-            <button
-              className="ui button primary"
-              onClick={() => this.renderTop()}
-            >
+            <button className="ui button primary" onClick={() => this.renderTop()}>
               Top
             </button>
-            <button
-              className="ui button primary"
-              onClick={() => this.renderBot()}
-            >
+            <button className="ui button primary" onClick={() => this.renderBot()}>
               Worst
             </button>
-            <button
-              className="ui button primary"
-              onClick={() => this.renderLatest()}
-            >
+            <button className="ui button primary" onClick={() => this.renderLatest()}>
               Latest
             </button>
           </div>

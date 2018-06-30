@@ -1,18 +1,16 @@
 import React from 'react';
 
-const validateEmail = (email, validate) => {
+const emailValidateMessage = (email, validate) => {
   return email === '' ? (
     ''
   ) : validate(email) ? (
     <div className="ui pointing green basic label">Looks good!</div>
   ) : (
-    <div className="ui pointing red basic label">
-      You must enter a valid email
-    </div>
+    <div className="ui pointing red basic label">Valid email required</div>
   );
 };
 
-const validatePassword = password => {
+const passwordValidateMessage = password => {
   return password.length > 5 ? (
     ''
   ) : (
@@ -22,12 +20,16 @@ const validatePassword = password => {
   );
 };
 
-const validateUsername = username => {
+const usernameValidateMessage = username => {
   return username ? (
-    ''
+    <div className="ui pointing green basic label">Great!</div>
   ) : (
-    <div className="ui pointing red basic label">Please enter a username</div>
+    <div className="ui pointing red basic label">Username required</div>
   );
 };
 
-export { validateEmail, validatePassword, validateUsername };
+export {
+  emailValidateMessage,
+  passwordValidateMessage,
+  usernameValidateMessage
+};
