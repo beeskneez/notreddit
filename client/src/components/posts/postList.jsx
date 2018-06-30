@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { auth } from "firebase";
-import { updatePosts } from "./../../actions/index.jsx";
-import PostListEntry from "./postListEntry.jsx";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { updatePosts } from './../../actions/index.jsx';
+import PostListEntry from './postListEntry.jsx';
 
 class PostList extends Component {
   constructor() {
@@ -16,7 +15,7 @@ class PostList extends Component {
 
   componentDidMount() {
     axios
-      .get("/posts")
+      .get('/posts')
       .then(res => {
         this.setState({ posts: res.data });
         this.props.updatePosts(res.data.reverse());
@@ -50,27 +49,36 @@ class PostList extends Component {
     }
 
     return (
-      <div className="ui grid">
-        <div className="wide column" />
-        <div className="twelve wide column">
-          <div className="ui right floated vertical buttons">
-            <button className="ui button" onClick={() => this.renderTop()}>
-              Top
-            </button>
-            <button className="ui button" onClick={() => this.renderBot()}>
-              Worst
-            </button>
-            <button className="ui button" onClick={() => this.renderLatest()}>
-              Latest
-            </button>
-          </div>
+      <div className="page post-list">
+        <div className="post-group">
           <ul>
             {this.state.posts.map((post, index) => (
               <PostListEntry post={post} key={index} />
             ))}
           </ul>
         </div>
-        <div className="wide column" />
+        <div className="button-group">
+          <div className="ui vertical buttons">
+            <button
+              className="ui button primary"
+              onClick={() => this.renderTop()}
+            >
+              Top
+            </button>
+            <button
+              className="ui button primary"
+              onClick={() => this.renderBot()}
+            >
+              Worst
+            </button>
+            <button
+              className="ui button primary"
+              onClick={() => this.renderLatest()}
+            >
+              Latest
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -87,4 +95,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ updatePosts }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PostList);

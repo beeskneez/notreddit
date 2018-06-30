@@ -9,7 +9,9 @@ import { config } from '../../environment/config.js';
 // components
 import App from './components/app.jsx';
 import allReducers from './reducers/index.jsx';
-
+// css
+import './index.scss';
+// firebase
 firebase.initializeApp(config);
 const store = createStore(allReducers);
 
@@ -17,5 +19,5 @@ render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('app'),
+  document.getElementById('app')
 );
