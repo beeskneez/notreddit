@@ -1,4 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers, createStore } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 import {
   ReducerPosts,
   ReducerCreatePost,
@@ -6,7 +9,7 @@ import {
   ReducerComments,
   ReducerCreateComment,
   ReducerGetComment,
-  ReducerStoreUserPosts,
+  ReducerStoreUserPosts
 } from './postReducer.jsx';
 import { ReducerUpdateAuthUser } from './authUserReducer.jsx';
 import { ReducerSignIn } from './signInReducer.jsx';
@@ -14,7 +17,7 @@ import {
   ReducerCreateSubreddit,
   ReducerGetSubreddits,
   ReducerSelectedSubreddit,
-  ReducerGetPostsFromSubreddit,
+  ReducerGetPostsFromSubreddit
 } from './subredditReducer.jsx';
 import { ReducerUser, ReducerUserSubscriptionList } from './userReducer.jsx';
 
@@ -33,7 +36,16 @@ const allReducers = combineReducers({
   comment: ReducerCreateComment,
   gComment: ReducerGetComment,
   userPosts: ReducerStoreUserPosts,
-  userSubscriptionList: ReducerUserSubscriptionList,
+  userSubscriptionList: ReducerUserSubscriptionList
 });
 
-export default allReducers;
+const persistConfig = {
+  key: 'root',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, allReducers);
+const store = createStore(persistedReducer);
+const persistor = persistStore(store);
+
+export { store, persistor };

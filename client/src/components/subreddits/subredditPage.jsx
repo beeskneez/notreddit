@@ -18,32 +18,43 @@ class SubredditPage extends Component {
   }
 
   componentDidMount() {
+    this.getDescription();
+    this.getPosts();
+  }
+
+  // get description
+  getDescription() {
     const subredditName = this.state.subreddit;
-    // get description
     axios
       .get(`/subreddit/${subredditName}`)
       .then(res => this.setState({ description: res.data.description }))
       .catch(err => console.error(err));
+  }
 
-    // get posts
+  // get posts
+  getPosts() {
+    const subredditName = this.state.subreddit;
     axios
       .get('/posts', { params: { subredditName } })
       .then(res => {
         this.setState({
           subredditPosts: res.data
         });
-        // get user subscriptions
-        axios
-          .get(`/user/${this.props.authUser}`)
-          .then(res2 => {
-            this.setState({
-              subredditSubscriptions: res2.data.subredditSubscriptions,
-              userId: res2.data.id
-            });
-          })
-          .catch(err => {
-            console.error(err);
-          });
+        this.getUserSubscriptions();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+  // get user subscriptions
+  getUserSubscriptions() {
+    axios
+      .get(`/user/${this.props.authUser}`)
+      .then(res2 => {
+        this.setState({
+          subredditSubscriptions: res2.data.subredditSubscriptions,
+          userId: res2.data.id
+        });
       })
       .catch(err => {
         console.error(err);
