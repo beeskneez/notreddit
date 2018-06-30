@@ -15,6 +15,7 @@ class Login extends Component {
       password: ''
     };
   }
+
   login() {
     const { email, password } = this.state;
     auth()
@@ -27,6 +28,7 @@ class Login extends Component {
 
   afterLogin(email) {
     this.props.updateAuthUser(email);
+    console.log(this.props.authUser);
     axios
       .post('/login', { email: email })
       .then(res => {
