@@ -1,68 +1,96 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import isEmail from 'validator/lib/isEmail';
 import { Link } from 'react-router-dom';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateAuthUser, updateUser } from './../../actions/index.jsx';
-
+import { emailValidateMessage, passwordValidateMessage } from './helpers';
 class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
   login() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const { email, password } = this.state;
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(user => {
-        this.props.updateAuthUser(user.email);
-        axios
-          .post('/login', { email: user.email })
-          .then(res => {
-            this.props.updateUser(res.data.username);
-            this.props.history.push('/');
-          })
-          .catch(err => console.log('err in login axios', err));
+        this.afterLogin(user.email);
       })
       .catch(e => console.error(e.message));
   }
 
+  afterLogin(email) {
+    this.props.updateAuthUser(email);
+    axios
+      .post('/login', { email: email })
+      .then(res => {
+        this.props.updateUser(res.data.username);
+        this.props.history.push('/');
+      })
+      .catch(err => console.log('err logging in: ', err));
+  }
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  validateEmail(value) {
+    return isEmail(value);
+  }
+
   render() {
+    const EMAIL_VALIDATION = emailValidateMessage(
+      this.state.email,
+      this.validateEmail
+    );
+    const PASSWORD_VALIDATION = passwordValidateMessage(this.state.password);
+
     return (
-      <div className="outer">
-        <div className="middle">
-          <div className="inner">
-            <div className="ui huge form">
-              <h2>Login</h2>
-              <div className="two fields">
-                <div className="field">
-                  <label>email</label>
-                  <input
-                    id="email"
-                    placeholder="enter login email"
-                    type="text"
-                  />
-                </div>
-                <div className="field">
-                  <label>password</label>
-                  <input
-                    id="password"
-                    placeholder="enter login password"
-                    type="password"
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <div
-                  onClick={() => this.login()}
-                  className="ui submit blue button"
-                >
-                  Submit
-                </div>
-              </div>
-              <small>
-                don't have an account? <Link to="/signup">Sign up</Link>
-              </small>
+      <div className="page not-reddit-form">
+        <div className="onboarding-inner">
+          <form className="ui big form">
+            <h2>Login</h2>
+            <div className="field">
+              <label>email</label>
+              <input
+                name="email"
+                onChange={e => this.handleChange(e)}
+                placeholder="enter login email"
+                type="text"
+              />
+              {EMAIL_VALIDATION}
             </div>
-          </div>
+            <div className="field">
+              <label>password</label>
+              <input
+                name="password"
+                onChange={e => this.handleChange(e)}
+                placeholder="enter login password"
+                type="password"
+              />
+              {PASSWORD_VALIDATION}
+            </div>
+            <div className="field">
+              <div
+                onClick={() => this.login()}
+                className="ui submit blue button"
+              >
+                Submit
+              </div>
+            </div>
+            <small>
+              don't have an account? <Link to="/signup">Sign up</Link>
+            </small>
+          </form>
         </div>
       </div>
     );
@@ -80,4 +108,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ updateAuthUser, updateUser }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

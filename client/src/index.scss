@@ -1,3 +1,16 @@
+// global
+$meta_color: #9a9a9a;
+
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+body {
+  background-color: #f4f4f4;
+}
+
 ul {
   list-style-type: none;
 }
@@ -12,7 +25,7 @@ form.ui.segment.form {
 }
 
 form.form:after {
-  content: "";
+  content: '';
   display: block;
   height: 0;
   clear: both;
@@ -33,7 +46,7 @@ form.form:after {
 }
 
 .meta {
-  color: #9a9a9a;
+  color: $meta_color;
 }
 
 .ui.grid > .row > .column.votes {
@@ -41,7 +54,7 @@ form.form:after {
 }
 
 ul.ui.list li:before {
-  content: "";
+  content: '';
 }
 
 .voters {
@@ -63,24 +76,6 @@ ul.ui.list li:before {
 
 .empty-space {
   width: 50vw;
-}
-
-.outer {
-  display: table;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-.middle {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.inner {
-  margin-left: auto;
-  margin-right: auto;
-  width: 700px;
 }
 
 .center-content {

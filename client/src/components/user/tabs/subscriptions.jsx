@@ -18,7 +18,7 @@ class Subscriptions extends Component {
               );
             })
         ) : (
-          <h2 className="ui large blue header">no subscriptions</h2>
+          <h2 className="ui large red header">no subscriptions</h2>
         )}
       </div>
     );

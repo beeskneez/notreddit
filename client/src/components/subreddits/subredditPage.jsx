@@ -82,9 +82,8 @@ class SubredditPage extends Component {
     const subredditName = this.props.location.pathname.replace(/^\/\w+\//, '');
 
     return (
-      <div className="ui grid">
-        <div className="two wide column" />
-        <div className="eight wide column">
+      <div className="page columns-9-1">
+        <div className="group-1">
           <h2 className="ui large blue header">
             /r/{subredditName}
             <div className="sub header">{this.state.description}</div>
@@ -95,11 +94,11 @@ class SubredditPage extends Component {
             ))}
           </ul>
         </div>
-        <div className="six wide column">
+        <div className="group-2">
           <h2 className="ui large header">
             {this.state.subredditSubscriptions
               ? this.state.subredditSubscriptions.split(', ').length
-              : 0}{' '}
+              : 0}
             subscriptions
           </h2>
           {this.state.subredditSubscriptions
@@ -133,4 +132,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getUserSubscriptionList }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubredditPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubredditPage);

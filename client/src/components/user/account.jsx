@@ -1,39 +1,39 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Route, Link, Switch, Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
 
-import axios from "axios";
+import axios from 'axios';
 
 import {
   storeUserPosts,
   getUserSubscriptionList
-} from "./../../actions/index.jsx";
+} from './../../actions/index.jsx';
 
-import Main from "./tabs/main.jsx";
-import New from "./tabs/new.jsx";
-import History from "./tabs/history.jsx";
-import Subscriptions from "./tabs/subscriptions.jsx";
+import Main from './tabs/main.jsx';
+import New from './tabs/new.jsx';
+import History from './tabs/history.jsx';
+import Subscriptions from './tabs/subscriptions.jsx';
 
 const routes = [
   {
-    name: "main",
-    path: "/account/main",
+    name: 'main',
+    path: '/account/main',
     component: Main
   },
   {
-    name: "new posts",
-    path: "/account/new",
+    name: 'new posts',
+    path: '/account/new',
     component: New
   },
   {
-    name: "history",
-    path: "/account/history",
+    name: 'history',
+    path: '/account/history',
     component: History
   },
   {
-    name: "subscriptions",
-    path: "/account/subscriptions",
+    name: 'subscriptions',
+    path: '/account/subscriptions',
     component: Subscriptions
   }
 ];
@@ -43,7 +43,7 @@ class Account extends Component {
     super();
     this.state = {
       selectedIndex: 0,
-      subredditSubscriptions: ""
+      subredditSubscriptions: ''
     };
   }
 
@@ -54,7 +54,7 @@ class Account extends Component {
 
   getUserPosts() {
     axios
-      .get("/posts", { params: { user: this.props.authUser } })
+      .get('/posts', { params: { user: this.props.authUser } })
       .then(res => {
         this.props.storeUserPosts(res.data);
       })
@@ -82,42 +82,44 @@ class Account extends Component {
 
   render() {
     return (
-      <div className="ui grid">
-        <div className="four wide column">
-          <div className="ui vertical fluid tabular menu">
-            <div className="ui header">{this.props.user}</div>
-            <hr />
-            {routes.map((route, index) => {
-              return (
-                <Link
-                  key={index}
-                  to={route.path}
-                  onClick={() => this.handleClick(index)}
-                  className={
-                    this.state.selectedIndex === index
-                      ? "active blue item"
-                      : "item"
-                  }
-                >
-                  {route.name}
-                </Link>
-              );
-            })}
+      <div className="page account ">
+        <div className="ui grid">
+          <div className="four wide column">
+            <div className="ui vertical fluid tabular menu">
+              <div className="ui header">{this.props.user}</div>
+              <hr />
+              {routes.map((route, index) => {
+                return (
+                  <Link
+                    key={index}
+                    to={route.path}
+                    onClick={() => this.handleClick(index)}
+                    className={
+                      this.state.selectedIndex === index
+                        ? 'active blue item'
+                        : 'item'
+                    }
+                  >
+                    {route.name}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className="twelve wide stretched column">
-          <Switch>
-            {routes.map((route, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  component={route.component}
-                />
-              );
-            })}
-            <Redirect from="/account" to="/account/main" />
-          </Switch>
+          <div className="twelve wide stretched column">
+            <Switch>
+              {routes.map((route, index) => {
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    component={route.component}
+                  />
+                );
+              })}
+              <Redirect from="/account" to="/account/main" />
+            </Switch>
+          </div>
         </div>
       </div>
     );
@@ -140,4 +142,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Account);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Account);
