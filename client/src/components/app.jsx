@@ -14,10 +14,11 @@ import PostForm from './posts/postForm.jsx';
 import PostDetails from './posts/postDetails.jsx';
 import Account from './user/account.jsx';
 import Search from './user/search.jsx';
+import './app.scss';
 
 const App = () => (
   <BrowserRouter>
-    <div>
+    <div className="app-wrap">
       <Nav />
       <Switch>
         <Route path="/login" component={Login} />
@@ -44,4 +45,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getPost }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
