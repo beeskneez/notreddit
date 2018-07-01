@@ -10,7 +10,6 @@ import { config } from '../../environment/config.js';
 // components
 import App from './components/app.jsx';
 import { store, persistor } from './reducers/index.jsx';
-
 // css
 import './index.scss';
 

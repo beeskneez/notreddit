@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { bindActionCreators } from "redux";
-import { getSubreddits, selectSubreddit } from "./../../actions/index.jsx";
+import { getSubreddits, dropdownSelectSubreddit } from "./../../actions/index.jsx";
 
 class SubredditList extends Component {
   componentDidMount() {
@@ -17,7 +17,7 @@ class SubredditList extends Component {
   }
 
   handleChange(e) {
-    this.props.selectSubreddit(e.target.value);
+    this.props.dropdownSelectSubreddit(e.target.value);
   }
 
   render() {
@@ -44,7 +44,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getSubreddits, selectSubreddit }, dispatch);
+  return bindActionCreators({ getSubreddits, dropdownSelectSubreddit }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubredditList);

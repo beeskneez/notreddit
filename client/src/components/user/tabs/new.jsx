@@ -15,7 +15,6 @@ class New extends Component {
   }
 
   componentDidMount() {
-    console.log('posts!!!!!', this.state.posts);
     this.getPostsFromSubscriptions();
   }
 

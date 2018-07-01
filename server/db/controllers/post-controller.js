@@ -44,7 +44,6 @@ exports.createPost = (req, res) => {
 };
 
 exports.updatePostWithUpvote = (req, res) => {
-  console.log(req);
   model.Post.findById(req.params.id)
     .then(post => post.increment("votes", { by: 1 }))
     .then(post => {
@@ -67,7 +66,6 @@ exports.updateOne = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  // console.log('meow', req.params);
   model.Post.destroy({
     where: {
       $or: {
@@ -90,7 +88,6 @@ exports.deleteAllPosts = (req, res) => {
 };
 
 exports.searchPosts = (req, res) => {
-  console.log("Searching our DB for: ", req.body.search);
   model.Post.findAll({
     where: {
       title: {

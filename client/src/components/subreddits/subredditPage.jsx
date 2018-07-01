@@ -10,7 +10,7 @@ class SubredditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      subreddit: this.props.location.pathname.replace(/^\/\w+\//, ''),
+      subreddit: this.props.selectedSubredditPage,
       subredditDescription: '',
       subredditPosts: [],
       subredditSubscriptions: ''
@@ -46,6 +46,7 @@ class SubredditPage extends Component {
         console.error(err);
       });
   }
+
   // get user subscriptions
   getUserSubscriptions() {
     axios
@@ -90,7 +91,7 @@ class SubredditPage extends Component {
   }
 
   render() {
-    const subredditName = this.props.location.pathname.replace(/^\/\w+\//, '');
+    const subredditName = this.state.subreddit;
 
     return (
       <div className="page columns-9-1">
@@ -109,7 +110,7 @@ class SubredditPage extends Component {
           <h2 className="ui large header">
             {this.state.subredditSubscriptions
               ? this.state.subredditSubscriptions.split(', ').length
-              : 0}
+              : 0}{' '}
             subscriptions
           </h2>
           {this.state.subredditSubscriptions
@@ -135,7 +136,9 @@ class SubredditPage extends Component {
 function mapStateToProps(state) {
   return {
     authUser: state.authUser,
-    userSubscriptionList: state.userSubscriptionList
+    userSubscriptionList: state.userSubscriptionList,
+    selectedSubreddit: state.selectedSubreddit,
+    selectedSubredditPage: state.selectedSubredditPage
   };
 }
 
