@@ -32,6 +32,7 @@ exports.getPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
+  console.log(req.body);
   if (req.body.postparentId) {
     if (req.body.post.comment) {
       utils.createNestedComment(req, res);

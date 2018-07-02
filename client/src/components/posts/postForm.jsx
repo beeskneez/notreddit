@@ -4,6 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { createPost, updatePosts } from './../../actions/index.jsx';
 import SubredditList from '../subreddits/subredditList.jsx';
+import { client } from './../../client';
 
 class PostForm extends Component {
   constructor(props) {
@@ -17,6 +18,13 @@ class PostForm extends Component {
       this.state.user_email = this.props.authUser;
       this.state.subreddit = this.props.selectedSubreddit;
       this.state.username = this.props.user;
+
+      // client.createItem('/post', { post: this.state }, data => {
+      //   console.log('from post form: ',data);
+      //   // this.props.createPost(data);
+      //   // this.props.history.push('/');
+      // });
+
       axios
         .post('/post', { post: this.state })
         .then(res => {

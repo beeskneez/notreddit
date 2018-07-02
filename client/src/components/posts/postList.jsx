@@ -4,6 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { updatePosts } from './../../actions/index.jsx';
 import PostListEntry from './postListEntry.jsx';
+import { client } from './../../client';
 
 class PostList extends Component {
   constructor() {
@@ -14,15 +15,11 @@ class PostList extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get('/posts')
-      .then(res => {
-        this.setState({ posts: res.data });
-        this.props.updatePosts(res.data.reverse());
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.getAllItems('/posts', data =>
+      this.setState({ posts: data }, () =>
+        this.props.updatePosts(data.reverse())
+      )
+    );
   }
 
   renderTop() {

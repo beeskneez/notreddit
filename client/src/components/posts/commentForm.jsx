@@ -7,7 +7,6 @@ import {
   updateComments,
   createComment
 } from "./../../actions/index.jsx";
-import { Link } from "react-router-dom";
 
 class CommentForm extends Component {
   constructor(props) {
@@ -77,8 +76,7 @@ class CommentForm extends Component {
               className="ui submit blue button"
               onClick={e => this.addNewComment(e)}
             >
-              {" "}
-              Submit{" "}
+              Submit
             </button>
           ) : (
             <button className="ui disabled button">
