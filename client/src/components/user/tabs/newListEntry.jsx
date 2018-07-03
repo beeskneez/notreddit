@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import moment from "moment";
-import axios from "axios";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
-
-import { getPost } from "./../../../actions/index.jsx";
+import React, { Component } from 'react';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import { client } from './../../../client';
+import { getPost } from './../../../actions/index.jsx';
 
 class NewListEntry extends Component {
   constructor(props) {
@@ -21,39 +20,21 @@ class NewListEntry extends Component {
   }
 
   upvote(id) {
-    axios
-      .put(`/upvote/${id}`)
-      .then(res => {
-        axios
-          .get(`/post/${id}`)
-          .then(res2 => {
-            this.setState({
-              votes: res2.data.votes
-            });
-          })
-          .catch(err => console.error(err));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.updateItem(`/upvote/${id}`, null, data => {
+      this.renderVotes(id);
+    });
   }
 
   downvote(id) {
-    axios
-      .put(`/downvote/${id}`)
-      .then(res => {
-        axios
-          .get(`/post/${id}`)
-          .then(res2 => {
-            this.setState({
-              votes: res2.data.votes
-            });
-          })
-          .catch(err => console.error(err));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.updateItem(`/downvote/${id}`, null, data => {
+      this.renderVotes(id);
+    });
+  }
+
+  renderVotes(id) {
+    client.getOneItem(`/post/${id}`, data => {
+      this.setState({ votes: data.votes });
+    });
   }
 
   render() {
@@ -67,8 +48,8 @@ class NewListEntry extends Component {
           {this.props.post.title}
         </a>
         <div className="meta">
-          submitted {moment(this.props.post.createdAt).format("ddd, h:mmA")} ago
-          by <a>{this.props.post.username}</a> to{" "}
+          submitted {moment(this.props.post.createdAt).format('ddd, h:mmA')} ago
+          by <a>{this.props.post.username}</a> to{' '}
           <Link to={`/subreddit/${this.props.post.subreddit}`}>
             /{this.props.post.subreddit}
           </Link>
@@ -97,4 +78,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getPost }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(NewListEntry);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewListEntry);

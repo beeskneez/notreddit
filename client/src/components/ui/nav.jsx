@@ -5,6 +5,7 @@ import { auth } from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateAuthUser, updateUser } from './../../actions/index.jsx';
+import { client } from './../../client';
 
 class Nav extends Component {
   signOut() {
@@ -17,12 +18,9 @@ class Nav extends Component {
     auth().onAuthStateChanged(user => {
       if (user) {
         this.props.updateAuthUser(user.email);
-        axios
-          .post('/login', { email: user.email })
-          .then(res => {
-            this.props.updateUser(res.data.username);
-          })
-          .catch(err => console.log('err in login axios', err));
+        client.createItem('/login', { email: user.email }, data =>
+          this.props.updateUser(data.username)
+        );
         document.getElementById('logout').classList.remove('hide');
         document.getElementById('login').classList.add('hide');
         document.getElementById('signup').classList.add('hide');

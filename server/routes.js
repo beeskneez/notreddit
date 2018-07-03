@@ -20,6 +20,7 @@ router.route('/comment/:id').get(postController.getPost);
 router.route('/comment/:id').delete(postController.deletePost);
 router.route('/comments/:id').get(postController.getAllPosts);
 router.route('/posts').get(postController.getAllPosts);
+router.route('/posts/subreddit').get(postController.getCertainPosts);
 
 // Subreddit Routers
 router.route('/subreddits').get(subredditController.allSubredditNames);

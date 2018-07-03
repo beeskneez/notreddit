@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { createSubreddit } from './../../actions/index.jsx';
-import { Link, Redirect } from 'react-router-dom';
+import {client} from './../../client';
 
 class SubredditForm extends Component {
   constructor(props) {
@@ -21,15 +21,10 @@ class SubredditForm extends Component {
   }
 
   addNewSubreddit() {
-    axios
-      .post('/subreddit', { subreddit: this.state })
-      .then(res => {
-        this.props.createSubreddit(res.data);
-        this.props.history.push('/');
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.createItem('/subreddit', { subreddit: this.state }, (data) => {
+      this.props.createSubreddit(data);
+      this.props.history.push('/');
+    })
   }
 
   render() {

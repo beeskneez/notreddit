@@ -1,5 +1,5 @@
-const db = require("../db.js");
-const model = require("../models/post.js");
+const db = require('../db.js');
+const model = require('../models/post.js');
 
 // Get Helpers
 
@@ -10,12 +10,8 @@ exports.getComments = (req, res) => {
       postType: 1
     }
   })
-    .then(posts => {
-      res.status(200).send(posts);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    .then(posts => res.status(200).send(posts))
+    .catch(err => console.error(err));
 };
 
 exports.getSubredditPosts = (req, res) => {
@@ -24,12 +20,8 @@ exports.getSubredditPosts = (req, res) => {
       subreddit: req.query.subredditName
     }
   })
-    .then(posts => {
-      res.status(200).send(posts);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    .then(posts => res.status(200).send(posts))
+    .catch(err => console.error(err));
 };
 
 exports.getUserPosts = (req, res) => {
@@ -39,12 +31,8 @@ exports.getUserPosts = (req, res) => {
       postType: 0
     }
   })
-    .then(posts => {
-      res.status(200).send(posts);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    .then(posts => res.status(200).send(posts))
+    .catch(err => console.error(err));
 };
 
 exports.getAllPosts = (req, res) => {
@@ -52,14 +40,7 @@ exports.getAllPosts = (req, res) => {
     where: {
       postType: 0
     }
-  }).then(
-    posts => {
-      res.status(200).send(posts);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+  }).then(posts => res.status(200).send(posts), err => console.log(err));
 };
 
 // Post Helpers
@@ -88,10 +69,7 @@ exports.createNestedComment = (req, res) => {
         username
       })
     )
-    .then(post => {
-      console.log(post);
-      res.status(200).send(post);
-    });
+    .then(post => res.status(200).send(post));
 };
 
 exports.createComment = (req, res) => {
@@ -118,10 +96,7 @@ exports.createComment = (req, res) => {
         username
       })
     )
-    .then(post => {
-      console.log(post);
-      res.status(200).send(post);
-    });
+    .then(post => res.status(200).send(post));
 };
 
 exports.createPost = (req, res) => {
@@ -151,8 +126,5 @@ exports.createPost = (req, res) => {
         subreddit
       })
     )
-    .then(post => {
-      console.log(post);
-      res.status(200).send(post);
-    });
+    .then(post => res.status(200).send(post));
 };

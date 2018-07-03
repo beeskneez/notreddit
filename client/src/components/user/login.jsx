@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateAuthUser, updateUser } from './../../actions/index.jsx';
 import { emailValidateMessage, passwordValidateMessage } from './helpers';
+import { client } from './../../client';
+
 class Login extends Component {
   constructor() {
     super();
@@ -28,14 +30,10 @@ class Login extends Component {
 
   afterLogin(email) {
     this.props.updateAuthUser(email);
-    console.log(this.props.authUser);
-    axios
-      .post('/login', { email: email })
-      .then(res => {
-        this.props.updateUser(res.data.username);
-        this.props.history.push('/');
-      })
-      .catch(err => console.log('err logging in: ', err));
+    client.createItem('/login', { email }, data => {
+      this.props.updateUser(data.username);
+      this.props.history.push('/');
+    });
   }
 
   handleChange(e) {

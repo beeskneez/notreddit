@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
 import {
   getComment,
   updateComments,
   createComment
-} from "./../../actions/index.jsx";
+} from './../../actions/index.jsx';
+import { client } from './../../client';
 
 class CommentForm extends Component {
   constructor(props) {
@@ -18,41 +19,26 @@ class CommentForm extends Component {
     e.preventDefault();
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
-      this.state.parentId = this.props.gPost.id;
-      this.state.comment = 0 || this.props.gComment;
-      this.state.username = this.props.user;
-      axios
-        .post("/post", { post: this.state })
-        .then(res => {
-          this.props.createComment(res.data);
-          if (!this.state.comment) {
-            axios
-              .get(`/comments/${this.props.gPost.id}`)
-              .then(res2 => {
-                this.props.updateComments(res2.data);
-              })
-              .catch(err => {
-                console.error(err);
-              });
-          } else {
-            axios
-              .get(`/comments/${this.props.gComment.id}`)
-              .then(res2 => {
-                this.props.sendData(res2.data);
-                this.props.hideForm();
-                this.props.getComment(null);
-                // this.props.history.push(`/postDetails/${this.props.gPost.id}`);
-              })
-              .catch(err => {
-                console.error(err);
-              });
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      this.state.parentId   = this.props.gPost.id;
+      this.state.comment    = 0 || this.props.gComment;
+      this.state.username   = this.props.user;
+
+      client.createItem('/post', { post: this.state }, data => {
+        this.props.createComment(data);
+        if (!this.state.comment) {
+          client.getOneItem(`/comments/${this.props.gPost.id}`, data2 => {
+            this.props.updateComments(data2);
+          });
+        } else {
+          client.getOneItem(`/comments/${this.props.gComment.id}`, data2 => {
+            this.props.sendData(data2);
+            this.props.hideForm();
+            this.props.getComment(null);
+          });
+        }
+      });
     } else {
-      console.log("not logged in");
+      console.log('not logged in');
     }
   }
 
@@ -111,4 +97,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentForm);

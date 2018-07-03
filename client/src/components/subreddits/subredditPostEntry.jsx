@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
-
 import axios from 'axios';
 import moment from 'moment';
-
 import { getPost } from './../../actions/index.jsx';
+import { client } from './../../client';
 
 class SubredditPostEntry extends Component {
   constructor(props) {
@@ -23,40 +21,26 @@ class SubredditPostEntry extends Component {
 
   upvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/upvote/${this.props.subredditPost.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.subredditPost.id}`)
-            .then(res2 => this.setTotalVotes(res2.data.votes))
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      client.updateItem(`/upvote/${this.props.subredditPost.id}`, null, _ => {
+        this.setTotalVotes();
+      });
     }
   }
 
   downvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/downvote/${this.props.subredditPost.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.subredditPost.id}`)
-            .then(res2 => this.setTotalVotes(res2.data.votes))
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      client.updateItem(`/downvote/${this.props.subredditPost.id}`, null, _ => {
+        this.setTotalVotes();
+      });
     }
   }
 
   setTotalVotes(votes) {
-    this.setState({
-      totalVotes: votes
-    });
+    client.getOneItem(`/post/${this.props.subredditPost.id}`, data =>
+      this.setState({
+        totalVotes: data.votes
+      })
+    );
   }
 
   render() {
@@ -109,4 +93,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getPost }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubredditPostEntry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubredditPostEntry);

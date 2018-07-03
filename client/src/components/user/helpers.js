@@ -1,4 +1,8 @@
 import React from 'react';
+import Main from './tabs/main.jsx';
+import New from './tabs/new.jsx';
+import History from './tabs/history.jsx';
+import Subscriptions from './tabs/subscriptions.jsx';
 
 const emailValidateMessage = (email, validate) => {
   return email === '' ? (
@@ -28,8 +32,33 @@ const usernameValidateMessage = username => {
   );
 };
 
+
+const ACCOUNT_ROUTES = [
+  {
+    name: 'main',
+    path: '/account/main',
+    component: Main
+  },
+  {
+    name: 'new posts',
+    path: '/account/new',
+    component: New
+  },
+  {
+    name: 'history',
+    path: '/account/history',
+    component: History
+  },
+  {
+    name: 'subscriptions',
+    path: '/account/subscriptions',
+    component: Subscriptions
+  }
+];
+
 export {
   emailValidateMessage,
   passwordValidateMessage,
-  usernameValidateMessage
+  usernameValidateMessage,
+  ACCOUNT_ROUTES
 };

@@ -1,20 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { getSubreddits, dropdownSelectSubreddit } from "./../../actions/index.jsx";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { getSubreddits, dropdownSelectSubreddit } from './../../actions/index.jsx';
 
 class SubredditList extends Component {
-  componentDidMount() {
-    axios
-      .get("/subreddits")
-      .then(res => {
-        this.props.getSubreddits(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
 
   handleChange(e) {
     this.props.dropdownSelectSubreddit(e.target.value);
@@ -44,7 +34,13 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getSubreddits, dropdownSelectSubreddit }, dispatch);
+  return bindActionCreators(
+    { getSubreddits, dropdownSelectSubreddit },
+    dispatch
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubredditList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubredditList);

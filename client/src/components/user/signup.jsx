@@ -10,6 +10,7 @@ import {
   passwordValidateMessage,
   usernameValidateMessage
 } from './helpers';
+import { client } from './../../client';
 
 class Signup extends Component {
   constructor() {
@@ -43,13 +44,10 @@ class Signup extends Component {
 
   afterSignup() {
     const { username, email } = this.state;
-    axios
-      .post('/signup', { email: email, username: username })
-      .then(res => {
-        this.props.updateUser(res.data.username);
-        this.props.history.push('/');
-      })
-      .catch(err => console.log(err));
+    client.createItem('/signup', { email: email, username: username }, data => {
+      this.props.updateUser(data.username);
+      this.props.history.push('/');
+    });
   }
 
   handleChange(e) {
@@ -65,7 +63,7 @@ class Signup extends Component {
 
   render() {
     const { email, password, username } = this.state;
-    const EMAIL_VALIDATION = emailValidateMessage(email, this.verifyEmail);
+    const EMAIL_VALIDATION    = emailValidateMessage(email, this.verifyEmail);
     const PASSWORD_VALIDATION = passwordValidateMessage(password);
     const USERNAME_VALIDATION = usernameValidateMessage(username);
 

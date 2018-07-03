@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import axios from 'axios';
 
 import { getPost } from './../../../actions/index.jsx';
 import NewListEntry from './newListEntry.jsx';
-
+import { client } from './../../../client';
 class New extends Component {
   constructor() {
     super();
@@ -22,14 +21,11 @@ class New extends Component {
     let subscriptions = this.props.userSubscriptionList.split(', ');
     if (subscriptions[0]) {
       subscriptions.forEach(sub => {
-        axios
-          .get('/posts', { params: { subredditName: sub } })
-          .then(res => {
-            res.data.forEach(post =>
-              this.setState({ posts: this.state.posts.concat([post]) })
-            );
-          })
-          .catch(err => console.error(err));
+        client.getCertainItems(`/posts/subreddit?name=${sub}`, data =>
+          data.forEach(post =>
+            this.setState({ posts: this.state.posts.concat([post]) })
+          )
+        );
       });
     }
   }
@@ -66,4 +62,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getPost }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(New);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(New);

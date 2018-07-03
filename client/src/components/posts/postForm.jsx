@@ -19,21 +19,10 @@ class PostForm extends Component {
       this.state.subreddit = this.props.selectedSubreddit;
       this.state.username = this.props.user;
 
-      // client.createItem('/post', { post: this.state }, data => {
-      //   console.log('from post form: ',data);
-      //   // this.props.createPost(data);
-      //   // this.props.history.push('/');
-      // });
-
-      axios
-        .post('/post', { post: this.state })
-        .then(res => {
-          this.props.createPost(res.data);
-          this.props.history.push('/');
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      client.createItem('/post', { post: this.state }, data => {
+        this.props.createPost(data);
+        this.props.history.push('/');
+      });
     } else {
       console.log('Login to continue');
     }

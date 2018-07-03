@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import PostListEntry from '../posts/postListEntry.jsx';
+import { client } from './../../client';
 
 class Search extends Component {
   constructor() {
@@ -12,14 +13,9 @@ class Search extends Component {
   }
 
   search() {
-    axios
-      .post('/search', { search: this.state.value })
-      .then(res => {
-        this.setState({ results: res.data });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.createItem('/search', { search: this.state.value }, data =>
+      this.setState({ results: data })
+    );
   }
 
   handleChange(e) {
@@ -48,7 +44,7 @@ class Search extends Component {
                 <input
                   value={this.state.value}
                   onChange={e => this.handleChange(e)}
-                  placeholder="Search by post titles..."
+                  placeholder="Search all or part of a title..."
                   type="text"
                 />
                 <a

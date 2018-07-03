@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { bindActionCreators } from "redux";
-import { auth } from "firebase";
 import { getComment, getPost, updateComments } from "./../../actions/index.jsx";
 import CommentListEntry from "./commentListEntry.jsx";
 
@@ -20,9 +19,6 @@ class CommentList extends Component {
       .catch(err => {
         console.error(err);
       });
-  }
-  componentDidMount() {
-    console.log("history from commentlist", this.props);
   }
 
   render() {

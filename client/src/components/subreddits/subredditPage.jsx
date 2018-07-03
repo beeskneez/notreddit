@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { getUserSubscriptionList } from './../../actions/index.jsx';
 import SubredditPostEntry from './subredditPostEntry.jsx';
+import { client } from './../../client';
 
 class SubredditPage extends Component {
   constructor(props) {
@@ -24,70 +25,56 @@ class SubredditPage extends Component {
 
   // get description
   getDescription() {
-    const subredditName = this.state.subreddit;
-    axios
-      .get(`/subreddit/${subredditName}`)
-      .then(res => this.setState({ description: res.data.description }))
-      .catch(err => console.error(err));
+    client.getOneItem(`/subreddit/${this.state.subreddit}`, data =>
+      this.setState({ description: data.description })
+    );
   }
 
   // get posts
   getPosts() {
     const subredditName = this.state.subreddit;
-    axios
-      .get('/posts', { params: { subredditName } })
-      .then(res => {
-        this.setState({
-          subredditPosts: res.data
-        });
-        this.getUserSubscriptions();
-      })
-      .catch(err => {
-        console.error(err);
+    client.getCertainItems(`/posts/subreddit?name=${subredditName}`, data => {
+      this.setState({
+        subredditPosts: data
       });
+      this.getUserSubscriptions();
+    });
   }
 
   // get user subscriptions
   getUserSubscriptions() {
-    axios
-      .get(`/user/${this.props.authUser}`)
-      .then(res2 => {
-        this.setState({
-          subredditSubscriptions: res2.data.subredditSubscriptions,
-          userId: res2.data.id
-        });
+    client.getCertainItems(`/user/${this.props.authUser}`, data =>
+      this.setState({
+        subredditSubscriptions: data.subredditSubscriptions,
+        userId: data.id
       })
-      .catch(err => {
-        console.error(err);
-      });
+    );
   }
 
   subscribe() {
-    axios
-      .put(`/user/addSub/${this.state.userId}/${this.state.subreddit}`)
-      .then(res => {
+    client.updateItem(
+      `/user/addSub/${this.state.userId}/${this.state.subreddit}`,
+      null,
+      data => {
         this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions
+          subredditSubscriptions: data.subredditSubscriptions
         });
-        this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+        this.props.getUserSubscriptionList(data.subredditSubscriptions);
+      }
+    );
   }
 
   unsubscribe() {
-    axios
-      .put(`/user/remSub/${this.state.userId}/${this.state.subreddit}`)
-      .then(res => {
+    client.updateItem(
+      `/user/remSub/${this.state.userId}/${this.state.subreddit}`,
+      null,
+      data => {
         this.setState({
-          subredditSubscriptions: res.data.subredditSubscriptions
+          subredditSubscriptions: data.subredditSubscriptions
         });
-        this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+        this.props.getUserSubscriptionList(data.subredditSubscriptions);
+      }
+    );
   }
 
   render() {

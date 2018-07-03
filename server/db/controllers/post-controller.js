@@ -1,9 +1,11 @@
-const db = require("../db.js");
-const model = require("../models/post.js");
-const utils = require("./helpers.js");
+const db = require('../db.js');
+const model = require('../models/post.js');
+const utils = require('./helpers.js');
 
 // Post Controllers
 exports.getAllPosts = (req, res) => {
+  console.log('GET ALL POSTS---->', req.query);
+
   if (req.params.id) {
     utils.getComments(req, res);
   } else if (req.query.subredditName) {
@@ -15,25 +17,29 @@ exports.getAllPosts = (req, res) => {
   }
 };
 
+exports.getCertainPosts = (req, res) => {
+  model.Post.findAll({
+    where: {
+      subreddit: req.query.name
+    }
+  })
+    .then(posts => res.status(200).send(posts))
+    .catch(handleError);
+};
+
 exports.getPost = (req, res) => {
   const id = req.params.id;
   model.Post.findOne({
     where: {
       id
     }
-  }).then(
-    post => {
-      res.status(200).send(post);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+  })
+    .then(post => res.status(200).send(post))
+    .catch(handleError);
 };
 
 exports.createPost = (req, res) => {
-  console.log(req.body);
-  if (req.body.postparentId) {
+  if (req.body.post.parentId) {
     if (req.body.post.comment) {
       utils.createNestedComment(req, res);
     } else {
@@ -45,25 +51,27 @@ exports.createPost = (req, res) => {
 };
 
 exports.updatePostWithUpvote = (req, res) => {
+  console.log('FROM CONTROLLER----->', req.params);
+
   model.Post.findById(req.params.id)
-    .then(post => post.increment("votes", { by: 1 }))
+    .then(post => post.increment('votes', { by: 1 }))
     .then(post => {
       res.status(200).send(post);
     })
-    .catch(err => console.error(err));
+    .catch(handleError);
 };
 
 exports.updatePostWithDownvote = (req, res) => {
   model.Post.findById(req.params.id)
-    .then(post => post.decrement("votes", { by: 1 }))
+    .then(post => post.decrement('votes', { by: 1 }))
     .then(post => {
       res.status(200).send(post);
     })
-    .catch(err => console.error(err));
+    .catch(handleError);
 };
 
 exports.updateOne = (req, res) => {
-  res.status(200).send("update one");
+  res.status(200).send('update one');
 };
 
 exports.deletePost = (req, res) => {
@@ -78,14 +86,18 @@ exports.deletePost = (req, res) => {
         }
       }
     }
-  }).then(() => res.status(200).send("deleted"));
+  })
+    .then(() => res.status(200).send('deleted'))
+    .catch(handleError);
 };
 
 exports.deleteAllPosts = (req, res) => {
   model.Post.destroy({
     where: {},
     truncate: true
-  }).then(() => res.send("deleted all posts"));
+  })
+    .then(() => res.send('deleted all posts'))
+    .catch(handleError);
 };
 
 exports.searchPosts = (req, res) => {
@@ -95,12 +107,9 @@ exports.searchPosts = (req, res) => {
         $like: `%${req.body.search}%`
       }
     }
-  }).then(
-    posts => {
-      res.status(200).send(posts);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+  })
+    .then(posts => res.status(200).send(posts))
+    .catch(handleError);
 };
+
+const handleError = err => console.error(err);

@@ -1,5 +1,5 @@
-const db = require("../db.js");
-const model = require("../models/subreddit.js");
+const db = require('../db.js');
+const model = require('../models/subreddit.js');
 
 exports.getSubreddit = (req, res) => {
   const id = req.params.id;
@@ -8,12 +8,8 @@ exports.getSubreddit = (req, res) => {
       id
     }
   }).then(
-    subreddit => {
-      res.status(200).send(subreddit);
-    },
-    err => {
-      console.log(err);
-    }
+    subreddit => res.status(200).send(subreddit),
+    err => console.log(err)
   );
 };
 
@@ -23,25 +19,17 @@ exports.getSubredditByName = (req, res) => {
       name: req.params.name
     }
   }).then(
-    subreddit => {
-      res.status(200).send(subreddit);
-    },
-    err => {
-      console.log(err);
-    }
+    subreddit => res.status(200).send(subreddit),
+    err => console.log(err)
   );
 };
 
 exports.allSubredditNames = (req, res) => {
   model.Subreddit.findAll({
-    attributes: ["name"]
+    attributes: ['name']
   }).then(
-    subreddits => {
-      res.status(200).send(subreddits);
-    },
-    err => {
-      console.log(err);
-    }
+    subreddits => res.status(200).send(subreddits),
+    err => console.log(err)
   );
 };
 
@@ -55,7 +43,8 @@ exports.createSubreddit = (req, res) => {
         description
       })
     )
-    .then(subreddit => {
-      res.status(200).send(subreddit);
-    });
+    .then(
+      subreddit => res.status(200).send(subreddit),
+      err => console.log(err)
+    );
 };

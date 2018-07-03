@@ -1,29 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import axios from 'axios';
-
-import {
-  storeUserPosts,
-  getUserSubscriptionList
-} from './../../../actions/index.jsx';
 
 class Main extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.getUserPosts();
-  }
-
-  getUserPosts() {
-    axios
-      .get('/posts', { params: { user: this.props.authUser } })
-      .then(res => {
-        this.props.storeUserPosts(res.data);
-      })
-      .catch(err => console.error(err));
   }
 
   render() {
@@ -49,8 +29,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ storeUserPosts }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null)(Main);

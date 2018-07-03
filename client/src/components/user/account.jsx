@@ -3,40 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 
-import axios from 'axios';
-
 import {
   storeUserPosts,
   getUserSubscriptionList
 } from './../../actions/index.jsx';
 
-import Main from './tabs/main.jsx';
-import New from './tabs/new.jsx';
-import History from './tabs/history.jsx';
-import Subscriptions from './tabs/subscriptions.jsx';
-
-const routes = [
-  {
-    name: 'main',
-    path: '/account/main',
-    component: Main
-  },
-  {
-    name: 'new posts',
-    path: '/account/new',
-    component: New
-  },
-  {
-    name: 'history',
-    path: '/account/history',
-    component: History
-  },
-  {
-    name: 'subscriptions',
-    path: '/account/subscriptions',
-    component: Subscriptions
-  }
-];
+import { client } from './../../client';
+import { ACCOUNT_ROUTES } from './helpers';
 
 class Account extends Component {
   constructor() {
@@ -48,30 +21,13 @@ class Account extends Component {
   }
 
   componentDidMount() {
-    this.getUserPosts();
     this.getUserSubscriptions();
   }
 
-  getUserPosts() {
-    axios
-      .get('/posts', { params: { user: this.props.authUser } })
-      .then(res => {
-        this.props.storeUserPosts(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
   getUserSubscriptions() {
-    axios
-      .get(`/user/${this.props.authUser}`)
-      .then(res => {
-        this.props.getUserSubscriptionList(res.data.subredditSubscriptions);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.getOneItem(`/user/${this.props.authUser}`, data =>
+      this.props.getUserSubscriptionList(data.subredditSubscriptions)
+    );
   }
 
   handleClick(index) {
@@ -88,7 +44,7 @@ class Account extends Component {
             <div className="ui vertical fluid tabular menu">
               <div className="ui header">{this.props.user}</div>
               <hr />
-              {routes.map((route, index) => {
+              {ACCOUNT_ROUTES.map((route, index) => {
                 return (
                   <Link
                     key={index}
@@ -108,7 +64,7 @@ class Account extends Component {
           </div>
           <div className="twelve wide stretched column">
             <Switch>
-              {routes.map((route, index) => {
+              {ACCOUNT_ROUTES.map((route, index) => {
                 return (
                   <Route
                     key={index}

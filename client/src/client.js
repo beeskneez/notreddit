@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 module.exports = {
   client: {
     getAllItems(url, success) {
@@ -8,11 +6,39 @@ module.exports = {
         .then(parseJSON)
         .then(success);
     },
-    getOneItem() {},
-    createItem(url, query, success) {
+    getCertainItems(url, success) {
+      fetch(url, { headers: { Accept: 'application/json' } })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(success);
+    },
+    getOneItem(url, success) {
+      fetch(url, { headers: { Accept: 'application/json' } })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(success);
+    },
+    createItem(url, data, success) {
       fetch(url, {
-        body: JSON.stringify(query),
-        headers: { Accept: 'application/json' }
+        method: 'POST',
+        body: data ? JSON.stringify(data) : null,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(success);
+    },
+    updateItem(url, data, success) {
+      fetch(url, {
+        method: 'PUT',
+        body: data ? JSON.stringify(data) : null,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       })
         .then(checkStatus)
         .then(parseJSON)
