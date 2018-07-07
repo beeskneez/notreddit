@@ -6,22 +6,22 @@ const userController = require('./db/controllers/user-controller.js');
 const subredditController = require('./db/controllers/subreddit-controller.js');
 
 // post
-router.route('/posts').get(postController.getQueryPosts);
+router.route('/posts').get(postController.getQueriedPosts);
 router.route('/post').post(postController.createPost);
 router.route('/post/:id').get(postController.getOnePost);
 router.route('/post/:id').put(postController.updateOnePost);
 router.route('/post/:id').delete(postController.deletePost);
 router.route('/search').post(postController.searchPosts);
 
-router.route('/posts/subreddit').get(postController.getQueryPosts);
-router.route('/posts/user').get(postController.getQueryPosts);
+router.route('/posts/subreddit').get(postController.getQueriedPosts);
+router.route('/posts/user').get(postController.getQueriedPosts);
 // auth
 router.route('/login').post(userController.findUserAlt);
 router.route('/signup').post(userController.createUser);
 // comments
 router.route('/comment/:id').get(postController.getOnePost);
 router.route('/comment/:id').delete(postController.deletePost);
-router.route('/comments').get(postController.getQueryPosts);
+router.route('/comments').get(postController.getQueriedPosts);
 
 // subreddits 
 router.route('/subreddits').get(subredditController.allSubredditNames);

@@ -3,7 +3,7 @@ const model = require('../models/post.js');
 const utils = require('./helpers.js');
 
 // Post Controllers
-exports.getQueryPosts = (req, res) => {
+exports.getQueriedPosts = (req, res) => {
   model.Post.findAll({
     where: {
       [req.query.key]: req.query.value

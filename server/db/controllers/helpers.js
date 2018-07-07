@@ -1,30 +1,7 @@
 const db = require('../db.js');
 const model = require('../models/post.js');
 
-// Get Helpers
-exports.getSubredditPosts = (req, res) => {
-  model.Post.findAll({
-    where: {
-      subreddit: req.query.subredditName
-    }
-  })
-    .then(posts => res.status(200).send(posts))
-    .catch(err => console.error(err));
-};
-
-exports.getUserPosts = (req, res) => {
-  model.Post.findAll({
-    where: {
-      user_email: req.query.user,
-      postType: 0
-    }
-  })
-    .then(posts => res.status(200).send(posts))
-    .catch(err => console.error(err));
-};
-
 // Post Helpers
-
 exports.createNestedComment = (req, res) => {
   const {
     title,
