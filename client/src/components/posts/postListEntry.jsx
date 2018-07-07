@@ -3,13 +3,13 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
-import axios from 'axios';
 import moment from 'moment';
 import {
   getPost,
   updateAuthUser,
   selectSubredditPage
 } from './../../actions/index.jsx';
+import { client } from './../../client';
 
 class PostListEntry extends Component {
   constructor(props) {
@@ -36,51 +36,31 @@ class PostListEntry extends Component {
 
   upvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/upvote/${this.props.post.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.post.id}`)
-            .then(res2 => {
-              this.props.post.votes++;
-              this.setState({ votes: res2.data.votes });
-            })
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      const votes = this.props.post.votes + 1;
+      client.updateItem(`/post/${this.props.post.id}`, { votes }, data => {
+        this.props.post.votes++;
+        this.setState({ votes: data.votes });
+      });
     }
   }
 
   downvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/downvote/${this.props.post.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.post.id}`)
-            .then(res2 => {
-              this.props.post.votes--;
-              this.setState({ votes: res2.data.votes });
-            })
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      const votes = this.props.post.votes - 1;
+      client.updateItem(`/post/${this.props.post.id}`, { votes }, data => {
+        this.props.post.votes--;
+        this.setState({ votes: data.votes });
+      });
     }
   }
 
   setTotalVotes(votes) {
-    this.setState({
-      votes
-    });
+    this.setState({ votes });
   }
 
   handleSubredditClick(subreddit) {
     this.props.selectSubredditPage(subreddit);
-    this.props.history.push(`/subredditList/${subreddit}`);
+    this.props.history.push(`/subreddit/${subreddit}`);
   }
 
   render() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import {
   getComment,
@@ -26,11 +25,11 @@ class CommentForm extends Component {
       client.createItem('/post', { post: this.state }, data => {
         this.props.createComment(data);
         if (!this.state.comment) {
-          client.getOneItem(`/comments/${this.props.gPost.id}`, data2 => {
+          client.getOneItem(`/comments?key=id_parent&value=${this.props.gPost.id}`, data2 => {
             this.props.updateComments(data2);
           });
         } else {
-          client.getOneItem(`/comments/${this.props.gComment.id}`, data2 => {
+          client.getOneItem(`/comments?key=id_parent&value=${this.props.gComment.id}`, data2 => {
             this.props.sendData(data2);
             this.props.hideForm();
             this.props.getComment(null);

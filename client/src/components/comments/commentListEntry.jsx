@@ -1,18 +1,16 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { auth } from "firebase";
-import axios from "axios";
-import moment from "moment";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import moment from 'moment';
 import {
   getComment,
   getPost,
   updateAuthUser,
   updateComments
-} from "./../../actions/index.jsx";
-import CommentForm from "./commentForm.jsx";
-import CommentList from "./commentList.jsx";
+} from './../../actions/index.jsx';
+import CommentForm from './commentForm.jsx';
+import { client } from './../../client';
 
 class CommentListEntry extends Component {
   constructor(props) {
@@ -28,16 +26,13 @@ class CommentListEntry extends Component {
   }
 
   componentWillMount() {
-    axios
-      .get(`/comments/${this.props.comment.id}`)
-      .then(res => {
+    client.getOneItem(
+      `/comments?key=id_parent&value=${this.props.comment.id}`,
+      data =>
         this.setState({
-          children: res.data
-        });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+          children: data
+        })
+    );
   }
 
   onClick(e) {
@@ -62,39 +57,21 @@ class CommentListEntry extends Component {
 
   upvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/upvote/${this.props.comment.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.comment.id}`)
-            .then(res2 => {
-              this.setTotalVotes(res2);
-              this.props.comment.votes++;
-            })
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      const votes = this.props.comment.votes + 1;
+      client.updateItem(`/post/${this.props.comment.id}`, { votes }, data => {
+        this.props.comment.votes++;
+        this.setState({ votes: data.votes });
+      });
     }
   }
 
   downvote() {
     if (this.props.authUser) {
-      axios
-        .put(`/downvote/${this.props.comment.id}`)
-        .then(res => {
-          axios
-            .get(`/post/${this.props.comment.id}`)
-            .then(res2 => {
-              this.setTotalVotes(res2);
-              this.props.comment.votes--;
-            })
-            .catch(err => console.error(err));
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      const votes = this.props.comment.votes - 1;
+      client.updateItem(`/post/${this.props.comment.id}`, { votes }, data => {
+        this.props.comment.votes--;
+        this.setState({ votes: data.votes });
+      });
     }
   }
 
@@ -105,30 +82,21 @@ class CommentListEntry extends Component {
   }
 
   deleteComment() {
-    let entry = this;
-    let pid = this.props.comment.id_parent;
     if (this.props.user === this.props.comment.username) {
-      axios
-        .delete(`/comment/${this.props.comment.id}`)
-        .then(res => {
-          axios
-            .get(`/comments/${this.props.comment.id_parent}`)
-            .then(res2 => {
-              this.props.updateComments(res2.data);
-              this.props.getComment(null);
-            })
-            .catch(err => {
-              console.error(err);
-            });
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      client.deleteItem(`/comment/${this.props.comment.id}`, () =>
+        client.getOneItem(
+          `/comments?key=id_parent&value=${this.props.comment.id_parent}`,
+          data => {
+            this.props.updateComments(data);
+            this.props.getComment(null);
+          }
+        )
+      );
     }
   }
 
   render() {
-    const timestamp = moment(this.props.comment.createdAt).format("ddd, h:mmA");
+    const timestamp = moment(this.props.comment.createdAt).format('ddd, h:mmA');
     return (
       <div className="ui threaded comments">
         <div className="ui comment">
@@ -173,7 +141,7 @@ class CommentListEntry extends Component {
               </li>
             </ul>
             <div>
-              {" "}
+              {' '}
               {this.state.children.length > 0 &&
                 this.state.children.map((child, index) => (
                   <CommentContainer key={index} comment={child} />
@@ -208,8 +176,12 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-const CommentContainer = connect(mapStateToProps, mapDispatchToProps)(
-  CommentListEntry
-);
+const CommentContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentListEntry);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentListEntry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentListEntry);

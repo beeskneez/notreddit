@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import axios from 'axios';
 import PostListEntry from '../posts/postListEntry.jsx';
 import { client } from './../../client';
 
@@ -23,7 +22,7 @@ class Search extends Component {
   }
 
   render() {
-    const results = this.state.results.length ? (
+    const RESULTS = this.state.results.length ? (
       <Fragment>
         <h5>Results:</h5>
         <ul>
@@ -56,7 +55,7 @@ class Search extends Component {
               </div>
             </div>
           </div>
-          {results}
+          {RESULTS}
         </div>
       </div>
     );

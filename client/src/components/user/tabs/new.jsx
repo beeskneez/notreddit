@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { getPost } from './../../../actions/index.jsx';
 import NewListEntry from './newListEntry.jsx';
 import { client } from './../../../client';
-class New extends Component {
+export default class New extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,10 +17,12 @@ class New extends Component {
     let subscriptions = this.props.userSubscriptionList.split(', ');
     if (subscriptions[0]) {
       subscriptions.forEach(sub => {
-        client.getCertainItems(`/posts/subreddit?name=${sub}`, data =>
-          data.forEach(post =>
-            this.setState({ posts: this.state.posts.concat([post]) })
-          )
+        client.getCertainItems(
+          `/posts/subreddit?key=subreddit&value=${sub}`,
+          data =>
+            data.forEach(post =>
+              this.setState({ posts: this.state.posts.concat([post]) })
+            )
         );
       });
     }
@@ -44,6 +42,7 @@ class New extends Component {
               key={index}
               post={post}
               history={this.props.history}
+              onSubredditClick={this.props.onSubredditClick}
             />
           );
         })}
@@ -51,18 +50,3 @@ class New extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    userSubscriptionList: state.userSubscriptionList
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getPost }, dispatch);
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(New);

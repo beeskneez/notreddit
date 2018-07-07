@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import isEmail from 'validator/lib/isEmail';
 import { auth } from 'firebase';
 import { connect } from 'react-redux';

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
-
 import { getPost } from './../../../actions/index.jsx';
 
 class History extends Component {
@@ -13,49 +12,63 @@ class History extends Component {
   }
 
   render() {
+    const HISTORY_LIST = this.props.userPosts.map((post, index) => (
+      <HistoryListEntry
+        key={index}
+        post={post}
+        onSubredditClick={this.props.onSubredditClick}
+        goToDetails={this.goToDetails.bind(this)}
+      />
+    ));
+
+    return <div className="ui segment">{HISTORY_LIST.reverse()}</div>;
+  }
+}
+
+class HistoryListEntry extends Component {
+  render() {
+    const {
+      image,
+      title,
+      createdAt,
+      username,
+      subreddit,
+      votes
+    } = this.props.post;
+
     return (
-      <div className="ui segment">
-        {this.props.userPosts
-          .map((post, index) => {
-            return (
-              <div key={index} className="twelve wide column">
-                <img className="thumbnail" src={post.image} alt="" />
-                <a
-                  onClick={() => this.goToDetails(post)}
-                  className="ui large header"
-                >
-                  {post.title}
-                </a>
-                <div className="meta">
-                  submitted {moment(post.createdAt).format('ddd, h:mmA')} ago by{' '}
-                  <a>{post.username}</a> to{' '}
-                  <Link to={`/subreddit/${post.subreddit}`}>
-                    /{post.subreddit}
-                  </Link>
-                </div>
-                <ul className="ui big horizontal list voters">
-                  <li className="item">
-                    <a>upvotes</a>
-                  </li>
-                  <li className="item">{post.votes}</li>
-                </ul>
-              </div>
-            );
-          })
-          .reverse()}
+      <div className="twelve wide column">
+        <img className="thumbnail" src={image} alt="" />
+        <a onClick={() => this.props.goToDetails(this.props.post)}
+          className="ui large header">
+          {title}
+        </a>
+        <div className="meta">
+          submitted {moment(createdAt).format('ddd, h:mmA')} ago by
+          <a>{username}</a> to
+          <a onClick={() => this.props.onSubredditClick(subreddit)}
+            to={`/subreddit/${subreddit}`}>
+            /{subreddit}
+          </a>
+        </div>
+        <ul className="ui big horizontal list voters">
+          <li className="item">
+            <a>upvotes</a>
+          </li>
+          <li className="item">{votes}</li>
+        </ul>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userPosts: state.userPosts
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getPost }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(History);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(History)
+);

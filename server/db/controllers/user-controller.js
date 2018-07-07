@@ -1,5 +1,5 @@
-const db = require("../db.js");
-const model = require("../models/user.js");
+const db = require('../db.js');
+const model = require('../models/user.js');
 
 exports.getAllUsers = (req, res) => {};
 
@@ -12,12 +12,10 @@ exports.createUser = (req, res) => {
         email: req.body.email,
         postVoteCache: 0,
         commentVoteCache: 0,
-        subredditSubscriptions: ""
+        subredditSubscriptions: ''
       })
     )
-    .then(user => {
-      res.status(200).send(user);
-    });
+    .then(user => res.status(200).send(user));
 };
 
 exports.getUser = (req, res) => {
@@ -26,12 +24,8 @@ exports.getUser = (req, res) => {
       email: req.params.email
     }
   })
-    .then(user => {
-      res.status(200).send(user);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    .then(user => res.status(200).send(user))
+    .catch(err => console.error(err));
 };
 
 exports.findUserAlt = (req, res) => {
@@ -39,14 +33,7 @@ exports.findUserAlt = (req, res) => {
     where: {
       email: req.body.email
     }
-  }).then(
-    user => {
-      res.status(200).send(user);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+  }).then(user => res.status(200).send(user), err => console.log(err));
 };
 
 exports.addToUserRedditSubscriptions = (req, res) => {
@@ -54,9 +41,9 @@ exports.addToUserRedditSubscriptions = (req, res) => {
     .then(user => {
       let newVal = user.dataValues.subredditSubscriptions;
       if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(", ");
+        newVal = newVal.split(', ');
         newVal.push(req.params.subreddit);
-        user.update({ subredditSubscriptions: newVal.join(", ") });
+        user.update({ subredditSubscriptions: newVal.join(', ') });
       } else {
         user.update({ subredditSubscriptions: req.params.subreddit });
       }
@@ -70,9 +57,9 @@ exports.remFromUserRedditSubscriptions = (req, res) => {
     .then(user => {
       let newVal = user.dataValues.subredditSubscriptions;
       if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(", ");
+        newVal = newVal.split(', ');
         newVal.splice(newVal.indexOf(req.params.subreddit), 1);
-        user.update({ subredditSubscriptions: newVal.join(", ") });
+        user.update({ subredditSubscriptions: newVal.join(', ') });
       } else {
         user.update({ subredditSubscriptions: req.params.subreddit });
       }

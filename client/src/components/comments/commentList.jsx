@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { getComment, getPost, updateComments } from "./../../actions/index.jsx";
-import CommentListEntry from "./commentListEntry.jsx";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getComment, getPost, updateComments } from './../../actions/index.jsx';
+import CommentListEntry from './commentListEntry.jsx';
+import { client } from './../../client';
 
 class CommentList extends Component {
   constructor(props) {
@@ -11,14 +11,9 @@ class CommentList extends Component {
   }
   componentWillMount() {
     const parentId = this.props.gPost.id;
-    axios
-      .get(`/comments/${parentId}`)
-      .then(res => {
-        this.props.updateComments(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.getOneItem(`/comments?key=id_parent&value=${parentId}`, data =>
+      this.props.updateComments(data)
+    );
   }
 
   render() {
@@ -48,4 +43,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getComment, getPost, updateComments }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentList);

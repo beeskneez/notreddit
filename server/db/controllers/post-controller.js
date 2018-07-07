@@ -3,31 +3,17 @@ const model = require('../models/post.js');
 const utils = require('./helpers.js');
 
 // Post Controllers
-exports.getAllPosts = (req, res) => {
-  console.log('GET ALL POSTS---->', req.query);
-
-  if (req.params.id) {
-    utils.getComments(req, res);
-  } else if (req.query.subredditName) {
-    utils.getSubredditPosts(req, res);
-  } else if (req.query.user) {
-    utils.getUserPosts(req, res);
-  } else {
-    utils.getAllPosts(req, res);
-  }
-};
-
-exports.getCertainPosts = (req, res) => {
+exports.getQueryPosts = (req, res) => {
   model.Post.findAll({
     where: {
-      subreddit: req.query.name
+      [req.query.key]: req.query.value
     }
   })
     .then(posts => res.status(200).send(posts))
     .catch(handleError);
 };
 
-exports.getPost = (req, res) => {
+exports.getOnePost = (req, res) => {
   const id = req.params.id;
   model.Post.findOne({
     where: {
@@ -50,28 +36,19 @@ exports.createPost = (req, res) => {
   }
 };
 
-exports.updatePostWithUpvote = (req, res) => {
-  console.log('FROM CONTROLLER----->', req.params);
-
-  model.Post.findById(req.params.id)
-    .then(post => post.increment('votes', { by: 1 }))
+exports.updateOnePost = (req, res) => {
+  const query = Object.entries(req.body);
+  const id = req.params.id;
+  model.Post.findOne({
+    where: {
+      id
+    }
+  })
     .then(post => {
+      query.forEach(([key, value]) => post.update({ [key]: value }));
       res.status(200).send(post);
     })
     .catch(handleError);
-};
-
-exports.updatePostWithDownvote = (req, res) => {
-  model.Post.findById(req.params.id)
-    .then(post => post.decrement('votes', { by: 1 }))
-    .then(post => {
-      res.status(200).send(post);
-    })
-    .catch(handleError);
-};
-
-exports.updateOne = (req, res) => {
-  res.status(200).send('update one');
 };
 
 exports.deletePost = (req, res) => {
@@ -87,7 +64,7 @@ exports.deletePost = (req, res) => {
       }
     }
   })
-    .then(() => res.status(200).send('deleted'))
+    .then(post => res.status(200).send({ data: 'success' }))
     .catch(handleError);
 };
 

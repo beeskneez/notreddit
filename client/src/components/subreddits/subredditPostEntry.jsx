@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import axios from 'axios';
 import moment from 'moment';
 import { getPost } from './../../actions/index.jsx';
 import { client } from './../../client';
@@ -21,7 +20,7 @@ class SubredditPostEntry extends Component {
 
   upvote() {
     if (this.props.authUser) {
-      client.updateItem(`/upvote/${this.props.subredditPost.id}`, null, _ => {
+      client.updateItem(`/upvote/${this.props.subredditPost.id}`, null, () => {
         this.setTotalVotes();
       });
     }
@@ -29,7 +28,7 @@ class SubredditPostEntry extends Component {
 
   downvote() {
     if (this.props.authUser) {
-      client.updateItem(`/downvote/${this.props.subredditPost.id}`, null, _ => {
+      client.updateItem(`/downvote/${this.props.subredditPost.id}`, null, () => {
         this.setTotalVotes();
       });
     }

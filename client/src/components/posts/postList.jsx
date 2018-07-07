@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { updatePosts } from './../../actions/index.jsx';
 import PostListEntry from './postListEntry.jsx';
@@ -15,10 +14,10 @@ class PostList extends Component {
   }
 
   componentDidMount() {
-    client.getAllItems('/posts', data =>
-      this.setState({ posts: data }, () =>
-        this.props.updatePosts(data.reverse())
-      )
+    client.getAllItems('/posts?key=postType&value=0', data =>
+      this.setState({ posts: data }, () => {
+        this.props.updatePosts(data.reverse());
+      })
     );
   }
 

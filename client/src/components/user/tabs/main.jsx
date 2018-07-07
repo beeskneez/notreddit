@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class Main extends Component {
   render() {
     let totalVotes = 0;
     this.props.userPosts.forEach(post => {
@@ -21,12 +16,3 @@ class Main extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    authUser: state.authUser,
-    userPosts: state.userPosts
-  };
-};
-
-export default connect(mapStateToProps, null)(Main);

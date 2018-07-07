@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { createSubreddit } from './../../actions/index.jsx';
 import {client} from './../../client';

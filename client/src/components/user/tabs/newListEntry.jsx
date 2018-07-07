@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import { client } from './../../../client';
 import { getPost } from './../../../actions/index.jsx';
 
@@ -38,32 +38,31 @@ class NewListEntry extends Component {
   }
 
   render() {
+    const { image, username, subreddit, id, title, createdAt } = this.props.post;
     return (
       <div className="twelve wide column">
-        <img className="thumbnail" src={this.props.post.image} alt="" />
-        <a
-          onClick={() => this.goToDetails(this.props.post)}
-          className="ui large header"
-        >
-          {this.props.post.title}
+        <img className="thumbnail" src={image} alt="" />
+        <a onClick={() => this.goToDetails(this.props.post)}
+          className="ui large header">
+          {title}
         </a>
         <div className="meta">
-          submitted {moment(this.props.post.createdAt).format('ddd, h:mmA')} ago
-          by <a>{this.props.post.username}</a> to{' '}
-          <Link to={`/subreddit/${this.props.post.subreddit}`}>
-            /{this.props.post.subreddit}
-          </Link>
+          submitted {moment(createdAt).format('ddd, h:mmA')} ago by
+          <a>{username}</a> to
+          <a onClick={() => this.props.onSubredditClick(subreddit)}>
+            /{subreddit}
+          </a>
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a onClick={() => this.upvote(this.props.post.id)}>
+            <a onClick={() => this.upvote(id)}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
           <li className="item">{this.state.votes}</li>
           <li className="item">
-            <a onClick={() => this.downvote(this.props.post.id)}>
+            <a onClick={() => this.downvote(id)}>
               <i className="arrow down icon" />
               downvote
             </a>
@@ -78,7 +77,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getPost }, dispatch);
 };
 
-export default connect(
+export default withRouter(connect(
   null,
   mapDispatchToProps
-)(NewListEntry);
+)(NewListEntry));

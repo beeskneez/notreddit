@@ -12,7 +12,7 @@ const APP_ROUTES = [
   { path: '/login', component: Login, exact: false },
   { path: '/signup', component: Signup, exact: false },
   { path: '/subredditForm', component: SubredditForm, exact: false },
-  { path: '/subredditList', component: SubredditPage, exact: false },
+  { path: '/subreddit', component: SubredditPage, exact: false },
   { path: '/postForm', component: PostForm, exact: false },
   { path: '/postDetails', component: PostDetails, exact: false },
   { path: '/account', component: Account, exact: false },

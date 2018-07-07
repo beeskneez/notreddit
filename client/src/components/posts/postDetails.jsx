@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { auth } from 'firebase';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { getPost, updatePosts } from './../../actions/index.jsx';
 import moment from 'moment';
-import CommentForm from './commentForm.jsx';
-import CommentList from './commentList.jsx';
+import CommentForm from './../comments/commentForm.jsx';
+import CommentList from './../comments/commentList.jsx';
+import { client } from './../../client';
 
 class PostDetails extends Component {
   constructor(props) {
@@ -26,76 +25,55 @@ class PostDetails extends Component {
     }
   }
 
-  upvote(id) {
-    axios
-      .put(`/upvote/${id}`)
-      .then(res => {
-        axios
-          .get(`/post/${id}`)
-          .then(res2 => {
-            this.setState({
-              votes: res2.data.votes
-            });
-          })
-          .catch(err => console.error(err));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+  upvote() {
+    let { id, votes } = this.props.gPost;
+    votes += 1;
+    client.updateItem(`/post/${id}`, { votes }, data => {
+      this.props.getPost(data);
+      this.setState({ votes: data.votes });
+    });
   }
 
-  downvote(id) {
-    axios
-      .put(`/downvote/${id}`)
-      .then(res => {
-        axios
-          .get(`/post/${id}`)
-          .then(res2 => {
-            this.setState({
-              votes: res2.data.votes
-            });
-          })
-          .catch(err => console.error(err));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+  downvote() {
+    let { id, votes } = this.props.gPost;
+    votes -= 1;
+    client.updateItem(`/post/${id}`, { votes }, data => {
+      this.props.getPost(data);
+      this.setState({ votes: data.votes });
+    });
   }
 
   onClick() {
-    axios
-      .delete(`/post/${this.props.gPost.id}`)
-      .then(res => {
-        axios
-          .get('/posts')
-          .then(res2 => {
-            this.props.updatePosts(res2.data);
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    client.deleteItem(`/post/${this.props.gPost.id}`, () =>
+      client.getAllItems('/posts', data => this.props.updatePosts(res2.data))
+    );
   }
 
   render() {
-    const timestamp = moment(this.props.gPost.createdAt).format('ddd, h:mmA');
+    const {
+      createdAt,
+      title,
+      body,
+      image,
+      username,
+      subreddit,
+      id,
+      votes
+    } = this.props.gPost;
+
+    const timestamp = moment(createdAt).format('ddd, h:mmA');
     return (
       <div className="page post-details">
         <a className="ui large header" href="">
-          {this.props.gPost.title}
+          {title}
         </a>
         <br /> <br />
-        <div>{this.props.gPost.body}</div>
+        <div>{body}</div>
         <br />
-        <img src={this.props.gPost.image} alt="" />
+        <img src={image} alt="" />
         <div className="meta">
-          submitted {timestamp} by <a>{this.props.gPost.username}</a> to{' '}
-          <Link to={`/subreddit/${this.props.gPost.subreddit}`}>{`/${
-            this.props.gPost.subreddit
-          }`}</Link>
+          submitted {timestamp} by <a>{username}</a> to{' '}
+          <Link to={`/subreddit/${subreddit}`}>{`/${subreddit}`}</Link>
         </div>
         {this.state.showDelete && (
           <Link onClick={() => this.onClick()} to="/">
@@ -104,14 +82,18 @@ class PostDetails extends Component {
         )}
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a onClick={() => this.upvote(this.props.gPost.id)}>
+            <a onClick={() => this.upvote()}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
           <li className="item">{this.state.votes}</li>
           <li className="item">
-            <a onClick={() => this.downvote(this.props.gPost.id)}>
+            <a
+              onClick={() =>
+                this.downvote()
+              }
+            >
               <i className="arrow down icon" />
               downvote
             </a>

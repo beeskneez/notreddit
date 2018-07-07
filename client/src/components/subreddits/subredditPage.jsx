@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -33,7 +32,7 @@ class SubredditPage extends Component {
   // get posts
   getPosts() {
     const subredditName = this.state.subreddit;
-    client.getCertainItems(`/posts/subreddit?name=${subredditName}`, data => {
+    client.getCertainItems(`/posts/subreddit?key=subreddit&value=${subredditName}`, data => {
       this.setState({
         subredditPosts: data
       });

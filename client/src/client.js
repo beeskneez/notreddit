@@ -21,7 +21,7 @@ module.exports = {
     createItem(url, data, success) {
       fetch(url, {
         method: 'POST',
-        body: data ? JSON.stringify(data) : null,
+        body: JSON.stringify(data),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -34,12 +34,18 @@ module.exports = {
     updateItem(url, data, success) {
       fetch(url, {
         method: 'PUT',
-        body: data ? JSON.stringify(data) : null,
+        body: JSON.stringify(data),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
       })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(success);
+    },
+    deleteItem(url, success) {
+      fetch(url, { method: 'DELETE', headers: { Accept: 'application/json' } })
         .then(checkStatus)
         .then(parseJSON)
         .then(success);

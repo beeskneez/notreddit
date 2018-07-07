@@ -2,18 +2,6 @@ const db = require('../db.js');
 const model = require('../models/post.js');
 
 // Get Helpers
-
-exports.getComments = (req, res) => {
-  model.Post.findAll({
-    where: {
-      id_parent: req.params.id,
-      postType: 1
-    }
-  })
-    .then(posts => res.status(200).send(posts))
-    .catch(err => console.error(err));
-};
-
 exports.getSubredditPosts = (req, res) => {
   model.Post.findAll({
     where: {
@@ -33,14 +21,6 @@ exports.getUserPosts = (req, res) => {
   })
     .then(posts => res.status(200).send(posts))
     .catch(err => console.error(err));
-};
-
-exports.getAllPosts = (req, res) => {
-  model.Post.findAll({
-    where: {
-      postType: 0
-    }
-  }).then(posts => res.status(200).send(posts), err => console.log(err));
 };
 
 // Post Helpers
