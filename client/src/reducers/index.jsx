@@ -17,6 +17,7 @@ import {
   ReducerCreateSubreddit,
   ReducerGetSubreddits,
   ReducerSelectedSubreddit,
+  ReducerSelectedSubredditPage,
   ReducerGetPostsFromSubreddit
 } from './subredditReducer.jsx';
 import { ReducerUser, ReducerUserSubscriptionList } from './userReducer.jsx';
@@ -30,6 +31,7 @@ const allReducers = combineReducers({
   subreddit: ReducerCreateSubreddit,
   subreddits: ReducerGetSubreddits,
   selectedSubreddit: ReducerSelectedSubreddit,
+  selectedSubredditPage: ReducerSelectedSubredditPage,
   postsFromSubreddit: ReducerGetPostsFromSubreddit,
   user: ReducerUser,
   comments: ReducerComments,

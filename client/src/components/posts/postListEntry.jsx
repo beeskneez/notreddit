@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { auth } from 'firebase';
 import axios from 'axios';
 import moment from 'moment';
-import { getPost, updateAuthUser } from './../../actions/index.jsx';
+import {
+  getPost,
+  updateAuthUser,
+  selectSubredditPage
+} from './../../actions/index.jsx';
 
 class PostListEntry extends Component {
   constructor(props) {
@@ -74,8 +78,15 @@ class PostListEntry extends Component {
     });
   }
 
+  handleSubredditClick(subreddit) {
+    this.props.selectSubredditPage(subreddit);
+    this.props.history.push(`/subredditList/${subreddit}`);
+  }
+
   render() {
+    const { match, location, history } = this.props;
     const timestamp = moment(this.props.post.createdAt).format('ddd, h:mmA');
+
     return (
       <div className="twelve wide column">
         <img className="thumbnail" src={this.props.post.image} alt="" />
@@ -88,9 +99,9 @@ class PostListEntry extends Component {
         </Link>
         <div className="meta">
           submitted {timestamp} by <a>{this.props.post.username}</a> to{' '}
-          <Link to={`/subreddit/${this.props.post.subreddit}`}>{`/${
-            this.props.post.subreddit
-          }`}</Link>
+          <a
+            onClick={() => this.handleSubredditClick(this.props.post.subreddit)}
+          >{`/${this.props.post.subreddit}`}</a>
         </div>
         <div>
           <ul className="ui big horizontal list voters">
@@ -115,11 +126,23 @@ class PostListEntry extends Component {
 }
 
 function mapStateToProps(state) {
-  return { gPost: state.gPost, authUser: state.authUser };
+  return {
+    gPost: state.gPost,
+    authUser: state.authUser,
+    selectedSubredditPage: state.selectedSubredditPage
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPost, updateAuthUser }, dispatch);
+  return bindActionCreators(
+    { getPost, updateAuthUser, selectSubredditPage },
+    dispatch
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostListEntry);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(PostListEntry)
+);

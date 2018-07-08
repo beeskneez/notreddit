@@ -59,13 +59,22 @@ class PostList extends Component {
         </div>
         <div className="group-2">
           <div className="ui vertical buttons">
-            <button className="ui button primary" onClick={() => this.renderTop()}>
+            <button
+              className="ui button primary"
+              onClick={() => this.renderTop()}
+            >
               Top
             </button>
-            <button className="ui button primary" onClick={() => this.renderBot()}>
+            <button
+              className="ui button primary"
+              onClick={() => this.renderBot()}
+            >
               Worst
             </button>
-            <button className="ui button primary" onClick={() => this.renderLatest()}>
+            <button
+              className="ui button primary"
+              onClick={() => this.renderLatest()}
+            >
               Latest
             </button>
           </div>

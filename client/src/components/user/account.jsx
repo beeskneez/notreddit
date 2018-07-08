@@ -53,7 +53,6 @@ class Account extends Component {
   }
 
   getUserPosts() {
-    console.log(this.props.authUser);
     axios
       .get('/posts', { params: { user: this.props.authUser } })
       .then(res => {
