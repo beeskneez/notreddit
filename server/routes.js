@@ -6,22 +6,23 @@ const userController = require('./db/controllers/user-controller.js');
 const subredditController = require('./db/controllers/subreddit-controller.js');
 
 // post
-router.route('/posts').get(postController.getQueriedPosts);
+router.route('/allposts').get(postController.getAllPosts)
+router.route('/posts').get(postController.getSomePosts);
 router.route('/post').post(postController.createPost);
 router.route('/post/:id').get(postController.getOnePost);
 router.route('/post/:id').put(postController.updateOnePost);
 router.route('/post/:id').delete(postController.deletePost);
 router.route('/search').post(postController.searchPosts);
 
-router.route('/posts/subreddit').get(postController.getQueriedPosts);
-router.route('/posts/user').get(postController.getQueriedPosts);
+router.route('/posts/subreddit').get(postController.getSomePosts);
+router.route('/posts/user').get(postController.getSomePosts);
 // auth
 router.route('/login').post(userController.findUserAlt);
 router.route('/signup').post(userController.createUser);
 // comments
 router.route('/comment/:id').get(postController.getOnePost);
 router.route('/comment/:id').delete(postController.deletePost);
-router.route('/comments').get(postController.getQueriedPosts);
+router.route('/comments').get(postController.getSomePosts);
 
 // subreddits 
 router.route('/subreddits').get(subredditController.allSubredditNames);
@@ -30,8 +31,9 @@ router.route('/subreddit').post(subredditController.createSubreddit);
 // users
 router.route('/user').post(userController.createUser);
 router.route('/user/:email').get(userController.getUser);
-router.route('/user/addSub/:id/:subreddit').put(userController.addToUserRedditSubscriptions);
-router.route('/user/remSub/:id/:subreddit').put(userController.remFromUserRedditSubscriptions);
+router.route('/user').put(userController.updateUser);
+// router.route('/user/addSub/:id/:subreddit').put(userController.addToUserRedditSubscriptions);
+// router.route('/user/remSub/:id/:subreddit').put(userController.remFromUserRedditSubscriptions);
 
 router.route('*').get((err, res) => {
   res.sendFile(path.resolve(__dirname, './../client/dist', 'index.html'));

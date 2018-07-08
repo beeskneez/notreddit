@@ -12,7 +12,6 @@ import App from './components/app.jsx';
 import { store, persistor } from './reducers/index.jsx';
 // css
 import './index.scss';
-
 // firebase
 firebase.initializeApp(config);
 

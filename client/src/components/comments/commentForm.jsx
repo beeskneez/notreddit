@@ -18,22 +18,27 @@ class CommentForm extends Component {
     e.preventDefault();
     if (this.props.authUser) {
       this.state.user_email = this.props.authUser;
-      this.state.parentId   = this.props.gPost.id;
-      this.state.comment    = 0 || this.props.gComment;
-      this.state.username   = this.props.user;
+      this.state.parentId = this.props.gPost.id;
+      this.state.comment = 0 || this.props.gComment;
+      this.state.username = this.props.user;
 
       client.createItem('/post', { post: this.state }, data => {
         this.props.createComment(data);
         if (!this.state.comment) {
-          client.getOneItem(`/comments?key=id_parent&value=${this.props.gPost.id}`, data2 => {
-            this.props.updateComments(data2);
-          });
+          client.getOneItem(
+            `/comments?key=id_parent&value=${this.props.gPost.id}&postType=1`,
+            data2 => this.props.updateComments(data2)
+          );
         } else {
-          client.getOneItem(`/comments?key=id_parent&value=${this.props.gComment.id}`, data2 => {
-            this.props.sendData(data2);
-            this.props.hideForm();
-            this.props.getComment(null);
-          });
+          client.getOneItem(
+            `/comments?key=id_parent&value=${this.props.gComment.id}&postType=1`,
+            data2 => {
+              console.log('DATA2: ', data2);
+              this.props.sendData(data2);
+              this.props.hideForm();
+              this.props.getComment(null);
+            }
+          );
         }
       });
     } else {

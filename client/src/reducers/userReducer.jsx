@@ -7,9 +7,9 @@ export function ReducerUser(state = null, action) {
   }
 }
 
-export function ReducerUserSubscriptionList(state = [], action) {
+export function ReducerStoreUserSubscriptionList(state = [], action) {
   switch (action.type) {
-    case "GET_USER_SUBSCRIPTION_LIST":
+    case "USER_SUBSCRIPTION_LIST":
       return action.payload;
     default:
       return state;

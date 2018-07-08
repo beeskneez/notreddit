@@ -1,18 +1,32 @@
-const db = require('../db.js');
 const model = require('../models/post.js');
 const utils = require('./helpers.js');
 
 // Post Controllers
-exports.getQueriedPosts = (req, res) => {
+// ALL posts
+exports.getAllPosts = (req, res) => {
   model.Post.findAll({
     where: {
-      [req.query.key]: req.query.value
+      postType: 0
     }
   })
     .then(posts => res.status(200).send(posts))
     .catch(handleError);
 };
 
+// QUERIED posts
+exports.getSomePosts = (req, res) => {
+  const { key, value, postType } = req.query;
+  model.Post.findAll({
+    where: {
+      [key]: value,
+      postType
+    }
+  })
+    .then(posts => res.status(200).send(posts))
+    .catch(handleError);
+};
+
+// GET ONE post
 exports.getOnePost = (req, res) => {
   const id = req.params.id;
   model.Post.findOne({
@@ -23,7 +37,7 @@ exports.getOnePost = (req, res) => {
     .then(post => res.status(200).send(post))
     .catch(handleError);
 };
-
+// CREATE post
 exports.createPost = (req, res) => {
   if (req.body.post.parentId) {
     if (req.body.post.comment) {
@@ -36,6 +50,7 @@ exports.createPost = (req, res) => {
   }
 };
 
+// UPDATE post
 exports.updateOnePost = (req, res) => {
   const query = Object.entries(req.body);
   const id = req.params.id;
@@ -51,6 +66,7 @@ exports.updateOnePost = (req, res) => {
     .catch(handleError);
 };
 
+// DELETE ONE post
 exports.deletePost = (req, res) => {
   model.Post.destroy({
     where: {
@@ -68,6 +84,7 @@ exports.deletePost = (req, res) => {
     .catch(handleError);
 };
 
+// DELETE ALL posts
 exports.deleteAllPosts = (req, res) => {
   model.Post.destroy({
     where: {},
@@ -77,6 +94,7 @@ exports.deleteAllPosts = (req, res) => {
     .catch(handleError);
 };
 
+// SEARCH posts
 exports.searchPosts = (req, res) => {
   model.Post.findAll({
     where: {

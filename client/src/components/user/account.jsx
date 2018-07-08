@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import { selectSubredditPage } from './../../actions/index.jsx';
+import {
+  selectSubredditPage,
+  storeUserSubscriptionList
+} from './../../actions/index.jsx';
 import { client } from './../../client';
 import { ACCOUNT_ROUTES } from './helpers';
 
@@ -23,16 +26,18 @@ class Account extends Component {
   }
 
   getUserPosts() {
-    client.getCertainItems(
-      `/posts/user?key=username&value=${this.props.user}`,
-      data => this.setState({ userPosts: data })
+    const queryStr = `/posts/user?key=username&value=${this.props.user}&postType=0`;
+    client.getCertainItems(queryStr, data =>
+      this.setState({ userPosts: data })
     );
   }
 
   getUserSubscriptions() {
-    client.getOneItem(`/user/${this.props.authUser}`, data =>
-      this.setState({ userSubscriptionList: data.subredditSubscriptions })
-    );
+    client.getOneItem(`/user/${this.props.authUser}`, data => {
+      const subs = data.subredditSubscriptions.split(', ').filter(Boolean);
+      this.props.storeUserSubscriptionList(subs);
+      this.setState({ userSubscriptionList: subs });
+    });
   }
 
   handleClick(index) {
@@ -106,7 +111,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ selectSubredditPage }, dispatch);
+  return bindActionCreators(
+    { selectSubredditPage, storeUserSubscriptionList },
+    dispatch
+  );
 };
 
 export default connect(

@@ -15,7 +15,7 @@ class PostListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      votes: this.props.post.votes
+      votes: props.post.votes
     };
   }
 

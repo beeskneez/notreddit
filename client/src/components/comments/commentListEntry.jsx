@@ -27,7 +27,7 @@ class CommentListEntry extends Component {
 
   componentWillMount() {
     client.getOneItem(
-      `/comments?key=id_parent&value=${this.props.comment.id}`,
+      `/comments?key=id_parent&value=${this.props.comment.id}&postType=1`,
       data =>
         this.setState({
           children: data
@@ -85,7 +85,7 @@ class CommentListEntry extends Component {
     if (this.props.user === this.props.comment.username) {
       client.deleteItem(`/comment/${this.props.comment.id}`, () =>
         client.getOneItem(
-          `/comments?key=id_parent&value=${this.props.comment.id_parent}`,
+          `/comments?key=id_parent&value=${this.props.comment.id_parent}&postType=1`,
           data => {
             this.props.updateComments(data);
             this.props.getComment(null);

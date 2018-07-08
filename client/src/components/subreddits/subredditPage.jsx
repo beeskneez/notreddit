@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getUserSubscriptionList } from './../../actions/index.jsx';
+import { storeUserSubscriptionList } from './../../actions/index.jsx';
 import SubredditPostEntry from './subredditPostEntry.jsx';
 import { client } from './../../client';
 
@@ -13,7 +13,8 @@ class SubredditPage extends Component {
       subreddit: this.props.selectedSubredditPage,
       subredditDescription: '',
       subredditPosts: [],
-      subredditSubscriptions: ''
+      subredditSubscriptions: '',
+      userId: null
     };
   }
 
@@ -32,46 +33,64 @@ class SubredditPage extends Component {
   // get posts
   getPosts() {
     const subredditName = this.state.subreddit;
-    client.getCertainItems(`/posts/subreddit?key=subreddit&value=${subredditName}`, data => {
-      this.setState({
-        subredditPosts: data
-      });
-      this.getUserSubscriptions();
-    });
+    client.getCertainItems(
+      `/posts/subreddit?key=subreddit&value=${subredditName}&postType=0`,
+      data => {
+        this.setState({
+          subredditPosts: data
+        });
+        this.getUserSubscriptions();
+      }
+    );
   }
 
   // get user subscriptions
   getUserSubscriptions() {
-    client.getCertainItems(`/user/${this.props.authUser}`, data =>
+    client.getCertainItems(`/user/${this.props.authUser}`, data => {
       this.setState({
-        subredditSubscriptions: data.subredditSubscriptions,
+        subredditSubscriptions: data.subredditSubscriptions
+          .split(', ')
+          .filter(Boolean),
         userId: data.id
-      })
-    );
+      });
+    });
   }
 
   subscribe() {
+    this.props.userSubscriptionList.push(this.state.subreddit);
     client.updateItem(
-      `/user/addSub/${this.state.userId}/${this.state.subreddit}`,
-      null,
+      `/user`,
+      {
+        userId: this.state.userId,
+        subredditSubscriptions: this.props.userSubscriptionList.join(', ')
+      },
       data => {
+        console.log(data);
+        const subs = data.subredditSubscriptions.split(', ');
         this.setState({
-          subredditSubscriptions: data.subredditSubscriptions
+          subredditSubscriptions: subs
         });
-        this.props.getUserSubscriptionList(data.subredditSubscriptions);
+        this.props.storeUserSubscriptionList(subs);
       }
     );
   }
 
   unsubscribe() {
+    const filtered = this.props.userSubscriptionList.filter(
+      item => item !== this.state.subreddit
+    );
     client.updateItem(
-      `/user/remSub/${this.state.userId}/${this.state.subreddit}`,
-      null,
+      `/user`,
+      {
+        userId: this.state.userId,
+        subredditSubscriptions: filtered.join(', ')
+      },
       data => {
+        const subs = data.subredditSubscriptions.split(', ');
         this.setState({
-          subredditSubscriptions: data.subredditSubscriptions
+          subredditSubscriptions: subs
         });
-        this.props.getUserSubscriptionList(data.subredditSubscriptions);
+        this.props.storeUserSubscriptionList(subs);
       }
     );
   }
@@ -95,13 +114,11 @@ class SubredditPage extends Component {
         <div className="group-2">
           <h2 className="ui large header">
             {this.state.subredditSubscriptions
-              ? this.state.subredditSubscriptions.split(', ').length
-              : 0}{' '}
+              ? this.state.subredditSubscriptions.length
+              : 0} &nbsp;
             subscriptions
           </h2>
-          {this.state.subredditSubscriptions
-            .split(', ')
-            .includes(subredditName) ? (
+          {this.state.subredditSubscriptions.includes(subredditName) ? (
             <button
               onClick={() => this.unsubscribe()}
               className="ui red button"
@@ -129,7 +146,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getUserSubscriptionList }, dispatch);
+  return bindActionCreators({ storeUserSubscriptionList }, dispatch);
 }
 
 export default connect(

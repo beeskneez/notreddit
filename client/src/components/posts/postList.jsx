@@ -14,7 +14,7 @@ class PostList extends Component {
   }
 
   componentDidMount() {
-    client.getAllItems('/posts?key=postType&value=0', data =>
+    client.getAllItems('/allposts', data =>
       this.setState({ posts: data }, () => {
         this.props.updatePosts(data.reverse());
       })

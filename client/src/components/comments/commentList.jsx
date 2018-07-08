@@ -11,7 +11,7 @@ class CommentList extends Component {
   }
   componentWillMount() {
     const parentId = this.props.gPost.id;
-    client.getOneItem(`/comments?key=id_parent&value=${parentId}`, data =>
+    client.getOneItem(`/comments?key=id_parent&value=${parentId}&postType=1`, data =>
       this.props.updateComments(data)
     );
   }

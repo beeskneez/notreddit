@@ -20,7 +20,7 @@ import {
   ReducerSelectedSubredditPage,
   ReducerGetPostsFromSubreddit
 } from './subredditReducer.jsx';
-import { ReducerUser, ReducerUserSubscriptionList } from './userReducer.jsx';
+import { ReducerUser, ReducerStoreUserSubscriptionList } from './userReducer.jsx';
 
 const allReducers = combineReducers({
   posts: ReducerPosts,
@@ -38,7 +38,7 @@ const allReducers = combineReducers({
   comment: ReducerCreateComment,
   gComment: ReducerGetComment,
   userPosts: ReducerStoreUserPosts,
-  userSubscriptionList: ReducerUserSubscriptionList
+  userSubscriptionList: ReducerStoreUserSubscriptionList
 });
 
 const persistConfig = {

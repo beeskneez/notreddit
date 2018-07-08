@@ -36,34 +36,11 @@ exports.findUserAlt = (req, res) => {
   }).then(user => res.status(200).send(user), err => console.log(err));
 };
 
-exports.addToUserRedditSubscriptions = (req, res) => {
-  model.User.findById(req.params.id)
-    .then(user => {
-      let newVal = user.dataValues.subredditSubscriptions;
-      if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(', ');
-        newVal.push(req.params.subreddit);
-        user.update({ subredditSubscriptions: newVal.join(', ') });
-      } else {
-        user.update({ subredditSubscriptions: req.params.subreddit });
-      }
-      res.status(200).send(user);
-    })
-    .catch(err => console.error(err));
-};
-
-exports.remFromUserRedditSubscriptions = (req, res) => {
-  model.User.findById(req.params.id)
-    .then(user => {
-      let newVal = user.dataValues.subredditSubscriptions;
-      if (user.dataValues.subredditSubscriptions) {
-        newVal = newVal.split(', ');
-        newVal.splice(newVal.indexOf(req.params.subreddit), 1);
-        user.update({ subredditSubscriptions: newVal.join(', ') });
-      } else {
-        user.update({ subredditSubscriptions: req.params.subreddit });
-      }
-      res.status(200).send(user);
-    })
-    .catch(err => console.error(err));
+exports.updateUser = (req, res) => {
+  console.log(req.body);
+  const query = Object.entries(req.body).filter(item => item[0] !== 'userId');
+  model.User.findById(req.body.userId).then(user => {
+    query.forEach(([key, value]) => user.update({ [key]: value }));
+    res.status(200).send(user);
+  });
 };

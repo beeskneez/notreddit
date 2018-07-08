@@ -103,9 +103,9 @@ export function getComment(comment) {
   };
 }
 
-export function getUserSubscriptionList(list) {
+export function storeUserSubscriptionList(list) {
   return {
-    type: 'GET_USER_SUBSCRIPTION_LIST',
+    type: 'USER_SUBSCRIPTION_LIST',
     payload: list
   };
 }

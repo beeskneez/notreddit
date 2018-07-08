@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NewListEntry from './newListEntry.jsx';
 import { client } from './../../../client';
+require('babel-core/register');
+require('babel-polyfill');
 export default class New extends Component {
   constructor() {
     super();
@@ -10,22 +12,32 @@ export default class New extends Component {
   }
 
   componentDidMount() {
-    this.getPostsFromSubscriptions();
+    this.getSubscriptionPosts();
   }
 
-  getPostsFromSubscriptions() {
-    let subscriptions = this.props.userSubscriptionList.split(', ');
-    if (subscriptions[0]) {
-      subscriptions.forEach(sub => {
-        client.getCertainItems(
-          `/posts/subreddit?key=subreddit&value=${sub}`,
-          data =>
-            data.forEach(post =>
-              this.setState({ posts: this.state.posts.concat([post]) })
-            )
-        );
+  async getSubscriptionPosts() {
+    let subs = this.props.userSubscriptionList;
+    // mapped array of Promises then resolve all at once to retain context
+    if (subs[0]) {
+      const result = await Promise.all(
+        subs.map(async sub => await this.mappedPosts(sub))
+      );
+      this.setState({
+        posts: result.reduce((prev, curr) => prev.concat(curr))
       });
     }
+  }
+
+  mappedPosts(sub) {
+    return new Promise(resolve => {
+      client.getCertainItems(
+        `/posts?key=subreddit&value=${sub}&postType=0`,
+        data => {
+          const mapped = data.map(post => post);
+          resolve(mapped);
+        }
+      );
+    });
   }
 
   render() {
@@ -36,16 +48,14 @@ export default class New extends Component {
     return (
       <div className="ui segment">
         <h2 className="ui header">newest posts in your subscriptions</h2>
-        {sortedPosts.map((post, index) => {
-          return (
-            <NewListEntry
-              key={index}
-              post={post}
-              history={this.props.history}
-              onSubredditClick={this.props.onSubredditClick}
-            />
-          );
-        })}
+        {sortedPosts.map((post, index) => (
+          <NewListEntry
+            key={index}
+            post={post}
+            history={this.props.history}
+            onSubredditClick={this.props.onSubredditClick}
+          />
+        ))}
       </div>
     );
   }

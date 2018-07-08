@@ -10,7 +10,7 @@ class NewListEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      votes: this.props.post.votes
+      votes: props.post.votes
     };
   }
 
@@ -19,31 +19,29 @@ class NewListEntry extends Component {
     this.props.history.push(`/postDetails/${post.id}`);
   }
 
-  upvote(id) {
-    client.updateItem(`/upvote/${id}`, null, data => {
-      this.renderVotes(id);
-    });
+  upvote() {
+    const votes = this.state.votes + 1;
+    client.updateItem(`/post/${this.props.post.id}`, { votes }, data =>
+      this.setState({ votes: data.votes })
+    );
   }
 
-  downvote(id) {
-    client.updateItem(`/downvote/${id}`, null, data => {
-      this.renderVotes(id);
-    });
-  }
-
-  renderVotes(id) {
-    client.getOneItem(`/post/${id}`, data => {
-      this.setState({ votes: data.votes });
-    });
+  downvote() {
+    const votes = this.state.votes - 1;
+    client.updateItem(`/post/${this.props.post.id}`, { votes }, data =>
+      this.setState({ votes: data.votes })
+    );
   }
 
   render() {
-    const { image, username, subreddit, id, title, createdAt } = this.props.post;
+    const { image, username, subreddit, title, createdAt } = this.props.post;
     return (
       <div className="twelve wide column">
         <img className="thumbnail" src={image} alt="" />
-        <a onClick={() => this.goToDetails(this.props.post)}
-          className="ui large header">
+        <a
+          onClick={() => this.goToDetails(this.props.post)}
+          className="ui large header"
+        >
           {title}
         </a>
         <div className="meta">
@@ -55,14 +53,14 @@ class NewListEntry extends Component {
         </div>
         <ul className="ui big horizontal list voters">
           <li className="item">
-            <a onClick={() => this.upvote(id)}>
+            <a onClick={() => this.upvote()}>
               <i className="arrow up icon" />
               upvote
             </a>
           </li>
           <li className="item">{this.state.votes}</li>
           <li className="item">
-            <a onClick={() => this.downvote(id)}>
+            <a onClick={() => this.downvote()}>
               <i className="arrow down icon" />
               downvote
             </a>
@@ -77,7 +75,9 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ getPost }, dispatch);
 };
 
-export default withRouter(connect(
-  null,
-  mapDispatchToProps
-)(NewListEntry));
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(NewListEntry)
+);
